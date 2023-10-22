@@ -15,41 +15,26 @@ namespace ArcadeFrontend.Render
         private readonly GraphicsDeviceProvider graphicsDeviceProvider;
         private readonly Camera camera;
         private readonly IWorld world;
-        private readonly ScreenshotProvider screenshotProvider;
-        private readonly HotKeyProvider hotKeyProvider;
 
         public Scene(
             IApplicationWindow window,
             GraphicsDeviceProvider graphicsDeviceProvider,
             Camera camera,
-            IWorld world,
-            ScreenshotProvider screenshotProvider,
-            HotKeyProvider hotKeyProvider)
+            IWorld world)
         {
             this.window = window;
             this.graphicsDeviceProvider = graphicsDeviceProvider;
             this.camera = camera;
             this.world = world;
-            this.screenshotProvider = screenshotProvider;
-            this.hotKeyProvider = hotKeyProvider;
 
             window.Resized += HandleWindowResize;
         }
 
         public void Draw(float deltaSeconds)
         {
-            // Screenshot
-            //var screenshot = InputTracker.GetKeyDown(Key.F12);
-            var screenshot = hotKeyProvider.GetInputDown(InputBindingType.TakeScreenshot);
-            if (screenshot)
-                screenshotProvider.StartScreenshot();
-
             var gd = graphicsDeviceProvider.GraphicsDevice;
 
             world.Draw(deltaSeconds);
-
-            if (screenshot)
-                screenshotProvider.EndScreenshot();
 
             gd.SwapBuffers(gd.MainSwapchain);
             gd.WaitForIdle();

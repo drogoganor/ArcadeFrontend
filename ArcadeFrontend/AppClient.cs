@@ -1,5 +1,6 @@
 ﻿using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
+using ArcadeFrontend.Menus;
 using ArcadeFrontend.Providers;
 using ArcadeFrontend.Render;
 using Veldrid;
@@ -12,6 +13,7 @@ namespace ArcadeFrontend
 
         private readonly IApplicationWindow window;
         private readonly AppMenuProvider menuProvider;
+        private readonly ArcadeUI ui;
         private readonly Scene scene;
         private readonly IWorld world;
         private readonly LoadProvider loadProvider;
@@ -20,6 +22,7 @@ namespace ArcadeFrontend
 
         public AppClient(
             IApplicationWindow window,
+            ArcadeUI ui,
             AppMenuProvider menuProvider,
             Scene scene,
             IWorld world,
@@ -27,6 +30,7 @@ namespace ArcadeFrontend
         {
             this.window = window;
             this.menuProvider = menuProvider;
+            this.ui = ui;
             this.scene = scene;
             this.world = world;
             this.loadProvider = loadProvider;
@@ -34,6 +38,7 @@ namespace ArcadeFrontend
             window.Tick += Window_Tick;
             window.Rendering += Window_Rendering;
             window.KeyPressed += Window_KeyPressed;
+            ui.OnExit += ExitGame;
         }
 
         private void Window_Tick(float deltaSeconds)

@@ -9,7 +9,7 @@ namespace ArcadeFrontend.Providers
     public class GraphicsDeviceProvider : IGraphicsDeviceProvider, ILoad
     {
         private readonly Sdl2WindowProvider sdl2WindowProvider;
-        private readonly GameSettingsProvider gameSettingsProvider;
+        private readonly FrontendSettingsProvider frontendSettingsProvider;
 
         private GraphicsDevice graphicsDevice;
         public GraphicsDevice GraphicsDevice => graphicsDevice;
@@ -22,15 +22,15 @@ namespace ArcadeFrontend.Providers
 
         public GraphicsDeviceProvider(
             Sdl2WindowProvider sdl2WindowProvider,
-            GameSettingsProvider gameSettingsProvider)
+            FrontendSettingsProvider frontendSettingsProvider)
         {
             this.sdl2WindowProvider = sdl2WindowProvider;
-            this.gameSettingsProvider = gameSettingsProvider;
+            this.frontendSettingsProvider = frontendSettingsProvider;
         }
 
         public void Load()
         {
-            var settings = gameSettingsProvider.Settings.Video;
+            var settings = frontendSettingsProvider.Settings.Video;
 
             var backend = (GraphicsBackend)settings.BackendType;
 

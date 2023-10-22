@@ -1,7 +1,6 @@
 ﻿using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
 using ImGuiNET;
-using System.Collections.Generic;
 using Veldrid;
 
 namespace ArcadeFrontend.Providers
@@ -10,7 +9,7 @@ namespace ArcadeFrontend.Providers
     {
         private readonly IApplicationWindow window;
         private readonly GraphicsDeviceProvider graphicsDeviceProvider;
-        private readonly ModManifestProvider modManifestProvider;
+        private readonly ManifestProvider manifestProvider;
 
         private CommandList commandList;
         private ImGuiRenderer imGuiRenderer;
@@ -23,11 +22,11 @@ namespace ArcadeFrontend.Providers
         public ImGuiProvider(
             IApplicationWindow window,
             GraphicsDeviceProvider graphicsDeviceProvider,
-            ModManifestProvider modManifestProvider)
+            ManifestProvider manifestProvider)
         {
             this.window = window;
             this.graphicsDeviceProvider = graphicsDeviceProvider;
-            this.modManifestProvider = modManifestProvider;
+            this.manifestProvider = manifestProvider;
         }
 
         public void Load()
@@ -42,7 +41,7 @@ namespace ArcadeFrontend.Providers
             var isVulkan = gd.BackendType == GraphicsBackend.Vulkan;
             var io = ImGui.GetIO();
 
-            foreach (var font in modManifestProvider.ModManifestFile.Fonts)
+            foreach (var font in manifestProvider.ManifestFile.Fonts)
             {
                 // Trouble with fonts in Vulkan.
                 // https://github.com/veldrid/veldrid/issues/154#issuecomment-484372184

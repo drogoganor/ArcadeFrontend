@@ -48,6 +48,8 @@ namespace ArcadeFrontend.Menus
 
             DrawMenu();
 
+            confirmDialog.Draw(deltaSeconds);
+
             base.Draw(deltaSeconds);
         }
 

@@ -1,5 +1,8 @@
-﻿using ArcadeFrontend.Menus;
+﻿using ArcadeFrontend.Data;
+using ArcadeFrontend.Menus;
 using ArcadeFrontend.Providers;
+using ArcadeFrontend.Render;
+using ArcadeFrontend.Shaders;
 using ArcadeFrontend.Worlds;
 using Autofac;
 
@@ -19,6 +22,12 @@ namespace ArcadeFrontend
 
             builder
                 .RegisterType<Sdl2WindowProvider>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<VeldridStartupWindow>()
                 .AsSelf()
                 .AsImplementedInterfaces()
                 .SingleInstance();
@@ -79,6 +88,54 @@ namespace ArcadeFrontend
 
             builder
                 .RegisterType<NextTickActionProvider>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<FrontendSettingsProvider>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<FileLoadProvider>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<ManifestProvider>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<Scene>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<FileSystem>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<Camera>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<ColorShader>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<TextureShader>()
                 .AsSelf()
                 .AsImplementedInterfaces()
                 .SingleInstance();

@@ -9,23 +9,23 @@ namespace ArcadeFrontend.Providers
 {
     public class Sdl2WindowProvider : ILoad
     {
-        private readonly GameSettingsProvider settingsProvider;
-        private readonly ModManifestProvider modManifestProvider;
+        private readonly FrontendSettingsProvider settingsProvider;
+        private readonly ManifestProvider manifestProvider;
 
         private Sdl2Window window;
         public Sdl2Window Window => window;
 
         public Sdl2WindowProvider(
-            GameSettingsProvider settingsProvider,
-            ModManifestProvider modManifestProvider)
+            FrontendSettingsProvider settingsProvider,
+            ManifestProvider manifestProvider)
         {
-            this.modManifestProvider = modManifestProvider;
+            this.manifestProvider = manifestProvider;
             this.settingsProvider = settingsProvider;
         }
 
         public void Load()
         {
-            var modInfo = modManifestProvider.ModManifestFile;
+            var modInfo = manifestProvider.ManifestFile;
             var settings = settingsProvider.Settings.Video;
 
             var windowSize = settings.ScreenType == ScreenType.Windowed ? settings.WindowedSize : settings.FullscreenSize;

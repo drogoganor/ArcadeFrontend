@@ -1,0 +1,41 @@
+{
+  "Name": "Arcade Frontend",
+  "TileSize": 24,
+  "Campaigns": [],
+  "Fonts": [
+    {
+      "SizeEnum": "Small",
+      "FontName": "ARIAL.TTF",
+      "FontSize": 14
+    },
+    {
+      "SizeEnum": "Medium",
+      "FontName": "ARIAL.TTF",
+      "FontSize": 18
+    },
+    {
+      "SizeEnum": "Large",
+      "FontName": "ARIAL.TTF",
+      "FontSize": 26
+    }
+  ],
+  "Sprites": {
+    "SpriteScale": 0.01,
+    "OrthoScale": 2.0,
+    "SpriteImageSize": 4400,
+    "SpriteFile": "sprites-copyrighted.json"
+  },
+  "BlocksFile": "blocks.json",
+  "ActorFile": "actors.json",
+  "TextureFile": "textures.json",
+  "SkyboxFile": "skybox.json",
+  "SoundFile": "sounds.json",
+  "NotificationsFile": "notifications.json",
+  "InputFile": "input.json",
+  "DecalsFile": "decals.json",
+  "LanguagesFile": "i18n.json",
+  "WeaponsFile": "weapons.json",
+  "ProjectilesFile": "projectiles.json",
+  "EffectsFile": "effects.json",
+  "PlayerFile": "player.json"
+}
