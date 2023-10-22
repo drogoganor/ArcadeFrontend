@@ -14,6 +14,7 @@ namespace ArcadeFrontend.Menus
         private readonly Logger logger;
         private readonly IFileSystem fileSystem;
         private readonly ConfirmDialog confirmDialog;
+        private readonly OptionsDialog optionsDialog;
         private readonly NextTickActionProvider nextTickActionProvider;
 
         public ArcadeUI(
@@ -24,12 +25,14 @@ namespace ArcadeFrontend.Menus
             ImGuiFontProvider imGuiFontProvider,
             GraphicsDeviceProvider graphicsDeviceProvider,
             ConfirmDialog confirmDialog,
+            OptionsDialog optionsDialog,
             NextTickActionProvider nextTickActionProvider)
             : base(window, imGuiProvider, imGuiFontProvider, graphicsDeviceProvider)
         {
             this.logger = logger;
             this.fileSystem = fileSystem;
             this.confirmDialog = confirmDialog;
+            this.optionsDialog = optionsDialog;
             this.nextTickActionProvider = nextTickActionProvider;
         }
 
@@ -48,6 +51,7 @@ namespace ArcadeFrontend.Menus
 
             DrawMenu();
 
+            optionsDialog.Draw(deltaSeconds);
             confirmDialog.Draw(deltaSeconds);
 
             base.Draw(deltaSeconds);
@@ -65,7 +69,7 @@ namespace ArcadeFrontend.Menus
             {
                 if (ImGui.MenuItem("Exit"))
                 {
-                    confirmDialog.Show(HandleConfirmExit, "Exit Editor", "Are you sure you want to exit?");
+                    confirmDialog.Show(HandleConfirmExit, "Exit Arcade Frontend", "Are you sure you want to exit?");
                 }
 
                 ImGui.EndMenu();
@@ -73,19 +77,9 @@ namespace ArcadeFrontend.Menus
 
             if (ImGui.BeginMenu("Edit"))
             {
-                if (ImGui.MenuItem("Frontend Options..."))
-                {
-                    //mapOptionsDialog.Show();
-                }
-
-                ImGui.EndMenu();
-            }
-
-            if (ImGui.BeginMenu("Tools"))
-            {
                 if (ImGui.MenuItem("Options..."))
                 {
-                    //editorOptionsDialog.Show();
+                    optionsDialog.Show();
                 }
 
                 ImGui.EndMenu();

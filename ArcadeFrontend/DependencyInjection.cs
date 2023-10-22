@@ -140,6 +140,18 @@ namespace ArcadeFrontend
                 .AsImplementedInterfaces()
                 .SingleInstance();
 
+            builder
+                .RegisterType<WorldRenderer>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<OptionsDialog>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
             return builder;
         }
     }

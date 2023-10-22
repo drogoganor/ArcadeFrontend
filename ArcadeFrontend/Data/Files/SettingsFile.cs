@@ -15,6 +15,9 @@ namespace ArcadeFrontend.Data.Files
         public AudioSettings Audio { get; set; } = new();
         public InputSettings Input { get; set; } = new();
 
+        [JsonConverter(typeof(JsonConverterVector4))]
+        public Vector4 BackgroundColor { get; set; } = new Vector4(0.13141087f, 0.2670157f, 0.21376769f, 1);
+
         public SettingsFile Clone()
         {
             return new SettingsFile

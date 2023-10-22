@@ -1,5 +1,6 @@
 ﻿using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
+using ArcadeFrontend.Render;
 
 namespace ArcadeFrontend.Worlds
 {
@@ -10,24 +11,28 @@ namespace ArcadeFrontend.Worlds
     {
         private readonly IMenuProvider menuProvider;
         //private readonly OrthoSpriteRenderer orthoSpriteRenderer;
-        //private readonly WorldRenderer worldRenderer;
+        private readonly WorldRenderer worldRenderer;
 
         public ArcadeWorld(
             ImGuiProvider imGuiProvider,
             ILoadProvider loadProvider,
-            IMenuProvider menuProvider
+            IMenuProvider menuProvider,
+            WorldRenderer worldRenderer
             //GameSpriteRenderer gameSpriteRenderer,
             //OrthoSpriteRenderer orthoSpriteRenderer
             )
             : base(imGuiProvider, loadProvider)
         {
             this.menuProvider = menuProvider;
+            this.worldRenderer = worldRenderer;
             //this.gameSpriteRenderer = gameSpriteRenderer;
             //this.orthoSpriteRenderer = orthoSpriteRenderer;
         }
 
         public override void Draw(float deltaSeconds)
         {
+            worldRenderer.Draw(deltaSeconds);
+
             menuProvider.Draw(deltaSeconds);
         }
 
