@@ -12,12 +12,14 @@ namespace ArcadeFrontend.Worlds
         private readonly IMenuProvider menuProvider;
         //private readonly OrthoSpriteRenderer orthoSpriteRenderer;
         private readonly WorldRenderer worldRenderer;
+        private readonly InputProvider inputProvider;
 
         public ArcadeWorld(
             ImGuiProvider imGuiProvider,
             ILoadProvider loadProvider,
             IMenuProvider menuProvider,
-            WorldRenderer worldRenderer
+            WorldRenderer worldRenderer,
+            InputProvider inputProvider
             //GameSpriteRenderer gameSpriteRenderer,
             //OrthoSpriteRenderer orthoSpriteRenderer
             )
@@ -25,6 +27,7 @@ namespace ArcadeFrontend.Worlds
         {
             this.menuProvider = menuProvider;
             this.worldRenderer = worldRenderer;
+            this.inputProvider = inputProvider;
             //this.gameSpriteRenderer = gameSpriteRenderer;
             //this.orthoSpriteRenderer = orthoSpriteRenderer;
         }
@@ -39,6 +42,8 @@ namespace ArcadeFrontend.Worlds
         public override void Tick(float deltaSeconds)
         {
             base.Tick(deltaSeconds);
+
+            inputProvider.Tick(deltaSeconds);
         }
     }
 }

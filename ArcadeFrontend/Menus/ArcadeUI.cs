@@ -4,6 +4,7 @@ using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
 using Serilog.Core;
 using ArcadeFrontend.Enums;
+using Newtonsoft.Json.Linq;
 
 namespace ArcadeFrontend.Menus
 {
@@ -16,6 +17,7 @@ namespace ArcadeFrontend.Menus
         private readonly ConfirmDialog confirmDialog;
         private readonly OptionsDialog optionsDialog;
         private readonly NextTickActionProvider nextTickActionProvider;
+        private readonly GamePickerComponent gamePickerComponent;
 
         public ArcadeUI(
             Logger logger,
@@ -26,7 +28,8 @@ namespace ArcadeFrontend.Menus
             GraphicsDeviceProvider graphicsDeviceProvider,
             ConfirmDialog confirmDialog,
             OptionsDialog optionsDialog,
-            NextTickActionProvider nextTickActionProvider)
+            NextTickActionProvider nextTickActionProvider,
+            GamePickerComponent gamePickerComponent)
             : base(window, imGuiProvider, imGuiFontProvider, graphicsDeviceProvider)
         {
             this.logger = logger;
@@ -34,6 +37,7 @@ namespace ArcadeFrontend.Menus
             this.confirmDialog = confirmDialog;
             this.optionsDialog = optionsDialog;
             this.nextTickActionProvider = nextTickActionProvider;
+            this.gamePickerComponent = gamePickerComponent;
         }
 
         private void HandleConfirmExit(bool result)
@@ -49,6 +53,8 @@ namespace ArcadeFrontend.Menus
             if (!IsVisible)
                 return;
 
+            gamePickerComponent.Draw(deltaSeconds);
+
             DrawMenu();
 
             optionsDialog.Draw(deltaSeconds);
@@ -57,9 +63,9 @@ namespace ArcadeFrontend.Menus
             base.Draw(deltaSeconds);
         }
 
+
         private void DrawMenu()
         {
-            var mapsDirectory = new DirectoryInfo(fileSystem.MapDirectory);
             var windowSize = new Vector2(window.Width, window.Height);
             var menuSize = new Vector2(window.Width, 45);
 

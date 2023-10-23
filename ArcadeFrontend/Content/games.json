@@ -1,0 +1,18 @@
+{
+  "Games": [
+    {
+      "Name": "Mortal Kombat II",
+      "Platform": "Arcade",
+      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mame",
+      "ProgramExe": "mame.exe",
+      "Arguments": "mk2"
+    },
+    {
+      "Name": "Ultimate Mortal Kombat 3",
+      "Platform": "Arcade",
+      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mame",
+      "ProgramExe": "mame.exe",
+      "Arguments": "umk3"
+    }
+  ]
+}

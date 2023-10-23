@@ -152,6 +152,36 @@ namespace ArcadeFrontend
                 .AsImplementedInterfaces()
                 .SingleInstance();
 
+            builder
+                .RegisterType<GamesFileProvider>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<GamePickerComponent>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<FrontendStateProvider>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<InputProvider>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<BackgroundImagesProvider>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
             return builder;
         }
     }
