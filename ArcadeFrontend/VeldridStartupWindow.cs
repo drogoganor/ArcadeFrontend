@@ -56,6 +56,7 @@ namespace ArcadeFrontend
                 if (window.Exists)
                 {
                     previousElapsed = newElapsed;
+                    
                     if (windowResized)
                     {
                         windowResized = false;

@@ -47,6 +47,7 @@ namespace ArcadeFrontend.Menus
             var dialogSize = new Vector2(800, 600);
             var dialogPosition = (windowSize - dialogSize) / 2;
 
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
             ImGui.SetNextWindowPos(Vector2.Zero);
             ImGui.SetNextWindowSize(windowSize);
             if (ImGui.Begin("Background",
@@ -60,10 +61,13 @@ namespace ArcadeFrontend.Menus
                 ImGuiWindowFlags.NoMouseInputs |
                 ImGuiWindowFlags.NoFocusOnAppearing))
             {
+                ImGui.SetCursorPos(Vector2.Zero);
                 ImGui.Image(imageInfo.IntPtr, windowSize);
 
                 ImGui.End();
             }
+
+            ImGui.PopStyleVar();
 
             ImGui.SetNextWindowPos(dialogPosition);
             ImGui.SetNextWindowSize(dialogSize);
@@ -71,12 +75,12 @@ namespace ArcadeFrontend.Menus
                 ImGuiWindowFlags.NoTitleBar |
                 ImGuiWindowFlags.NoDecoration |
                 ImGuiWindowFlags.NoCollapse |
-                ImGuiWindowFlags.NoBringToFrontOnFocus |
+                //ImGuiWindowFlags.NoBringToFrontOnFocus |
                 ImGuiWindowFlags.NoMove |
                 ImGuiWindowFlags.NoNavFocus |
                 //ImGuiWindowFlags.NoBackground |
-                ImGuiWindowFlags.NoMouseInputs |
-                ImGuiWindowFlags.NoFocusOnAppearing
+                ImGuiWindowFlags.NoMouseInputs
+                //ImGuiWindowFlags.NoFocusOnAppearing
                 ))
             {
                 imGuiFontProvider.PushFont(FontSize.Large);
@@ -89,11 +93,6 @@ namespace ArcadeFrontend.Menus
 
 
             imGuiFontProvider.PopFont();
-        }
-
-        private void DrawBackground()
-        {
-
         }
 
         private static void HorizontallyCenteredText(string text, float width)

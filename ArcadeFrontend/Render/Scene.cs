@@ -42,7 +42,9 @@ namespace ArcadeFrontend.Render
 
         private void HandleWindowResize()
         {
+            graphicsDeviceProvider.ResetFramebuffer();
             camera.WindowResized(window.Width, window.Height);
+            //windowResizeProvider.WindowResized();
         }
     }
 }

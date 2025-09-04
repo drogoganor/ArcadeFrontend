@@ -1,7 +1,5 @@
 ﻿using ArcadeFrontend.Data.Json;
 using ArcadeFrontend.Enums;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using System.Text.Json.Serialization;
 using Veldrid;

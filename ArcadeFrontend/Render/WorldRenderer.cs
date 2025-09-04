@@ -41,7 +41,8 @@ namespace ArcadeFrontend.Render
             cl.UpdateBuffer(shader.ViewBuffer, 0, camera.ViewMatrix);
             cl.UpdateBuffer(shader.WorldBuffer, 0, Matrix4x4.Identity);
             cl.SetFramebuffer(graphicsDeviceProvider.Framebuffer);
-            cl.ClearColorTarget(0, new RgbaFloat(settings.BackgroundColor));
+            //cl.ClearColorTarget(0, new RgbaFloat(settings.BackgroundColor));
+            cl.ClearColorTarget(0, RgbaFloat.Black);
             cl.ClearDepthStencil(1f);
             cl.SetPipeline(shader.Pipeline);
 
