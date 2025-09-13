@@ -2,42 +2,42 @@
     "Games": [
         {
             "Arguments": "mk2",
-            "Name": "mk2",
+            "Name": "Mortal Kombat II",
             "System": "Mame"
         },
         {
             "Arguments": "spf2t",
-            "Name": "spf2t",
+            "Name": "Super Puzzle Fighter II Turbo",
             "System": "Mame"
         },
         {
             "Arguments": "ssf2t",
-            "Name": "ssf2t",
+            "Name": "Super Street Fighter II Turbo",
             "System": "Mame"
         },
         {
             "Arguments": "umk3",
-            "Name": "umk3",
+            "Name": "Ultimate Mortal Kombat 3",
             "System": "Mame"
         },
         {
             "Arguments": "vsav2",
-            "Name": "vsav2",
+            "Name": "Vampire Savior 2: The Lord of Vampire",
             "System": "Mame"
         },
         {
             "Arguments": "xmcota",
-            "Name": "xmcota",
+            "Name": "X-Men: Children of the Atom",
             "System": "Mame"
         },
         {
             "Arguments": "xmen",
-            "Name": "xmen",
+            "Name": "X-Men",
             "System": "Mame"
         },
         {
             "Arguments": "xmvsf",
-            "Name": "xmvsf",
+            "Name": "X-Men Vs. Street Fighter",
             "System": "Mame"
         }
     ],

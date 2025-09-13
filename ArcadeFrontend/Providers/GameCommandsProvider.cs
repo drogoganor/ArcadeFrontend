@@ -1,14 +1,19 @@
 ﻿using ArcadeFrontend.Data.Files;
 using ArcadeFrontend.Enums;
 using System.Diagnostics;
-using System.IO;
 using System.Text.Json;
-using Vortice.Win32;
+using System.Xml.Linq;
 
 namespace ArcadeFrontend.Providers;
 
 public class GameCommandsProvider
 {
+    public class MameRomInfo
+    {
+        public string RomName { get; set; }
+        public string Title { get; set; }
+    }
+
     private readonly FrontendStateProvider frontendStateProvider;
     private readonly GamesFileProvider gamesFileProvider;
     private readonly GameScreenshotImagesProvider gameScreenshotImagesProvider;
@@ -90,6 +95,8 @@ public class GameCommandsProvider
             "neogeo"
         };
 
+        var mameRomDict = BuildMameRomInfoFromXml();
+
         var romsDirectory = Path.Combine(mameData.Directory, "roms");
         var romFiles = Directory.GetFiles(romsDirectory, "*.zip");
 
@@ -108,6 +115,15 @@ public class GameCommandsProvider
                 System = SystemType.Mame
             };
 
+            if (mameRomDict.TryGetValue(filename, out var romInfo))
+            {
+                var indexOfBracket = romInfo.Title.IndexOf('(');
+                var substringLength = indexOfBracket >= 0 ? indexOfBracket - 1 : romInfo.Title.Length;
+                var clippedTitle = romInfo.Title.Substring(0, substringLength);
+
+                gameDef.Name = clippedTitle;
+            }
+
             games.Add(gameDef);
         }
 
@@ -121,5 +137,34 @@ public class GameCommandsProvider
         fileOpener.StartInfo.FileName = "explorer";
         fileOpener.StartInfo.Arguments = "" + fileName + "";
         fileOpener.Start();
+    }
+
+    private Dictionary<string, MameRomInfo> BuildMameRomInfoFromXml()
+    {
+        // TODO: Put this into a utility app and make it write a compact Sqlite database we can include in the content files
+        // Full XML file is ~300MB!
+        var results = new Dictionary<string, MameRomInfo>();
+
+        var mameRomXml = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "mame_718_0.279.xml");
+
+        var xmlDoc = XDocument.Load(mameRomXml);
+
+        var machineNodes = xmlDoc
+            .Descendants("mame")
+            .First()
+            .Descendants("machine");
+
+        foreach (var machineNode in machineNodes)
+        {
+            var info = new MameRomInfo
+            {
+                RomName = machineNode.Attribute("name").Value,
+                Title = machineNode.Elements("description").First().Value
+            };
+
+            results.Add(info.RomName, info);
+        }
+
+        return results;
     }
 }
