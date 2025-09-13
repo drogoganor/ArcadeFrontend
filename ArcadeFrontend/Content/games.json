@@ -21,6 +21,11 @@
             "System": "Mame"
         },
         {
+            "Arguments": "viostorm",
+            "Name": "Violent Storm",
+            "System": "Mame"
+        },
+        {
             "Arguments": "vsav2",
             "Name": "Vampire Savior 2: The Lord of Vampire",
             "System": "Mame"
