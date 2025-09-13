@@ -22,6 +22,7 @@ namespace ArcadeFrontend.Menus
         private SettingsFile Options => frontendSettingsProvider.Settings;
 
         private Vector4 backgroundColor;
+        private string backgroundImage;
 
         public OptionsDialog(
             IApplicationWindow window,
@@ -40,6 +41,7 @@ namespace ArcadeFrontend.Menus
         public void Show()
         {
             backgroundColor = Options.BackgroundColor;
+            backgroundImage = Options.BackgroundImage;
 
             isVisible = true;
         }
@@ -49,6 +51,7 @@ namespace ArcadeFrontend.Menus
             if (result)
             {
                 Options.BackgroundColor = backgroundColor;
+                Options.BackgroundImage = backgroundImage;
 
                 frontendSettingsProvider.SaveSettings();
             }
@@ -88,6 +91,8 @@ namespace ArcadeFrontend.Menus
                     imGuiFontProvider.PushFont(FontSize.Small);
 
                     ImGui.ColorEdit4("Background Color", ref backgroundColor, ImGuiColorEditFlags.AlphaBar);
+
+                    ImGui.InputText("Background Image", ref backgroundImage, 256);
 
                     imGuiFontProvider.PopFont();
                     imGuiFontProvider.PushFont(FontSize.Medium);

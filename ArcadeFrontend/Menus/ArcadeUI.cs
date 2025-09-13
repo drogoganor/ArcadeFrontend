@@ -4,7 +4,6 @@ using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
 using Serilog.Core;
 using ArcadeFrontend.Enums;
-using Newtonsoft.Json.Linq;
 
 namespace ArcadeFrontend.Menus
 {
@@ -18,6 +17,7 @@ namespace ArcadeFrontend.Menus
         private readonly OptionsDialog optionsDialog;
         private readonly NextTickActionProvider nextTickActionProvider;
         private readonly GamePickerComponent gamePickerComponent;
+        private readonly GameCommandsProvider gameCommandsProvider;
 
         public ArcadeUI(
             Logger logger,
@@ -29,7 +29,8 @@ namespace ArcadeFrontend.Menus
             ConfirmDialog confirmDialog,
             OptionsDialog optionsDialog,
             NextTickActionProvider nextTickActionProvider,
-            GamePickerComponent gamePickerComponent)
+            GamePickerComponent gamePickerComponent,
+            GameCommandsProvider gameCommandsProvider)
             : base(window, imGuiProvider, imGuiFontProvider, graphicsDeviceProvider)
         {
             this.logger = logger;
@@ -38,6 +39,7 @@ namespace ArcadeFrontend.Menus
             this.optionsDialog = optionsDialog;
             this.nextTickActionProvider = nextTickActionProvider;
             this.gamePickerComponent = gamePickerComponent;
+            this.gameCommandsProvider = gameCommandsProvider;
         }
 
         private void HandleConfirmExit(bool result)
@@ -86,6 +88,11 @@ namespace ArcadeFrontend.Menus
                 if (ImGui.MenuItem("Options..."))
                 {
                     optionsDialog.Show();
+                }
+
+                if (ImGui.MenuItem("Scan MAME games..."))
+                {
+                    gameCommandsProvider.ScanMameGames();
                 }
 
                 ImGui.EndMenu();

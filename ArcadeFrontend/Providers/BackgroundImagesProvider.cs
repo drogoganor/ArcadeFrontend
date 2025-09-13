@@ -14,7 +14,7 @@ namespace ArcadeFrontend.Providers
         private readonly GraphicsDeviceProvider graphicsDeviceProvider;
         private readonly ImGuiProvider imGuiProvider;
 
-        public Dictionary<uint, ImGuiImageInfo> ImGuiImages { get; private set; } = new();
+        public Dictionary<string, ImGuiImageInfo> ImGuiImages { get; private set; } = new();
 
         public BackgroundImagesProvider(
             IFileSystem fileSystem,
@@ -42,7 +42,7 @@ namespace ArcadeFrontend.Providers
                 var view = gd.ResourceFactory.CreateTextureView(deviceImage);
                 var ptr = imGuiProvider.ImGuiRenderer.GetOrCreateImGuiBinding(gd.ResourceFactory, view);
 
-                ImGuiImages.Add(i, new ImGuiImageInfo
+                ImGuiImages.Add(Path.GetFileName(backgroundFile), new ImGuiImageInfo
                 {
                     PixelSize = imageSize,
                     IntPtr = ptr,

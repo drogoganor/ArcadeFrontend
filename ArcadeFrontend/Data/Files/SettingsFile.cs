@@ -16,7 +16,7 @@ namespace ArcadeFrontend.Data.Files
         [JsonConverter(typeof(JsonConverterVector4))]
         public Vector4 BackgroundColor { get; set; } = new Vector4(0.13141087f, 0.2670157f, 0.21376769f, 1);
 
-        public int BackgroundIndex { get; set; } = 0;
+        public string BackgroundImage { get; set; } = "default.png";
 
         public SettingsFile Clone()
         {
@@ -67,7 +67,7 @@ namespace ArcadeFrontend.Data.Files
 
     public class AudioSettings
     {
-        public float SoundVolume { get; set; } = 0.8f;
+        public float SoundVolume { get; set; } = 1f;
     }
 
     public class VideoSettings

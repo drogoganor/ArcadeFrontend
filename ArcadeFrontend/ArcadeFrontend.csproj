@@ -41,6 +41,7 @@
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
     <PackageReference Include="Veldrid.StartupUtilities" Version="4.9.0" />
     <PackageReference Include="Veldrid.Utilities" Version="4.9.0" />
+    <PackageReference Include="XInput.Wrapper" Version="0.3.1" />
   </ItemGroup>
 
   <ItemGroup>

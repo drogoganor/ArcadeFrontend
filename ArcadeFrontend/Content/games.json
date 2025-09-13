@@ -1,18 +1,51 @@
 {
-  "Games": [
-    {
-      "Name": "Mortal Kombat II",
-      "Platform": "Arcade",
-      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mame",
-      "ProgramExe": "mame.exe",
-      "Arguments": "mk2"
-    },
-    {
-      "Name": "Ultimate Mortal Kombat 3",
-      "Platform": "Arcade",
-      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mame",
-      "ProgramExe": "mame.exe",
-      "Arguments": "umk3"
+    "Games": [
+        {
+            "Arguments": "mk2",
+            "Name": "mk2",
+            "System": "Mame"
+        },
+        {
+            "Arguments": "spf2t",
+            "Name": "spf2t",
+            "System": "Mame"
+        },
+        {
+            "Arguments": "ssf2t",
+            "Name": "ssf2t",
+            "System": "Mame"
+        },
+        {
+            "Arguments": "umk3",
+            "Name": "umk3",
+            "System": "Mame"
+        },
+        {
+            "Arguments": "vsav2",
+            "Name": "vsav2",
+            "System": "Mame"
+        },
+        {
+            "Arguments": "xmcota",
+            "Name": "xmcota",
+            "System": "Mame"
+        },
+        {
+            "Arguments": "xmen",
+            "Name": "xmen",
+            "System": "Mame"
+        },
+        {
+            "Arguments": "xmvsf",
+            "Name": "xmvsf",
+            "System": "Mame"
+        }
+    ],
+    "Systems": {
+        "Mame": {
+            "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mame",
+            "Executable": "mame.exe",
+            "Name": "Arcade"
+        }
     }
-  ]
 }

@@ -1,9 +1,8 @@
-﻿namespace ArcadeFrontend.Enums
+﻿namespace ArcadeFrontend.Enums;
+
+public enum FontSize
 {
-    public enum FontSize
-    {
-        Small,
-        Medium,
-        Large,
-    }
+    Small,
+    Medium,
+    Large,
 }

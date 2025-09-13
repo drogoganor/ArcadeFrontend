@@ -1,3 +1,31 @@
 {
-  "ScreenResolution": [1024, 720]
+  "Audio": {
+    "SoundVolume": 0.8
+  },
+  "BackgroundColor": [
+    0.13141087,
+    0.2670157,
+    0.21376769,
+    1
+  ],
+  "Input": {
+    "Bindings": {
+    }
+  },
+  "Language": "en",
+  "Video": {
+    "BackendType": "Direct3D11",
+    "FullscreenSize": [
+      1920,
+      1080
+    ],
+    "ScreenType": "Windowed",
+    "SpriteSamplerType": "Point",
+    "TextureSamplerType": "Point",
+    "VSync": true,
+    "WindowedSize": [
+      1200,
+      720
+    ]
+  }
 }

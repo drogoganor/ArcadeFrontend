@@ -2,6 +2,8 @@
 {
     public class FrontendState
     {
-        public int GameIndex = 0;
+        public int CurrentGameIndex { get; set; }
+
+        public bool BackgroundImageAvailable { get; set; } = true;
     }
 }

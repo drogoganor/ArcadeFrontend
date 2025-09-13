@@ -13,6 +13,7 @@ namespace ArcadeFrontend.Providers
         private readonly ColorShader colorShader;
         private readonly TextureShader textureShader;
         private readonly BackgroundImagesProvider backgroundImagesProvider;
+        private readonly GameScreenshotImagesProvider gameScreenshotImagesProvider;
 
         public LoadProvider(
             IApplicationWindow window,
@@ -22,8 +23,8 @@ namespace ArcadeFrontend.Providers
             FileLoadProvider fileLoadProvider,
             ColorShader colorShader,
             TextureShader textureShader,
-            BackgroundImagesProvider backgroundImagesProvider
-            )
+            BackgroundImagesProvider backgroundImagesProvider,
+            GameScreenshotImagesProvider gameScreenshotImagesProvider)
         {
             this.window = window;
             this.sdl2WindowProvider = sdl2WindowProvider;
@@ -33,6 +34,7 @@ namespace ArcadeFrontend.Providers
             this.colorShader = colorShader;
             this.textureShader = textureShader;
             this.backgroundImagesProvider = backgroundImagesProvider;
+            this.gameScreenshotImagesProvider = gameScreenshotImagesProvider;
         }
 
         public void Load()
@@ -47,10 +49,12 @@ namespace ArcadeFrontend.Providers
             //textureShader.Load();
 
             backgroundImagesProvider.Load();
+            gameScreenshotImagesProvider.Load();
         }
 
         public void Unload()
         {
+            gameScreenshotImagesProvider.Unload();
             backgroundImagesProvider.Unload();
 
             //textureShader.Unload();

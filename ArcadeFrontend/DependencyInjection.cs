@@ -182,6 +182,18 @@ namespace ArcadeFrontend
                 .AsImplementedInterfaces()
                 .SingleInstance();
 
+            builder
+                .RegisterType<GameCommandsProvider>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<GameScreenshotImagesProvider>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
             return builder;
         }
     }

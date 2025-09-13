@@ -1,61 +1,36 @@
 ﻿using ArcadeFrontend.Interfaces;
-using System.Diagnostics;
 using Veldrid;
+using XInput.Wrapper;
 
 namespace ArcadeFrontend.Providers
 {
     public class InputProvider : ITick
     {
-        private readonly FrontendStateProvider frontendStateProvider;
-        private readonly GamesFileProvider gamesFileProvider;
-
-        private Process gameProcess;
+        private readonly GameCommandsProvider gameCommandsProvider;
 
         public InputProvider(
-            FrontendStateProvider frontendStateProvider,
-            GamesFileProvider gamesFileProvider)
+            GameCommandsProvider gameCommandsProvider)
         {
-            this.frontendStateProvider = frontendStateProvider;
-            this.gamesFileProvider = gamesFileProvider;
+            this.gameCommandsProvider = gameCommandsProvider;
         }
 
         public void Tick(float deltaSeconds)
         {
-            var state = frontendStateProvider.State;
+            var gamepad = X.Gamepad_1;
+            gamepad.Update();
 
-            if (InputTracker.GetKeyDown(Key.Left))
+            if (InputTracker.GetKeyDown(Key.Left) || gamepad.Dpad_Left_up)
             {
-                var newIndex = state.GameIndex - 1;
-                if (newIndex < 0)
-                    newIndex += gamesFileProvider.Data.Games.Count;
-
-                state.GameIndex = newIndex;
+                gameCommandsProvider.PreviousGame();
             }
-            else if (InputTracker.GetKeyDown(Key.Right))
+            else if (InputTracker.GetKeyDown(Key.Right) || gamepad.Dpad_Right_up)
             {
-                var newIndex = (state.GameIndex + 1) % gamesFileProvider.Data.Games.Count;
-                state.GameIndex = newIndex;
+                gameCommandsProvider.NextGame();
             }
-            else if (InputTracker.GetKeyDown(Key.Enter))
+            else if (InputTracker.GetKeyDown(Key.Enter) || gamepad.A_up)
             {
-                LaunchGame();
+                gameCommandsProvider.LaunchGame();
             }
-        }
-
-        private void LaunchGame()
-        {
-            var state = frontendStateProvider.State;
-            var currentGame = gamesFileProvider.Data.Games[state.GameIndex];
-
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = Path.Combine(currentGame.Directory, currentGame.ProgramExe),
-                WorkingDirectory = currentGame.Directory,
-                Arguments = currentGame.Arguments,
-            };
-
-            gameProcess = Process.Start(startInfo);
-            gameProcess.WaitForExit();
         }
     }
 }
