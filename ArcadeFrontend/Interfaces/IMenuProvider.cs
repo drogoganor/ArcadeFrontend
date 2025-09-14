@@ -1,12 +1,11 @@
 ﻿using ArcadeFrontend.Enums;
 
-namespace ArcadeFrontend.Interfaces
+namespace ArcadeFrontend.Interfaces;
+
+public interface IMenuProvider : IRenderable
 {
-    public interface IMenuProvider : IRenderable
-    {
-        bool IsVisible { get; }
-        MenuType MenuType { get; }
-        void Show(MenuType menuType);
-        void Hide();
-    }
+    bool IsVisible { get; }
+    MenuType MenuType { get; }
+    void Show(MenuType menuType);
+    void Hide();
 }

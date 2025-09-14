@@ -1,74 +1,72 @@
 ﻿using ArcadeFrontend.Interfaces;
-using ArcadeFrontend.Providers;
 using Veldrid;
 using Veldrid.StartupUtilities;
 using Veldrid.Utilities;
 
-namespace ArcadeFrontend.Providers
+namespace ArcadeFrontend.Providers;
+
+public class GraphicsDeviceProvider : IGraphicsDeviceProvider, ILoad
 {
-    public class GraphicsDeviceProvider : IGraphicsDeviceProvider, ILoad
+    private readonly Sdl2WindowProvider sdl2WindowProvider;
+    private readonly FrontendSettingsProvider frontendSettingsProvider;
+
+    private GraphicsDevice graphicsDevice;
+    public GraphicsDevice GraphicsDevice => graphicsDevice;
+
+    private DisposeCollectorResourceFactory resourceFactory;
+    public ResourceFactory ResourceFactory => resourceFactory;
+
+    private Framebuffer framebuffer;
+    public Framebuffer Framebuffer => framebuffer;
+
+    public GraphicsDeviceProvider(
+        Sdl2WindowProvider sdl2WindowProvider,
+        FrontendSettingsProvider frontendSettingsProvider)
     {
-        private readonly Sdl2WindowProvider sdl2WindowProvider;
-        private readonly FrontendSettingsProvider frontendSettingsProvider;
+        this.sdl2WindowProvider = sdl2WindowProvider;
+        this.frontendSettingsProvider = frontendSettingsProvider;
+    }
 
-        private GraphicsDevice graphicsDevice;
-        public GraphicsDevice GraphicsDevice => graphicsDevice;
+    public void Load()
+    {
+        var settings = frontendSettingsProvider.Settings.Video;
 
-        private DisposeCollectorResourceFactory resourceFactory;
-        public ResourceFactory ResourceFactory => resourceFactory;
+        var backend = (GraphicsBackend)settings.BackendType;
 
-        private Framebuffer framebuffer;
-        public Framebuffer Framebuffer => framebuffer;
-
-        public GraphicsDeviceProvider(
-            Sdl2WindowProvider sdl2WindowProvider,
-            FrontendSettingsProvider frontendSettingsProvider)
-        {
-            this.sdl2WindowProvider = sdl2WindowProvider;
-            this.frontendSettingsProvider = frontendSettingsProvider;
-        }
-
-        public void Load()
-        {
-            var settings = frontendSettingsProvider.Settings.Video;
-
-            var backend = (GraphicsBackend)settings.BackendType;
-
-            var options = new GraphicsDeviceOptions(
-                debug: false,
-                swapchainDepthFormat: PixelFormat.R32_Float,
-                syncToVerticalBlank: settings.VSync,
-                resourceBindingModel: ResourceBindingModel.Improved,
-                preferDepthRangeZeroToOne: true,
-                preferStandardClipSpaceYDirection: true);
+        var options = new GraphicsDeviceOptions(
+            debug: false,
+            swapchainDepthFormat: PixelFormat.R32_Float,
+            syncToVerticalBlank: settings.VSync,
+            resourceBindingModel: ResourceBindingModel.Improved,
+            preferDepthRangeZeroToOne: true,
+            preferStandardClipSpaceYDirection: true);
 #if DEBUG
-            options.Debug = true;
+        options.Debug = true;
 #endif
-            graphicsDevice = VeldridStartup.CreateGraphicsDevice(sdl2WindowProvider.Window, options, backend);
-            resourceFactory = new DisposeCollectorResourceFactory(graphicsDevice.ResourceFactory);
-            framebuffer = graphicsDevice.MainSwapchain.Framebuffer;
-        }
+        graphicsDevice = VeldridStartup.CreateGraphicsDevice(sdl2WindowProvider.Window, options, backend);
+        resourceFactory = new DisposeCollectorResourceFactory(graphicsDevice.ResourceFactory);
+        framebuffer = graphicsDevice.MainSwapchain.Framebuffer;
+    }
 
-        public void Unload()
+    public void Unload()
+    {
+        if (graphicsDevice != null)
         {
-            if (graphicsDevice != null)
-            {
-                graphicsDevice.Dispose();
-                graphicsDevice = null;
-            }
-
-            resourceFactory = null;
+            graphicsDevice.Dispose();
+            graphicsDevice = null;
         }
 
-        public void SetScreenshotFramebuffer(Framebuffer screenshotFramebuffer)
-        {
-            framebuffer = screenshotFramebuffer;
-        }
+        resourceFactory = null;
+    }
 
-        public void ResetFramebuffer()
-        {
-            graphicsDevice.WaitForIdle();
-            framebuffer = graphicsDevice.MainSwapchain.Framebuffer;
-        }
+    public void SetScreenshotFramebuffer(Framebuffer screenshotFramebuffer)
+    {
+        framebuffer = screenshotFramebuffer;
+    }
+
+    public void ResetFramebuffer()
+    {
+        graphicsDevice.WaitForIdle();
+        framebuffer = graphicsDevice.MainSwapchain.Framebuffer;
     }
 }

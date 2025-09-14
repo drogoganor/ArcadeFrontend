@@ -1,22 +1,14 @@
-﻿using ArcadeFrontend;
-using ArcadeFrontend.Utility;
+﻿using ArcadeFrontend.Utility;
 using ArcadeFrontend.Utility.Commands;
 using ArcadeFrontend.Utility.Options;
-using Autofac;
 using CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-var services = new ServiceCollection();
-services.AddLogging();
+var services = DependencyInjection.BuildUtility(args);
+var host = services.Build();
 
-var builder = new ContainerBuilder();
-var container = builder
-    .AddLogging()
-    .BuildUtility()
-    .Build();
-
-var logger = container.Resolve<ILogger>();
+var logger = host.Services.GetRequiredService<ILogger>();
 
 if (args.Length == 0)
 {
@@ -31,7 +23,7 @@ else
             .ParseArguments<BuildMameSqliteDatabaseOptions>(args.Skip(1).ToArray())
             .WithParsedAsync(async o =>
             {
-                var command = container.Resolve<BuildMameSqliteDatabase>();
+                var command = host.Services.GetRequiredService<BuildMameSqliteDatabase>();
                 await command.Build(o);
             });
     }

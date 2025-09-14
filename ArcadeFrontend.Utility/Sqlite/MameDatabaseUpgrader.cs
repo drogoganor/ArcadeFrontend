@@ -16,7 +16,7 @@ public class MameDatabaseUpgrader
 
     public bool Upgrade()
     {
-        var connectionString = "Data Source=Content\\mame.db;";
+        var connectionString = "Data Source=Content\\mame.db;Pooling=false";
 
         var upgrader = DeployChanges.To
             .SqliteDatabase(connectionString)

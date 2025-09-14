@@ -2,73 +2,69 @@
 using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
 
-namespace ArcadeFrontend.Menus
+namespace ArcadeFrontend.Menus;
+
+public abstract class Menu : IRenderable
 {
-    /// <summary>
-    /// TODO: Handle device destroy
-    /// </summary>
-    public abstract class Menu : IRenderable
+    protected readonly IApplicationWindow window;
+    protected readonly GraphicsDeviceProvider graphicsDeviceProvider;
+    protected readonly ImGuiProvider imGuiProvider;
+    protected readonly ImGuiFontProvider imGuiFontProvider;
+
+    protected bool IsVisible = true;
+
+    public virtual void Show()
     {
-        protected readonly IApplicationWindow window;
-        protected readonly GraphicsDeviceProvider graphicsDeviceProvider;
-        protected readonly ImGuiProvider imGuiProvider;
-        protected readonly ImGuiFontProvider imGuiFontProvider;
+        IsVisible = true;
+    }
 
-        protected bool IsVisible = true;
+    public virtual void Hide()
+    {
+        IsVisible = false;
+    }
 
-        public virtual void Show()
-        {
-            IsVisible = true;
-        }
+    public Menu(
+        IApplicationWindow window,
+        ImGuiProvider imGuiProvider,
+        ImGuiFontProvider imGuiFontProvider,
+        GraphicsDeviceProvider graphicsDeviceProvider)
+    {
+        this.window = window;
+        this.imGuiProvider = imGuiProvider;
+        this.imGuiFontProvider = imGuiFontProvider;
+        this.graphicsDeviceProvider = graphicsDeviceProvider;
 
-        public virtual void Hide()
-        {
-            IsVisible = false;
-        }
+        window.Resized += HandleWindowResize;
+    }
 
-        public Menu(
-            IApplicationWindow window,
-            ImGuiProvider imGuiProvider,
-            ImGuiFontProvider imGuiFontProvider,
-            GraphicsDeviceProvider graphicsDeviceProvider)
-        {
-            this.window = window;
-            this.imGuiProvider = imGuiProvider;
-            this.imGuiFontProvider = imGuiFontProvider;
-            this.graphicsDeviceProvider = graphicsDeviceProvider;
+    public virtual void Draw(float deltaSeconds)
+    {
+        if (!IsVisible) return;
 
-            window.Resized += HandleWindowResize;
-        }
+        var gd = graphicsDeviceProvider.GraphicsDevice;
+        var cl = imGuiProvider.CommandList;
+        var imGuiRenderer = imGuiProvider.ImGuiRenderer;
 
-        public virtual void Draw(float deltaSeconds)
-        {
-            if (!IsVisible) return;
+        if (cl == null)
+            return;
 
-            var gd = graphicsDeviceProvider.GraphicsDevice;
-            var cl = imGuiProvider.CommandList;
-            var imGuiRenderer = imGuiProvider.ImGuiRenderer;
+        cl.Begin();
+        cl.SetFramebuffer(graphicsDeviceProvider.Framebuffer);
+        imGuiRenderer.Render(gd, cl);
+        cl.End();
+        gd.SubmitCommands(cl);
+    }
 
-            if (cl == null)
-                return;
+    protected virtual void HandleWindowResize()
+    {
+        imGuiProvider.ImGuiRenderer.WindowResized((int)window.Width, (int)window.Height);
+    }
 
-            cl.Begin();
-            cl.SetFramebuffer(graphicsDeviceProvider.Framebuffer);
-            imGuiRenderer.Render(gd, cl);
-            cl.End();
-            gd.SubmitCommands(cl);
-        }
+    protected static void HorizontallyCenteredText(string text, float width)
+    {
+        var textWidth = ImGui.CalcTextSize(text).X;
 
-        protected virtual void HandleWindowResize()
-        {
-            imGuiProvider.ImGuiRenderer.WindowResized((int)window.Width, (int)window.Height);
-        }
-
-        protected static void HorizontallyCenteredText(string text, float width)
-        {
-            var textWidth = ImGui.CalcTextSize(text).X;
-
-            ImGui.SetCursorPosX((width - textWidth) * 0.5f);
-            ImGui.Text(text);
-        }
+        ImGui.SetCursorPosX((width - textWidth) * 0.5f);
+        ImGui.Text(text);
     }
 }

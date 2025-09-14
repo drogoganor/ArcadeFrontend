@@ -1,7 +1,6 @@
-﻿namespace ArcadeFrontend.Interfaces
-{
-    public interface IWorld : ITick, IRenderable
-    {
+﻿namespace ArcadeFrontend.Interfaces;
 
-    }
+public interface IWorld : ITick, IRenderable
+{
+
 }

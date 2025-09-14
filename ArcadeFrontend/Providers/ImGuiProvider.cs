@@ -3,83 +3,82 @@ using ArcadeFrontend.Interfaces;
 using ImGuiNET;
 using Veldrid;
 
-namespace ArcadeFrontend.Providers
+namespace ArcadeFrontend.Providers;
+
+public class ImGuiProvider : ILoad
 {
-    public class ImGuiProvider : ILoad
+    private readonly IApplicationWindow window;
+    private readonly GraphicsDeviceProvider graphicsDeviceProvider;
+    private readonly ManifestProvider manifestProvider;
+
+    private CommandList commandList;
+    private ImGuiRenderer imGuiRenderer;
+    private readonly Dictionary<FontSize, ImFontPtr> fonts = new();
+
+    public Dictionary<FontSize, ImFontPtr> Fonts => fonts;
+    public CommandList CommandList => commandList;
+    public ImGuiRenderer ImGuiRenderer => imGuiRenderer;
+
+    public ImGuiProvider(
+        IApplicationWindow window,
+        GraphicsDeviceProvider graphicsDeviceProvider,
+        ManifestProvider manifestProvider)
     {
-        private readonly IApplicationWindow window;
-        private readonly GraphicsDeviceProvider graphicsDeviceProvider;
-        private readonly ManifestProvider manifestProvider;
+        this.window = window;
+        this.graphicsDeviceProvider = graphicsDeviceProvider;
+        this.manifestProvider = manifestProvider;
+    }
 
-        private CommandList commandList;
-        private ImGuiRenderer imGuiRenderer;
-        private readonly Dictionary<FontSize, ImFontPtr> fonts = new();
+    public void Load()
+    {
+        var gd = graphicsDeviceProvider.GraphicsDevice;
+        imGuiRenderer = new ImGuiRenderer(
+            gd,
+            gd.MainSwapchain.Framebuffer.OutputDescription,
+            (int)window.Width,
+            (int)window.Height);
 
-        public Dictionary<FontSize, ImFontPtr> Fonts => fonts;
-        public CommandList CommandList => commandList;
-        public ImGuiRenderer ImGuiRenderer => imGuiRenderer;
+        var isVulkan = gd.BackendType == GraphicsBackend.Vulkan;
+        var io = ImGui.GetIO();
 
-        public ImGuiProvider(
-            IApplicationWindow window,
-            GraphicsDeviceProvider graphicsDeviceProvider,
-            ManifestProvider manifestProvider)
+        foreach (var font in manifestProvider.ManifestFile.Fonts)
         {
-            this.window = window;
-            this.graphicsDeviceProvider = graphicsDeviceProvider;
-            this.manifestProvider = manifestProvider;
-        }
-
-        public void Load()
-        {
-            var gd = graphicsDeviceProvider.GraphicsDevice;
-            imGuiRenderer = new ImGuiRenderer(
-                gd,
-                gd.MainSwapchain.Framebuffer.OutputDescription,
-                (int)window.Width,
-                (int)window.Height);
-
-            var isVulkan = gd.BackendType == GraphicsBackend.Vulkan;
-            var io = ImGui.GetIO();
-
-            foreach (var font in manifestProvider.ManifestFile.Fonts)
-            {
-                // Trouble with fonts in Vulkan.
-                // https://github.com/veldrid/veldrid/issues/154#issuecomment-484372184
-                if (isVulkan)
-                {
-                    fonts.Add(font.SizeEnum, io.Fonts.AddFontDefault());
-                }
-                else
-                {
-                    var imFontPtr = io.Fonts.AddFontFromFileTTF(@"C:\Windows\Fonts\" + font.FontName, font.FontSize);
-                    fonts.Add(font.SizeEnum, imFontPtr);
-                }
-            }
-
+            // Trouble with fonts in Vulkan.
+            // https://github.com/veldrid/veldrid/issues/154#issuecomment-484372184
             if (isVulkan)
             {
-                //imGuiRenderer.RecreateFontDeviceTexture();
+                fonts.Add(font.SizeEnum, io.Fonts.AddFontDefault());
             }
             else
             {
-                imGuiRenderer.RecreateFontDeviceTexture();
+                var imFontPtr = io.Fonts.AddFontFromFileTTF(@"C:\Windows\Fonts\" + font.FontName, font.FontSize);
+                fonts.Add(font.SizeEnum, imFontPtr);
             }
-
-            //ImGui.NewFrame();
-
-            commandList = graphicsDeviceProvider.ResourceFactory.CreateCommandList();
         }
 
-        public void Unload()
+        if (isVulkan)
         {
-            commandList.Dispose();
-            commandList = null;
-
-            ImGui.GetIO().Fonts.ClearFonts();
-            fonts.Clear();
-
-            imGuiRenderer.Dispose();
-            imGuiRenderer = null;
+            //imGuiRenderer.RecreateFontDeviceTexture();
         }
+        else
+        {
+            imGuiRenderer.RecreateFontDeviceTexture();
+        }
+
+        //ImGui.NewFrame();
+
+        commandList = graphicsDeviceProvider.ResourceFactory.CreateCommandList();
+    }
+
+    public void Unload()
+    {
+        commandList.Dispose();
+        commandList = null;
+
+        ImGui.GetIO().Fonts.ClearFonts();
+        fonts.Clear();
+
+        imGuiRenderer.Dispose();
+        imGuiRenderer = null;
     }
 }

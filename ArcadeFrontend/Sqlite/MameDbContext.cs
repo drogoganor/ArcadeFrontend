@@ -17,7 +17,7 @@ public class MameDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        options.UseSqlite($"Data Source={DbPath}");
+        options.UseSqlite($"Data Source={DbPath};Pooling=false");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

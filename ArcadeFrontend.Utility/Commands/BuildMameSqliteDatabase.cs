@@ -2,6 +2,7 @@
 using ArcadeFrontend.Sqlite.Entities;
 using ArcadeFrontend.Utility.Options;
 using ArcadeFrontend.Utility.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Xml.Linq;
 
@@ -11,16 +12,16 @@ public class BuildMameSqliteDatabase
 {
     private readonly ILogger<BuildMameSqliteDatabase> logger;
     private readonly MameDatabaseUpgrader dbUpgrader;
-    private readonly MameDbContext mameDbContext;
+    private readonly IDbContextFactory<MameDbContext> dbContextFactory;
 
     public BuildMameSqliteDatabase(
         ILogger<BuildMameSqliteDatabase> logger,
         MameDatabaseUpgrader dbUpgrader,
-        MameDbContext mameDbContext)
+        IDbContextFactory<MameDbContext> dbContextFactory)
     {
         this.logger = logger;
         this.dbUpgrader = dbUpgrader;
-        this.mameDbContext = mameDbContext;
+        this.dbContextFactory = dbContextFactory;
     }
 
     public async Task Build(BuildMameSqliteDatabaseOptions options)
@@ -50,8 +51,10 @@ public class BuildMameSqliteDatabase
             .First()
             .Descendants("machine");
 
-        var allRoms = mameDbContext.MameRom.ToList();
-        mameDbContext.MameRom.RemoveRange(allRoms);
+        var dbContext = await dbContextFactory.CreateDbContextAsync();
+
+        var allRoms = dbContext.MameRom.ToList();
+        dbContext.MameRom.RemoveRange(allRoms);
 
         foreach (var machineNode in machineNodes)
         {
@@ -67,12 +70,12 @@ public class BuildMameSqliteDatabase
                 Title = clippedTitle
             };
 
-            mameDbContext.MameRom.Add(rom);
+            dbContext.MameRom.Add(rom);
         }
 
         try
         {
-            await mameDbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
         }
         catch (Exception ex)
         {
@@ -80,11 +83,12 @@ public class BuildMameSqliteDatabase
             throw;
         }
 
+        await dbContext.DisposeAsync();
+
         // Now copy newest database to source folder
         var builtDbPath = Path.Combine(Environment.CurrentDirectory, "Content\\mame.db");
         var targetDbPath = Path.Combine(Environment.CurrentDirectory, "..\\..\\..\\..\\ArcadeFrontend\\Content\\mame.db");
 
-        File.Copy(builtDbPath, targetDbPath, true);
-        File.Delete(builtDbPath);
+        File.Move(builtDbPath, targetDbPath, true);
     }
 }

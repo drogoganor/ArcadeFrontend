@@ -1,7 +1,6 @@
-﻿namespace ArcadeFrontend.Interfaces
+﻿namespace ArcadeFrontend.Interfaces;
+
+public interface IAppClient
 {
-    public interface IAppClient
-    {
-        void Run();
-    }
+    void Run();
 }

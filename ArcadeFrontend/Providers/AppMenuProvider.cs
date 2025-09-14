@@ -1,44 +1,43 @@
 ﻿using ArcadeFrontend.Enums;
 using ArcadeFrontend.Menus;
 
-namespace ArcadeFrontend.Providers
+namespace ArcadeFrontend.Providers;
+
+public class AppMenuProvider : MenuProvider
 {
-    public class AppMenuProvider : MenuProvider
+    private readonly ArcadeUI arcadeUi;
+
+    public AppMenuProvider(
+        ArcadeUI arcadeUi)
     {
-        private readonly ArcadeUI arcadeUi;
+        this.arcadeUi = arcadeUi;
+    }
 
-        public AppMenuProvider(
-            ArcadeUI arcadeUi)
+    public override void Draw(float deltaSeconds)
+    {
+        if (IsVisible)
         {
-            this.arcadeUi = arcadeUi;
+            arcadeUi.Draw(deltaSeconds);
         }
+    }
 
-        public override void Draw(float deltaSeconds)
+    public override void Show(MenuType menuType)
+    {
+        base.Show(menuType);
+
+        Menu menu = menuType switch
         {
-            if (IsVisible)
-            {
-                arcadeUi.Draw(deltaSeconds);
-            }
-        }
+            MenuType.Main => arcadeUi,
+            _ => arcadeUi
+        };
 
-        public override void Show(MenuType menuType)
-        {
-            base.Show(menuType);
+        arcadeUi.Hide();
 
-            Menu menu = menuType switch
-            {
-                MenuType.Main => arcadeUi,
-                _ => arcadeUi
-            };
+        menu.Show();
+    }
 
-            arcadeUi.Hide();
-
-            menu.Show();
-        }
-
-        public override void Hide()
-        {
-            base.Hide();
-        }
+    public override void Hide()
+    {
+        base.Hide();
     }
 }

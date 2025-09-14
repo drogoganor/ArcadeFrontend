@@ -1,23 +1,9 @@
 ﻿using ArcadeFrontend;
-using Serilog;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
-var builder = DependencyInjection.Build();
-using var log = new LoggerConfiguration()
-    .WriteTo.Console()
-    .CreateLogger();
+var services = DependencyInjection.Build(args);
+var host = services.Build();
 
-builder
-    .RegisterInstance(log)
-    .AsSelf()
-    .AsImplementedInterfaces();
-
-var container = builder
-    //.BuildGameClient()
-    //.BuildClientMediatr()
-    .Build()
-    ;
-
-var client = container.Resolve<AppClient>();
+var client = host.Services.GetRequiredService<AppClient>();
 
 client.Run();

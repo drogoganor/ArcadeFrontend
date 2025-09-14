@@ -1,38 +1,28 @@
 ﻿using ArcadeFrontend.Data;
+using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Sqlite;
 using ArcadeFrontend.Utility.Commands;
 using ArcadeFrontend.Utility.Sqlite;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace ArcadeFrontend.Utility;
 
 public static class DependencyInjection
 {
-    public static ContainerBuilder BuildUtility(this ContainerBuilder builder)
+    public static IHostBuilder BuildUtility(string[] args)
     {
-        builder
-            .RegisterType<FileSystem>()
-            .AsSelf()
-            .AsImplementedInterfaces()
-            .SingleInstance();
-        
-        builder
-            .RegisterType<BuildMameSqliteDatabase>()
-            .AsSelf()
-            .AsImplementedInterfaces()
-            .SingleInstance();
-        
-        builder
-            .RegisterType<MameDatabaseUpgrader>()
-            .AsSelf()
-            .AsImplementedInterfaces()
-            .SingleInstance();
-        
-        builder
-            .RegisterType<MameDbContext>()
-            .AsSelf()
-            .AsImplementedInterfaces()
-            .SingleInstance();
+        var builder = Host.CreateDefaultBuilder(args);
+
+        builder.ConfigureServices((hostContext, services) =>
+        {
+            services.AddSingleton<IFileSystem, FileSystem>();
+            services.AddSingleton<BuildMameSqliteDatabase>();
+            services.AddSingleton<MameDatabaseUpgrader>();
+
+            services.AddLogger();
+            services.AddMameDb();
+        });
 
         return builder;
     }
