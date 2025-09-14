@@ -1,6 +1,5 @@
 ﻿using ArcadeFrontend.Interfaces;
 using Veldrid;
-using XInput.Wrapper;
 
 namespace ArcadeFrontend.Providers
 {
@@ -16,18 +15,18 @@ namespace ArcadeFrontend.Providers
 
         public void Tick(float deltaSeconds)
         {
-            var gamepad = X.Gamepad_1;
-            gamepad.Update();
+            //var gamepad = X.Gamepad_1;
+            //gamepad.Update();
 
-            if (InputTracker.GetKeyDown(Key.Left) || gamepad.Dpad_Left_up)
+            if (InputTracker.GetKeyDown(Key.Left)) // || gamepad.Dpad_Left_up)
             {
                 gameCommandsProvider.PreviousGame();
             }
-            else if (InputTracker.GetKeyDown(Key.Right) || gamepad.Dpad_Right_up)
+            else if (InputTracker.GetKeyDown(Key.Right)) // || gamepad.Dpad_Right_up)
             {
                 gameCommandsProvider.NextGame();
             }
-            else if (InputTracker.GetKeyDown(Key.Enter) || gamepad.A_up)
+            else if (InputTracker.GetKeyDown(Key.Enter)) // || gamepad.A_up)
             {
                 gameCommandsProvider.LaunchGame();
             }

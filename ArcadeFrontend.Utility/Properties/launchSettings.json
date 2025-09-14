@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "Build Mame DB": {
+      "commandName": "Project",
+      "commandLineArgs": "mame-db"
+    }
+  }
+}
