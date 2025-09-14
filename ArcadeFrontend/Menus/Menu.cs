@@ -7,7 +7,7 @@ namespace ArcadeFrontend.Menus;
 public abstract class Menu : IRenderable
 {
     protected readonly IApplicationWindow window;
-    protected readonly GraphicsDeviceProvider graphicsDeviceProvider;
+    protected readonly IGraphicsDeviceProvider graphicsDeviceProvider;
     protected readonly ImGuiProvider imGuiProvider;
     protected readonly ImGuiFontProvider imGuiFontProvider;
 
@@ -27,7 +27,7 @@ public abstract class Menu : IRenderable
         IApplicationWindow window,
         ImGuiProvider imGuiProvider,
         ImGuiFontProvider imGuiFontProvider,
-        GraphicsDeviceProvider graphicsDeviceProvider)
+        IGraphicsDeviceProvider graphicsDeviceProvider)
     {
         this.window = window;
         this.imGuiProvider = imGuiProvider;

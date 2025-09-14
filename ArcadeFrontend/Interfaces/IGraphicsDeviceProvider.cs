@@ -1,10 +1,12 @@
 ﻿using Veldrid;
 
-namespace ArcadeFrontend.Interfaces
+namespace ArcadeFrontend.Interfaces;
+
+public interface IGraphicsDeviceProvider : ILoad
 {
-    public interface IGraphicsDeviceProvider
-    {
-        GraphicsDevice GraphicsDevice { get; }
-        ResourceFactory ResourceFactory { get; }
-    }
+    GraphicsDevice GraphicsDevice { get; }
+    ResourceFactory ResourceFactory { get; }
+    Framebuffer Framebuffer { get; }
+
+    void ResetFramebuffer();
 }

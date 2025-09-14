@@ -11,14 +11,14 @@ namespace ArcadeFrontend.Providers;
 public class BackgroundImagesProvider
 {
     private readonly IFileSystem fileSystem;
-    private readonly GraphicsDeviceProvider graphicsDeviceProvider;
+    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
     private readonly ImGuiProvider imGuiProvider;
 
     public Dictionary<string, ImGuiImageInfo> ImGuiImages { get; private set; } = new();
 
     public BackgroundImagesProvider(
         IFileSystem fileSystem,
-        GraphicsDeviceProvider graphicsDeviceProvider,
+        IGraphicsDeviceProvider graphicsDeviceProvider,
         ImGuiProvider imGuiProvider)
     {
         this.graphicsDeviceProvider = graphicsDeviceProvider;

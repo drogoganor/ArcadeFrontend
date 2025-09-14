@@ -2,8 +2,8 @@
 using System.Numerics;
 using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
-using Serilog.Core;
 using ArcadeFrontend.Enums;
+using Microsoft.Extensions.Logging;
 
 namespace ArcadeFrontend.Menus;
 
@@ -11,7 +11,7 @@ public class ArcadeUI : Menu
 {
     public event Action OnExit;
 
-    private readonly Logger logger;
+    private readonly ILogger<ArcadeUI> logger;
     private readonly IFileSystem fileSystem;
     private readonly ConfirmDialog confirmDialog;
     private readonly OptionsDialog optionsDialog;
@@ -20,12 +20,12 @@ public class ArcadeUI : Menu
     private readonly GameCommandsProvider gameCommandsProvider;
 
     public ArcadeUI(
-        Logger logger,
+        ILogger<ArcadeUI> logger,
         IFileSystem fileSystem,
         IApplicationWindow window,
         ImGuiProvider imGuiProvider,
         ImGuiFontProvider imGuiFontProvider,
-        GraphicsDeviceProvider graphicsDeviceProvider,
+        IGraphicsDeviceProvider graphicsDeviceProvider,
         ConfirmDialog confirmDialog,
         OptionsDialog optionsDialog,
         NextTickActionProvider nextTickActionProvider,

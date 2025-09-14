@@ -5,7 +5,7 @@ using Veldrid.Utilities;
 
 namespace ArcadeFrontend.Providers;
 
-public class GraphicsDeviceProvider : IGraphicsDeviceProvider, ILoad
+public class GraphicsDeviceProvider : IGraphicsDeviceProvider
 {
     private readonly Sdl2WindowProvider sdl2WindowProvider;
     private readonly FrontendSettingsProvider frontendSettingsProvider;

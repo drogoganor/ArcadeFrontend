@@ -17,7 +17,7 @@ public class ColorShader : Shader, IShader
 
     public ColorShader(
         IApplicationWindow window,
-        GraphicsDeviceProvider graphicsDeviceProvider)
+        IGraphicsDeviceProvider graphicsDeviceProvider)
         : base(window, graphicsDeviceProvider)
     {
     }

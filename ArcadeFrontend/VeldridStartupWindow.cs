@@ -10,7 +10,7 @@ namespace ArcadeFrontend;
 public class VeldridStartupWindow : IApplicationWindow
 {
     private readonly Sdl2WindowProvider sdl2WindowProvider;
-    private readonly GraphicsDeviceProvider graphicsDeviceProvider;
+    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
     private readonly NextTickActionProvider nextTickActionProvider;
 
     public event Action<float> Tick;
@@ -29,7 +29,7 @@ public class VeldridStartupWindow : IApplicationWindow
 
     public VeldridStartupWindow(
         Sdl2WindowProvider sdl2WindowProvider,
-        GraphicsDeviceProvider graphicsDeviceProvider,
+        IGraphicsDeviceProvider graphicsDeviceProvider,
         NextTickActionProvider nextTickActionProvider)
     {
         this.sdl2WindowProvider = sdl2WindowProvider;

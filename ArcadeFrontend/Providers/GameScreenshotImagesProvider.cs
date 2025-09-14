@@ -12,7 +12,7 @@ namespace ArcadeFrontend.Providers;
 public class GameScreenshotImagesProvider
 {
     private readonly IFileSystem fileSystem;
-    private readonly GraphicsDeviceProvider graphicsDeviceProvider;
+    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
     private readonly ImGuiProvider imGuiProvider;
     private readonly FrontendStateProvider frontendStateProvider;
     private readonly GamesFileProvider gamesFileProvider;
@@ -21,7 +21,7 @@ public class GameScreenshotImagesProvider
 
     public GameScreenshotImagesProvider(
         IFileSystem fileSystem,
-        GraphicsDeviceProvider graphicsDeviceProvider,
+        IGraphicsDeviceProvider graphicsDeviceProvider,
         ImGuiProvider imGuiProvider,
         FrontendStateProvider frontendStateProvider,
         GamesFileProvider gamesFileProvider)

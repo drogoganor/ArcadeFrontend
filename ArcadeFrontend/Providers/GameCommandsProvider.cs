@@ -1,6 +1,7 @@
 ﻿using ArcadeFrontend.Data.Files;
 using ArcadeFrontend.Enums;
 using ArcadeFrontend.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Text.Json;
 
@@ -17,7 +18,7 @@ public class GameCommandsProvider
     private readonly FrontendStateProvider frontendStateProvider;
     private readonly GamesFileProvider gamesFileProvider;
     private readonly GameScreenshotImagesProvider gameScreenshotImagesProvider;
-    private readonly MameDbContext mameDbContext;
+    private readonly IDbContextFactory<MameDbContext> dbContextFactory;
 
     private Process gameProcess;
 
@@ -25,12 +26,12 @@ public class GameCommandsProvider
         FrontendStateProvider frontendStateProvider,
         GamesFileProvider gamesFileProvider,
         GameScreenshotImagesProvider gameScreenshotImagesProvider,
-        MameDbContext mameDbContext)
+        IDbContextFactory<MameDbContext> dbContextFactory)
     {
         this.frontendStateProvider = frontendStateProvider;
         this.gamesFileProvider = gamesFileProvider;
         this.gameScreenshotImagesProvider = gameScreenshotImagesProvider;
-        this.mameDbContext = mameDbContext;
+        this.dbContextFactory = dbContextFactory;
     }
 
     private void SetGameIndex(int gameIndex)
@@ -100,6 +101,8 @@ public class GameCommandsProvider
 
         var romsDirectory = Path.Combine(mameData.Directory, "roms");
         var romFiles = Directory.GetFiles(romsDirectory, "*.zip");
+
+        using var mameDbContext = dbContextFactory.CreateDbContext();
 
         var games = new List<GameData>();
         foreach (var romFile in romFiles)

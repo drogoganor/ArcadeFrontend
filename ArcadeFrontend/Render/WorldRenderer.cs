@@ -8,7 +8,7 @@ namespace ArcadeFrontend.Render;
 
 public class WorldRenderer : IRenderable
 {
-    private readonly GraphicsDeviceProvider graphicsDeviceProvider;
+    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
     private readonly ColorShader colorShader;
     private readonly TextureShader textureShader;
     private readonly FrontendSettingsProvider frontendSettingsProvider;
@@ -16,7 +16,7 @@ public class WorldRenderer : IRenderable
     private readonly Camera camera;
 
     public WorldRenderer(
-        GraphicsDeviceProvider graphicsDeviceProvider,
+        IGraphicsDeviceProvider graphicsDeviceProvider,
         ColorShader colorShader,
         TextureShader textureShader,
         Camera camera,

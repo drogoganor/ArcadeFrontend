@@ -12,21 +12,21 @@ public class AppClient : IAppClient
     public Action OnEndSession;
 
     private readonly IApplicationWindow window;
-    private readonly AppMenuProvider menuProvider;
+    private readonly IMenuProvider menuProvider;
     private readonly ArcadeUI ui;
     private readonly Scene scene;
     private readonly IWorld world;
-    private readonly LoadProvider loadProvider;
+    private readonly ILoadProvider loadProvider;
 
     private bool isExiting = false;
 
     public AppClient(
         IApplicationWindow window,
         ArcadeUI ui,
-        AppMenuProvider menuProvider,
+        IMenuProvider menuProvider,
         Scene scene,
         IWorld world,
-        LoadProvider loadProvider)
+        ILoadProvider loadProvider)
     {
         this.window = window;
         this.menuProvider = menuProvider;

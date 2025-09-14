@@ -7,7 +7,7 @@ public class LoadProvider : ILoadProvider
 {
     private readonly IApplicationWindow window;
     private readonly Sdl2WindowProvider sdl2WindowProvider;
-    private readonly GraphicsDeviceProvider graphicsDeviceProvider;
+    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
     private readonly ImGuiProvider imGuiProvider;
     private readonly FileLoadProvider fileLoadProvider;
     private readonly ColorShader colorShader;
@@ -18,7 +18,7 @@ public class LoadProvider : ILoadProvider
     public LoadProvider(
         IApplicationWindow window,
         Sdl2WindowProvider sdl2WindowProvider,
-        GraphicsDeviceProvider graphicsDeviceProvider,
+        IGraphicsDeviceProvider graphicsDeviceProvider,
         ImGuiProvider imGuiProvider,
         FileLoadProvider fileLoadProvider,
         ColorShader colorShader,

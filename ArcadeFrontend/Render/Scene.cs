@@ -9,13 +9,13 @@ namespace ArcadeFrontend.Render;
 public class Scene : IRenderable
 {
     private readonly IApplicationWindow window;
-    private readonly GraphicsDeviceProvider graphicsDeviceProvider;
+    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
     private readonly Camera camera;
     private readonly IWorld world;
 
     public Scene(
         IApplicationWindow window,
-        GraphicsDeviceProvider graphicsDeviceProvider,
+        IGraphicsDeviceProvider graphicsDeviceProvider,
         Camera camera,
         IWorld world)
     {

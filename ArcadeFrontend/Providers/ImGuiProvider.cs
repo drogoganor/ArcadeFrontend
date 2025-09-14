@@ -8,7 +8,7 @@ namespace ArcadeFrontend.Providers;
 public class ImGuiProvider : ILoad
 {
     private readonly IApplicationWindow window;
-    private readonly GraphicsDeviceProvider graphicsDeviceProvider;
+    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
     private readonly ManifestProvider manifestProvider;
 
     private CommandList commandList;
@@ -21,7 +21,7 @@ public class ImGuiProvider : ILoad
 
     public ImGuiProvider(
         IApplicationWindow window,
-        GraphicsDeviceProvider graphicsDeviceProvider,
+        IGraphicsDeviceProvider graphicsDeviceProvider,
         ManifestProvider manifestProvider)
     {
         this.window = window;
