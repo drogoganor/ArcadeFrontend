@@ -90,11 +90,6 @@ public class ArcadeUI : Menu
                 optionsDialog.Show();
             }
 
-            if (ImGui.MenuItem("Scan MAME games..."))
-            {
-                gameCommandsProvider.ScanMameGames();
-            }
-
             ImGui.EndMenu();
         }
 

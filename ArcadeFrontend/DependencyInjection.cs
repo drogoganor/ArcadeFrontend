@@ -85,7 +85,7 @@ public static class DependencyInjection
 
         var log = new LoggerConfiguration()
             .MinimumLevel.Debug()
-            .WriteTo.Console()
+            //.WriteTo.Console()
             .WriteTo.File(logFilePath)
             .CreateLogger();
 

@@ -1,5 +1,6 @@
 ﻿using ArcadeFrontend.Data;
 using ArcadeFrontend.Interfaces;
+using ArcadeFrontend.Providers;
 using ArcadeFrontend.Sqlite;
 using ArcadeFrontend.Utility.Commands;
 using ArcadeFrontend.Utility.Sqlite;

@@ -1,9 +1,7 @@
-﻿using ArcadeFrontend.Data.Files;
-using ArcadeFrontend.Enums;
-using ArcadeFrontend.Sqlite;
+﻿using ArcadeFrontend.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using System.Text.Json;
 
 namespace ArcadeFrontend.Providers;
 
@@ -15,6 +13,7 @@ public class GameCommandsProvider
         public string Title { get; set; }
     }
 
+    private readonly ILogger<GameCommandsProvider> logger;
     private readonly FrontendStateProvider frontendStateProvider;
     private readonly GamesFileProvider gamesFileProvider;
     private readonly GameScreenshotImagesProvider gameScreenshotImagesProvider;
@@ -23,11 +22,13 @@ public class GameCommandsProvider
     private Process gameProcess;
 
     public GameCommandsProvider(
+        ILogger<GameCommandsProvider> logger,
         FrontendStateProvider frontendStateProvider,
         GamesFileProvider gamesFileProvider,
         GameScreenshotImagesProvider gameScreenshotImagesProvider,
         IDbContextFactory<MameDbContext> dbContextFactory)
     {
+        this.logger = logger;
         this.frontendStateProvider = frontendStateProvider;
         this.gamesFileProvider = gamesFileProvider;
         this.gameScreenshotImagesProvider = gameScreenshotImagesProvider;
@@ -81,62 +82,46 @@ public class GameCommandsProvider
             FileName = Path.Combine(currentSystem.Directory, currentSystem.Executable),
             WorkingDirectory = currentSystem.Directory,
             Arguments = arguments,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true
         };
 
-        gameProcess = Process.Start(startInfo);
+        gameProcess = new Process
+        {
+            StartInfo = startInfo
+        };
+
+        gameProcess.OutputDataReceived += GameProcess_OutputDataReceived;
+        gameProcess.ErrorDataReceived += GameProcess_ErrorDataReceived;
+
+        gameProcess.Start();
+
+        gameProcess.BeginOutputReadLine();
+        gameProcess.BeginErrorReadLine();
+
         gameProcess.WaitForExit();
+
+        gameProcess.CancelOutputRead();
+        gameProcess.CancelErrorRead();
+
+        gameProcess.OutputDataReceived -= GameProcess_OutputDataReceived;
+        gameProcess.ErrorDataReceived -= GameProcess_ErrorDataReceived;
     }
 
-    public void ScanMameGames()
+    private void GameProcess_OutputDataReceived(object sender, DataReceivedEventArgs e)
     {
-        if (!gamesFileProvider.Data.Systems.TryGetValue(SystemType.Mame, out var mameData))
+        if (e.Data == null)
             return;
 
-        var skipTheseRoms = new HashSet<string>
-        {
-            "qsound",
-            "qsound_hle",
-            "neogeo"
-        };
+        logger.LogInformation(e.Data);
+    }
 
-        var romsDirectory = Path.Combine(mameData.Directory, "roms");
-        var romFiles = Directory.GetFiles(romsDirectory, "*.zip");
+    private void GameProcess_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+    {
+        if (e.Data == null)
+            return;
 
-        using var mameDbContext = dbContextFactory.CreateDbContext();
-
-        var games = new List<GameData>();
-        foreach (var romFile in romFiles)
-        {
-            var filename = Path.GetFileNameWithoutExtension(romFile);
-
-            if (skipTheseRoms.Contains(filename))
-                continue;
-
-            var gameDef = new GameData
-            {
-                Name = filename,
-                Arguments = filename,
-                System = SystemType.Mame
-            };
-
-            var mameRom = mameDbContext.MameRom.FirstOrDefault(x => x.Name == filename);
-            if (mameRom != null)
-            {
-                gameDef.Name = mameRom.Title;
-            }
-
-            games.Add(gameDef);
-        }
-
-        var gamesJson = JsonSerializer.Serialize(games);
-
-        var fileName = Path.GetTempPath() + Guid.NewGuid().ToString() + ".txt";
-        File.WriteAllText(fileName, gamesJson);
-
-        using var fileOpener = new Process();
-
-        fileOpener.StartInfo.FileName = "explorer";
-        fileOpener.StartInfo.Arguments = "" + fileName + "";
-        fileOpener.Start();
+        logger.LogError(e.Data);
     }
 }
