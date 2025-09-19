@@ -17,6 +17,7 @@ namespace ArcadeFrontend.Menus
         private readonly FrontendSettingsProvider frontendSettingsProvider;
         private readonly BackgroundImagesProvider backgroundImagesProvider;
         private readonly GameScreenshotImagesProvider gameScreenshotImagesProvider;
+        private readonly ControllerImagesProvider controllerImagesProvider;
 
         public GamePickerComponent(
             IApplicationWindow window,
@@ -25,7 +26,8 @@ namespace ArcadeFrontend.Menus
             FrontendStateProvider frontendStateProvider,
             FrontendSettingsProvider frontendSettingsProvider,
             BackgroundImagesProvider backgroundImagesProvider,
-            GameScreenshotImagesProvider gameScreenshotImagesProvider)
+            GameScreenshotImagesProvider gameScreenshotImagesProvider,
+            ControllerImagesProvider controllerImagesProvider)
         {
             this.window = window;
             this.gamesFileProvider = gamesFileProvider;
@@ -34,6 +36,7 @@ namespace ArcadeFrontend.Menus
             this.frontendSettingsProvider = frontendSettingsProvider;
             this.backgroundImagesProvider = backgroundImagesProvider;
             this.gameScreenshotImagesProvider = gameScreenshotImagesProvider;
+            this.controllerImagesProvider = controllerImagesProvider;
         }
 
         public void Draw(float deltaSeconds)
@@ -54,6 +57,10 @@ namespace ArcadeFrontend.Menus
             var dialogSize = new Vector2(800, 600);
             var screenshotSize = new Vector2(640, 480);
             var dialogPosition = (windowSize - dialogSize) / 2;
+
+            var controllerImageSize = new Vector2(96);
+
+            var borderSpaceWidth = 128;
 
             if (backgroundImageAvailable)
             {
@@ -76,6 +83,21 @@ namespace ArcadeFrontend.Menus
                     if (backgroundImageAvailable)
                         ImGui.Image(backgroundImage.IntPtr, windowSize);
 
+                    var leftButtonPosition = new Vector2(borderSpaceWidth - controllerImageSize.X, (windowSize.Y - controllerImageSize.Y) / 2f);
+                    var rightButtonPosition = new Vector2(windowSize.X - borderSpaceWidth, (windowSize.Y - controllerImageSize.Y) / 2f);
+
+                    if (controllerImagesProvider.ImGuiImages.TryGetValue("dpleft", out var leftImage))
+                    {
+                        ImGui.SetCursorPos(leftButtonPosition);
+                        ImGui.Image(leftImage.IntPtr, controllerImageSize);
+                    }
+
+                    if (controllerImagesProvider.ImGuiImages.TryGetValue("dpright", out var rightImage))
+                    {
+                        ImGui.SetCursorPos(rightButtonPosition);
+                        ImGui.Image(rightImage.IntPtr, controllerImageSize);
+                    }
+
                     ImGui.End();
                 }
 
@@ -85,6 +107,7 @@ namespace ArcadeFrontend.Menus
             {
                 state.BackgroundImageAvailable = false;
             }
+
 
             ImGui.SetNextWindowPos(dialogPosition);
             ImGui.SetNextWindowSize(dialogSize);

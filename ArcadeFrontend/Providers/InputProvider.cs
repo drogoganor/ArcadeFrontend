@@ -1,9 +1,10 @@
 ﻿using ArcadeFrontend.Interfaces;
 using Veldrid;
+using XInput.Wrapper;
 
 namespace ArcadeFrontend.Providers;
 
-public class InputProvider : ITick
+public class InputProvider : ITick, ILoad
 {
     private readonly GameCommandsProvider gameCommandsProvider;
 
@@ -13,20 +14,35 @@ public class InputProvider : ITick
         this.gameCommandsProvider = gameCommandsProvider;
     }
 
+    public void Load()
+    {
+        //if (X.IsAvailable)
+        //{
+        //    var gamepad = X.Gamepad_1;
+
+        //    X.StartPolling(gamepad);
+        //}
+    }
+
+    public void Unload()
+    {
+        //if (X.IsAvailable)
+        //{
+        //    X.StopPolling();
+        //}
+    }
+
     public void Tick(float deltaSeconds)
     {
-        //var gamepad = X.Gamepad_1;
-        //gamepad.Update();
-
-        if (InputTracker.GetKeyDown(Key.Left)) // || gamepad.Dpad_Left_up)
+        if (InputTracker.GetKeyDown(Key.Left) || XInputTracker.GetButtonDown(XButton.DPadLeft))
         {
             gameCommandsProvider.PreviousGame();
         }
-        else if (InputTracker.GetKeyDown(Key.Right)) // || gamepad.Dpad_Right_up)
+        else if (InputTracker.GetKeyDown(Key.Right) || XInputTracker.GetButtonDown(XButton.DPadRight))
         {
             gameCommandsProvider.NextGame();
         }
-        else if (InputTracker.GetKeyDown(Key.Enter)) // || gamepad.A_up)
+        else if (InputTracker.GetKeyDown(Key.Enter) || XInputTracker.GetButtonDown(XButton.A))
         {
             gameCommandsProvider.LaunchGame();
         }

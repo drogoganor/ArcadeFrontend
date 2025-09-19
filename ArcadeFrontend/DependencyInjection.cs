@@ -50,6 +50,7 @@ public static class DependencyInjection
             services.AddSingleton<BackgroundImagesProvider>();
             services.AddSingleton<GameCommandsProvider>();
             services.AddSingleton<GameScreenshotImagesProvider>();
+            services.AddSingleton<ControllerImagesProvider>();
 
             services.AddLogger();
             services.AddMameDb();

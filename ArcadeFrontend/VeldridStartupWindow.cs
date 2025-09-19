@@ -51,6 +51,7 @@ public class VeldridStartupWindow : IApplicationWindow
 
             var inputSnapshot = window.PumpEvents();
             InputTracker.UpdateFrameInput(inputSnapshot, window);
+            XInputTracker.UpdateXInput();
 
             if (window.Exists)
             {

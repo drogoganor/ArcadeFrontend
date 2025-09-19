@@ -8,6 +8,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Content\images\back.png" />
+    <None Remove="Content\images\dpdown.png" />
+    <None Remove="Content\images\dpleft.png" />
+    <None Remove="Content\images\dpright.png" />
+    <None Remove="Content\images\dpup.png" />
+    <None Remove="Content\images\e.png" />
+    <None Remove="Content\images\leftshoulder.png" />
+    <None Remove="Content\images\leftstick.png" />
+    <None Remove="Content\images\lefttrigger.png" />
+    <None Remove="Content\images\leftxy.png" />
+    <None Remove="Content\images\n.png" />
+    <None Remove="Content\images\rightshoulder.png" />
+    <None Remove="Content\images\rightstick.png" />
+    <None Remove="Content\images\righttrigger.png" />
+    <None Remove="Content\images\rightxy.png" />
+    <None Remove="Content\images\s.png" />
+    <None Remove="Content\images\start.png" />
+    <None Remove="Content\images\w.png" />
     <None Remove="Content\mame.db" />
     <None Remove="Content\shader\WorldColor.frag.spv" />
     <None Remove="Content\shader\WorldColor.vert.spv" />
@@ -16,6 +34,60 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Content\images\back.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\dpdown.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\dpleft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\dpright.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\dpup.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\e.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\leftshoulder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\leftstick.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\lefttrigger.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\leftxy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\n.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\rightshoulder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\rightstick.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\righttrigger.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\rightxy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\s.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\start.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\w.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\shader\WorldColor.frag.spv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -54,6 +126,7 @@
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
     <PackageReference Include="Veldrid.StartupUtilities" Version="4.9.0" />
     <PackageReference Include="Veldrid.Utilities" Version="4.9.0" />
+    <PackageReference Include="XInput.Wrapper" Version="0.3.1" />
   </ItemGroup>
 
 </Project>

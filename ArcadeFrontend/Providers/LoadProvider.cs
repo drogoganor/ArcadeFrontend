@@ -14,6 +14,8 @@ public class LoadProvider : ILoadProvider
     private readonly TextureShader textureShader;
     private readonly BackgroundImagesProvider backgroundImagesProvider;
     private readonly GameScreenshotImagesProvider gameScreenshotImagesProvider;
+    private readonly InputProvider inputProvider;
+    private readonly ControllerImagesProvider controllerImagesProvider;
 
     public LoadProvider(
         IApplicationWindow window,
@@ -24,7 +26,9 @@ public class LoadProvider : ILoadProvider
         ColorShader colorShader,
         TextureShader textureShader,
         BackgroundImagesProvider backgroundImagesProvider,
-        GameScreenshotImagesProvider gameScreenshotImagesProvider)
+        GameScreenshotImagesProvider gameScreenshotImagesProvider,
+        InputProvider inputProvider,
+        ControllerImagesProvider controllerImagesProvider)
     {
         this.window = window;
         this.sdl2WindowProvider = sdl2WindowProvider;
@@ -35,6 +39,8 @@ public class LoadProvider : ILoadProvider
         this.textureShader = textureShader;
         this.backgroundImagesProvider = backgroundImagesProvider;
         this.gameScreenshotImagesProvider = gameScreenshotImagesProvider;
+        this.inputProvider = inputProvider;
+        this.controllerImagesProvider = controllerImagesProvider;
     }
 
     public void Load()
@@ -42,6 +48,7 @@ public class LoadProvider : ILoadProvider
         sdl2WindowProvider.Load();
         graphicsDeviceProvider.Load();
         window.Load();
+        inputProvider.Load();
         imGuiProvider.Load();
         fileLoadProvider.Load();
 
@@ -50,10 +57,12 @@ public class LoadProvider : ILoadProvider
 
         backgroundImagesProvider.Load();
         gameScreenshotImagesProvider.Load();
+        controllerImagesProvider.Load();
     }
 
     public void Unload()
     {
+        controllerImagesProvider.Unload();
         gameScreenshotImagesProvider.Unload();
         backgroundImagesProvider.Unload();
 
@@ -62,6 +71,7 @@ public class LoadProvider : ILoadProvider
 
         fileLoadProvider.Unload();
         imGuiProvider.Unload();
+        inputProvider.Unload();
         window.Unload();
         graphicsDeviceProvider.Unload();
         sdl2WindowProvider.Unload();
