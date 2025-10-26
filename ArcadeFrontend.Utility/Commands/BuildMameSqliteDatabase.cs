@@ -122,6 +122,7 @@ public class BuildMameSqliteDatabase
             "qsound_hle",
             "neogeo",
             "pgm",
+            "namcoc69",
             "namcoc70",
             "namcoc75",
             "naomi",

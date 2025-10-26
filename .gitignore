@@ -3,3 +3,5 @@ ArcadeFrontend/obj/
 ArcadeFrontend/bin/
 ArcadeFrontend.Utility/bin/
 ArcadeFrontend.Utility/obj/
+ArcadeFrontend/ContentStaging/
+deps/

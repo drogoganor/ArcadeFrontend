@@ -30,7 +30,7 @@ public class BackgroundImagesProvider
     {
         var gd = graphicsDeviceProvider.GraphicsDevice;
 
-        var backgroundFiles = Directory.GetFiles(fileSystem.StagingBackgroundsDirectory, "*.png");
+        var backgroundFiles = Directory.GetFiles(fileSystem.BackgroundsDirectory, "*.png");
 
         for (uint i = 0; i < backgroundFiles.Length; i++)
         {

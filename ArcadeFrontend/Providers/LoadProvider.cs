@@ -16,6 +16,7 @@ public class LoadProvider : ILoadProvider
     private readonly GameScreenshotImagesProvider gameScreenshotImagesProvider;
     private readonly InputProvider inputProvider;
     private readonly ControllerImagesProvider controllerImagesProvider;
+    private readonly KeyboardImagesProvider keyboardImagesProvider;
 
     public LoadProvider(
         IApplicationWindow window,
@@ -28,7 +29,8 @@ public class LoadProvider : ILoadProvider
         BackgroundImagesProvider backgroundImagesProvider,
         GameScreenshotImagesProvider gameScreenshotImagesProvider,
         InputProvider inputProvider,
-        ControllerImagesProvider controllerImagesProvider)
+        ControllerImagesProvider controllerImagesProvider,
+        KeyboardImagesProvider keyboardImagesProvider)
     {
         this.window = window;
         this.sdl2WindowProvider = sdl2WindowProvider;
@@ -41,6 +43,7 @@ public class LoadProvider : ILoadProvider
         this.gameScreenshotImagesProvider = gameScreenshotImagesProvider;
         this.inputProvider = inputProvider;
         this.controllerImagesProvider = controllerImagesProvider;
+        this.keyboardImagesProvider = keyboardImagesProvider;
     }
 
     public void Load()
@@ -58,10 +61,12 @@ public class LoadProvider : ILoadProvider
         backgroundImagesProvider.Load();
         gameScreenshotImagesProvider.Load();
         controllerImagesProvider.Load();
+        keyboardImagesProvider.Load();
     }
 
     public void Unload()
     {
+        keyboardImagesProvider.Unload();
         controllerImagesProvider.Unload();
         gameScreenshotImagesProvider.Unload();
         backgroundImagesProvider.Unload();

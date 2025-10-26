@@ -16,6 +16,16 @@
             "System": "Mame"
         },
         {
+          "Arguments": "batcir",
+          "Name": "Battle Circuit",
+          "System": "Mame"
+        },
+        {
+            "Arguments": "dino",
+            "Name": "Cadillacs and Dinosaurs",
+            "System": "Mame"
+        },
+        {
             "Arguments": "cameltry",
             "Name": "Cameltry",
             "System": "Mame"
@@ -38,6 +48,11 @@
         {
             "Arguments": "ddtod",
             "Name": "Dungeons & Dragons: Tower of Doom",
+            "System": "Mame"
+        },
+        {
+            "Arguments": "exvania",
+            "Name": "Exvania",
             "System": "Mame"
         },
         {
@@ -259,6 +274,11 @@
             "Arguments": "tnzs",
             "Name": "The NewZealand Story",
             "System": "Mame"
+        },
+        {
+          "Arguments": "turbofrc",
+          "Name": "Turbo Force",
+          "System": "Mame"
         },
         {
             "Arguments": "umk3",

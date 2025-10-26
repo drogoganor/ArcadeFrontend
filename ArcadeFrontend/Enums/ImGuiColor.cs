@@ -1,9 +1,10 @@
-﻿namespace ArcadeFrontend.Enums
+﻿namespace ArcadeFrontend.Enums;
+
+public enum ImGuiColor
 {
-    public enum ImGuiColor
-    {
-        Black,
-        InventoryEmpty,
-        PanelBlue,
-    }
+    Black,
+    InventoryEmpty,
+    PanelBlue,
+    BlackPanel,
+    BlackPanelLighter,
 }

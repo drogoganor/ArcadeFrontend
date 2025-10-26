@@ -19,8 +19,11 @@ public class FileSystem : IFileSystem
     private readonly string stagingDirectory;
     public string StagingDirectory => stagingDirectory;
 
-    private readonly string stagingBackgroundsDirectory;
-    public string StagingBackgroundsDirectory => stagingBackgroundsDirectory;
+    private readonly string backgroundsDirectory;
+    public string BackgroundsDirectory => backgroundsDirectory;
+
+    private readonly string imagesDirectory;
+    public string ImagesDirectory => imagesDirectory;
 
     private readonly string shaderDirectory;
     public string ShaderDirectory => shaderDirectory;
@@ -49,12 +52,13 @@ public class FileSystem : IFileSystem
         contentDirectory = Path.Combine(baseDirectory, "Content");
 
         // Content
-        shaderDirectory = Path.Combine(ContentDirectory, "shaders");
+        shaderDirectory = Path.Combine(ContentDirectory, "shader");
+        backgroundsDirectory = Path.Combine(contentDirectory, "backgrounds");
+        imagesDirectory = Path.Combine(contentDirectory, "images");
         languagesDirectory = Path.Combine(ContentDirectory, "i18n");
 
         // Dev
         stagingDirectory = Path.Combine(devDirectory, "ContentStaging");
-        stagingBackgroundsDirectory = Path.Combine(stagingDirectory, "backgrounds");
 
         // App Data
         var localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);

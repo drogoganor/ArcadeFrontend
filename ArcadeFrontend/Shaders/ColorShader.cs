@@ -15,11 +15,15 @@ public class ColorShader : Shader, IShader
     public ResourceSet ProjectionViewSet { get; private set; }
     public ResourceSet WorldTextureSet { get; private set; }
 
+    private readonly IFileSystem fileSystem;
+
     public ColorShader(
+        IFileSystem fileSystem,
         IApplicationWindow window,
         IGraphicsDeviceProvider graphicsDeviceProvider)
         : base(window, graphicsDeviceProvider)
     {
+        this.fileSystem = fileSystem;
     }
 
     public override void Load()
@@ -32,7 +36,7 @@ public class ColorShader : Shader, IShader
         ViewBuffer = rf.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
         WorldBuffer = rf.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
 
-        var shadersPath = Path.Combine(Environment.CurrentDirectory, @"Content/shader");
+        var shadersPath = fileSystem.ShaderDirectory;
         var vertexShaderBytes = File.ReadAllBytes(Path.Combine(shadersPath, "WorldColor.vert.spv"));
         var fragmentShaderBytes = File.ReadAllBytes(Path.Combine(shadersPath, "WorldColor.frag.spv"));
 

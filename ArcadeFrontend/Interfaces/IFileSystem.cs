@@ -8,7 +8,7 @@
         string ShaderDirectory { get; }
         string LanguagesDirectory { get; }
         string StagingDirectory { get; }
-        string StagingBackgroundsDirectory { get; }
+        string BackgroundsDirectory { get; }
         string AppDataFolderName { get; }
         string AppDataDirectory { get; } // System directory + AppDataFolderName
         string DataDirectory { get; }

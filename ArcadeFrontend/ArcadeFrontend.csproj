@@ -8,12 +8,39 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Content\backgrounds\default.png" />
+    <None Remove="Content\games.json" />
     <None Remove="Content\images\back.png" />
+    <None Remove="Content\images\controller\back.png" />
+    <None Remove="Content\images\controller\dpdown.png" />
+    <None Remove="Content\images\controller\dpleft.png" />
+    <None Remove="Content\images\controller\dpright.png" />
+    <None Remove="Content\images\controller\dpup.png" />
+    <None Remove="Content\images\controller\e.png" />
+    <None Remove="Content\images\controller\leftshoulder.png" />
+    <None Remove="Content\images\controller\leftstick.png" />
+    <None Remove="Content\images\controller\lefttrigger.png" />
+    <None Remove="Content\images\controller\leftxy.png" />
+    <None Remove="Content\images\controller\n.png" />
+    <None Remove="Content\images\controller\rightshoulder.png" />
+    <None Remove="Content\images\controller\rightstick.png" />
+    <None Remove="Content\images\controller\righttrigger.png" />
+    <None Remove="Content\images\controller\rightxy.png" />
+    <None Remove="Content\images\controller\s.png" />
+    <None Remove="Content\images\controller\start.png" />
+    <None Remove="Content\images\controller\w.png" />
     <None Remove="Content\images\dpdown.png" />
     <None Remove="Content\images\dpleft.png" />
     <None Remove="Content\images\dpright.png" />
     <None Remove="Content\images\dpup.png" />
     <None Remove="Content\images\e.png" />
+    <None Remove="Content\images\keyboard\cursor-down.png" />
+    <None Remove="Content\images\keyboard\cursor-left.png" />
+    <None Remove="Content\images\keyboard\cursor-right.png" />
+    <None Remove="Content\images\keyboard\cursor-up.png" />
+    <None Remove="Content\images\keyboard\enter.png" />
+    <None Remove="Content\images\keyboard\x.png" />
+    <None Remove="Content\images\keyboard\z.png" />
     <None Remove="Content\images\leftshoulder.png" />
     <None Remove="Content\images\leftstick.png" />
     <None Remove="Content\images\lefttrigger.png" />
@@ -27,6 +54,8 @@
     <None Remove="Content\images\start.png" />
     <None Remove="Content\images\w.png" />
     <None Remove="Content\mame.db" />
+    <None Remove="Content\manifest.json" />
+    <None Remove="Content\settings.json" />
     <None Remove="Content\shader\WorldColor.frag.spv" />
     <None Remove="Content\shader\WorldColor.vert.spv" />
     <None Remove="Content\shader\WorldTexture.frag.spv" />
@@ -34,58 +63,91 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Content\images\back.png">
+    <Content Include="Content\backgrounds\default.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\dpdown.png">
+    <Content Include="Content\games.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\dpleft.png">
+    <Content Include="Content\images\controller\back.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\dpright.png">
+    <Content Include="Content\images\controller\dpdown.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\dpup.png">
+    <Content Include="Content\images\controller\dpleft.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\e.png">
+    <Content Include="Content\images\controller\dpright.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\leftshoulder.png">
+    <Content Include="Content\images\controller\dpup.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\leftstick.png">
+    <Content Include="Content\images\controller\e.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\lefttrigger.png">
+    <Content Include="Content\images\controller\leftshoulder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\leftxy.png">
+    <Content Include="Content\images\controller\leftstick.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\n.png">
+    <Content Include="Content\images\controller\lefttrigger.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\rightshoulder.png">
+    <Content Include="Content\images\controller\leftxy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\rightstick.png">
+    <Content Include="Content\images\controller\n.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\righttrigger.png">
+    <Content Include="Content\images\controller\rightshoulder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\rightxy.png">
+    <Content Include="Content\images\controller\rightstick.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\s.png">
+    <Content Include="Content\images\controller\righttrigger.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\start.png">
+    <Content Include="Content\images\controller\rightxy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\images\w.png">
+    <Content Include="Content\images\controller\s.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\controller\start.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\controller\w.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\keyboard\cursor-down.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\keyboard\cursor-left.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\keyboard\cursor-right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\keyboard\cursor-up.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\keyboard\enter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\keyboard\x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\keyboard\z.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\shader\WorldColor.frag.spv">

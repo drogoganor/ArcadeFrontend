@@ -16,8 +16,12 @@ public class ArcadeUI : Menu
     private readonly ConfirmDialog confirmDialog;
     private readonly OptionsDialog optionsDialog;
     private readonly NextTickActionProvider nextTickActionProvider;
-    private readonly GamePickerComponent gamePickerComponent;
+    private readonly BigViewComponent bigViewComponent;
+    private readonly ListViewComponent listViewComponent;
+    private readonly FrontendStateProvider frontendStateProvider;
     private readonly GameCommandsProvider gameCommandsProvider;
+    private readonly FrontendSettingsProvider frontendSettingsProvider;
+    private readonly BackgroundImagesProvider backgroundImagesProvider;
 
     public ArcadeUI(
         ILogger<ArcadeUI> logger,
@@ -29,8 +33,12 @@ public class ArcadeUI : Menu
         ConfirmDialog confirmDialog,
         OptionsDialog optionsDialog,
         NextTickActionProvider nextTickActionProvider,
-        GamePickerComponent gamePickerComponent,
-        GameCommandsProvider gameCommandsProvider)
+        BigViewComponent bigViewComponent,
+        ListViewComponent listViewComponent,
+        GameCommandsProvider gameCommandsProvider,
+        FrontendStateProvider frontendStateProvider,
+        FrontendSettingsProvider frontendSettingsProvider,
+        BackgroundImagesProvider backgroundImagesProvider)
         : base(window, imGuiProvider, imGuiFontProvider, graphicsDeviceProvider)
     {
         this.logger = logger;
@@ -38,8 +46,12 @@ public class ArcadeUI : Menu
         this.confirmDialog = confirmDialog;
         this.optionsDialog = optionsDialog;
         this.nextTickActionProvider = nextTickActionProvider;
-        this.gamePickerComponent = gamePickerComponent;
+        this.bigViewComponent = bigViewComponent;
+        this.listViewComponent = listViewComponent;
         this.gameCommandsProvider = gameCommandsProvider;
+        this.frontendStateProvider = frontendStateProvider;
+        this.frontendSettingsProvider = frontendSettingsProvider;
+        this.backgroundImagesProvider = backgroundImagesProvider;
     }
 
     private void HandleConfirmExit(bool result)
@@ -55,9 +67,17 @@ public class ArcadeUI : Menu
         if (!IsVisible)
             return;
 
-        gamePickerComponent.Draw(deltaSeconds);
-
         DrawMenu();
+
+        var state = frontendStateProvider.State;
+        if (state.CurrentView == ViewType.Big)
+        {
+            bigViewComponent.Draw(deltaSeconds);
+        }
+        else
+        {
+            listViewComponent.Draw(deltaSeconds);
+        }
 
         optionsDialog.Draw(deltaSeconds);
         confirmDialog.Draw(deltaSeconds);
@@ -96,5 +116,42 @@ public class ArcadeUI : Menu
         ImGui.EndMainMenuBar();
 
         imGuiFontProvider.PopFont();
+
+
+        var settings = frontendSettingsProvider.Settings;
+        var backgroundImageAvailable = backgroundImagesProvider.ImGuiImages.TryGetValue(settings.BackgroundImage, out var backgroundImage);
+
+        var state = frontendStateProvider.State;
+
+        if (backgroundImageAvailable)
+        {
+            ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
+            ImGui.SetNextWindowPos(Vector2.Zero);
+            ImGui.SetNextWindowSize(windowSize);
+            if (ImGui.Begin("Background",
+                ImGuiWindowFlags.NoTitleBar |
+                ImGuiWindowFlags.NoDecoration |
+                ImGuiWindowFlags.NoCollapse |
+                ImGuiWindowFlags.NoBringToFrontOnFocus |
+                ImGuiWindowFlags.NoMove |
+                ImGuiWindowFlags.NoNavFocus |
+                ImGuiWindowFlags.NoBackground |
+                ImGuiWindowFlags.NoMouseInputs |
+                ImGuiWindowFlags.NoFocusOnAppearing))
+            {
+                ImGui.SetCursorPos(Vector2.Zero);
+
+                if (backgroundImageAvailable)
+                    ImGui.Image(backgroundImage.IntPtr, windowSize);
+
+                ImGui.End();
+            }
+
+            ImGui.PopStyleVar();
+        }
+        else
+        {
+            state.BackgroundImageAvailable = false;
+        }
     }
 }

@@ -21,12 +21,17 @@ public class TextureShader : Shader, ILoad, IShader
     //private readonly ITextureResourcesProvider textureResourcesProvider;
     private readonly FrontendSettingsProvider frontendSettingsProvider;
 
-    public TextureShader(IApplicationWindow window,
+    private readonly IFileSystem fileSystem;
+
+    public TextureShader(
+        IFileSystem fileSystem,
+        IApplicationWindow window,
         IGraphicsDeviceProvider graphicsDeviceProvider,
         //ITextureResourcesProvider textureResourcesProvider,
         FrontendSettingsProvider frontendSettingsProvider)
         : base(window, graphicsDeviceProvider)
     {
+        this.fileSystem = fileSystem;
         this.graphicsDeviceProvider = graphicsDeviceProvider;
         //this.textureResourcesProvider = textureResourcesProvider;
         this.frontendSettingsProvider = frontendSettingsProvider;
@@ -52,7 +57,7 @@ public class TextureShader : Shader, ILoad, IShader
 
         //SurfaceTextureView = textureResourcesProvider.TextureView;
 
-        var shadersPath = Path.Combine(Environment.CurrentDirectory, @"Content/shader");
+        var shadersPath = fileSystem.ShaderDirectory;
         var vertexShaderBytes = File.ReadAllBytes(Path.Combine(shadersPath, "WorldTexture.vert.spv"));
         var fragmentShaderBytes = File.ReadAllBytes(Path.Combine(shadersPath, "WorldTexture.frag.spv"));
 

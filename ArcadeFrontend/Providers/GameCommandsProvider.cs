@@ -1,4 +1,5 @@
-﻿using ArcadeFrontend.Sqlite;
+﻿using ArcadeFrontend.Enums;
+using ArcadeFrontend.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -35,7 +36,7 @@ public class GameCommandsProvider
         this.dbContextFactory = dbContextFactory;
     }
 
-    private void SetGameIndex(int gameIndex)
+    public void SetGameIndex(int gameIndex)
     {
         var state = frontendStateProvider.State;
 
@@ -62,6 +63,20 @@ public class GameCommandsProvider
         var newIndex = (state.CurrentGameIndex + 1) % gamesFileProvider.Data.Games.Count;
 
         SetGameIndex(newIndex);
+    }
+
+    public void ToggleView()
+    {
+        var state = frontendStateProvider.State;
+
+        if (state.CurrentView == ViewType.Big)
+        {
+            state.CurrentView = ViewType.List;
+        }
+        else if (state.CurrentView == ViewType.List)
+        {
+            state.CurrentView = ViewType.Big;
+        }
     }
 
     public void LaunchGame()

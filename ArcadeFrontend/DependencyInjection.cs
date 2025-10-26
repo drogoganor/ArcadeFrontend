@@ -44,13 +44,16 @@ public static class DependencyInjection
             services.AddSingleton<WorldRenderer>();
             services.AddSingleton<OptionsDialog>();
             services.AddSingleton<GamesFileProvider>();
-            services.AddSingleton<GamePickerComponent>();
+            services.AddSingleton<BigViewComponent>();
             services.AddSingleton<FrontendStateProvider>();
             services.AddSingleton<InputProvider>();
             services.AddSingleton<BackgroundImagesProvider>();
             services.AddSingleton<GameCommandsProvider>();
             services.AddSingleton<GameScreenshotImagesProvider>();
             services.AddSingleton<ControllerImagesProvider>();
+            services.AddSingleton<ListViewComponent>();
+            services.AddSingleton<GamePanelComponent>();
+            services.AddSingleton<KeyboardImagesProvider>();
 
             services.AddLogger();
             services.AddMameDb();

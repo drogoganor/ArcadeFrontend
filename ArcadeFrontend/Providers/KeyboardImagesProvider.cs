@@ -8,14 +8,14 @@ namespace ArcadeFrontend.Providers;
 /// <summary>
 /// For registering images to render using ImGui
 /// </summary>
-public class ControllerImagesProvider
+public class KeyboardImagesProvider
 {
     private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
     private readonly ImGuiProvider imGuiProvider;
 
     public Dictionary<string, ImGuiImageInfo> ImGuiImages { get; private set; } = new();
 
-    public ControllerImagesProvider(
+    public KeyboardImagesProvider(
         IGraphicsDeviceProvider graphicsDeviceProvider,
         ImGuiProvider imGuiProvider)
     {
@@ -33,7 +33,7 @@ public class ControllerImagesProvider
     {
         var gd = graphicsDeviceProvider.GraphicsDevice;
 
-        var imagesDirectory = Path.Combine(Environment.CurrentDirectory, "Content", "images", "controller");
+        var imagesDirectory = Path.Combine(Environment.CurrentDirectory, "Content", "images", "keyboard");
 
         if (!Directory.Exists(imagesDirectory))
             return;
