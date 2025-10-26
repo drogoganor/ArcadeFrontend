@@ -141,7 +141,7 @@ public class ArcadeUI : Menu
             {
                 ImGui.SetCursorPos(Vector2.Zero);
 
-                if (backgroundImageAvailable)
+                if (settings.UseBackgroundImage && backgroundImageAvailable)
                     ImGui.Image(backgroundImage.IntPtr, windowSize);
 
                 ImGui.End();

@@ -1,11 +1,6 @@
 {
     "Games": [
         {
-            "Arguments": "10yard",
-            "Name": "10-Yard Fight",
-            "System": "Mame"
-        },
-        {
             "Arguments": "19xx",
             "Name": "19XX: The War Against Destiny",
             "System": "Mame"
@@ -168,16 +163,6 @@
         {
             "Arguments": "parodius",
             "Name": "Parodius Da!: Shinwa kara Owarai e",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "pstone",
-            "Name": "Power Stone",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "pstone2",
-            "Name": "Power Stone 2",
             "System": "Mame"
         },
         {

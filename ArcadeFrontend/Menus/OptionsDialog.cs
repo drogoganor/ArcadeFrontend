@@ -23,6 +23,7 @@ public class OptionsDialog : IRenderable
 
     private Vector4 backgroundColor;
     private string backgroundImage;
+    private bool useBackgroundImage;
 
     public OptionsDialog(
         IApplicationWindow window,
@@ -42,6 +43,7 @@ public class OptionsDialog : IRenderable
     {
         backgroundColor = Options.BackgroundColor;
         backgroundImage = Options.BackgroundImage;
+        useBackgroundImage = Options.UseBackgroundImage;
 
         isVisible = true;
     }
@@ -52,6 +54,7 @@ public class OptionsDialog : IRenderable
         {
             Options.BackgroundColor = backgroundColor;
             Options.BackgroundImage = backgroundImage;
+            Options.UseBackgroundImage = useBackgroundImage;
 
             frontendSettingsProvider.SaveSettings();
         }
@@ -93,6 +96,8 @@ public class OptionsDialog : IRenderable
                 ImGui.ColorEdit4("Background Color", ref backgroundColor, ImGuiColorEditFlags.AlphaBar);
 
                 ImGui.InputText("Background Image", ref backgroundImage, 256);
+
+                ImGui.Checkbox("Use Background Image", ref useBackgroundImage);
 
                 imGuiFontProvider.PopFont();
                 imGuiFontProvider.PushFont(FontSize.Medium);

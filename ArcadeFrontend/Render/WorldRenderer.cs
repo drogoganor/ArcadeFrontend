@@ -46,7 +46,7 @@ public class WorldRenderer : IRenderable
         cl.UpdateBuffer(shader.WorldBuffer, 0, Matrix4x4.Identity);
         cl.SetFramebuffer(graphicsDeviceProvider.Framebuffer);
 
-        if (!state.BackgroundImageAvailable)
+        if (!settings.UseBackgroundImage || !state.BackgroundImageAvailable)
             cl.ClearColorTarget(0, new RgbaFloat(settings.BackgroundColor));
         else
             cl.ClearColorTarget(0, RgbaFloat.Black); // Background color bleeds into the background image at the edges slightly so use black

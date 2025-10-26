@@ -16,6 +16,8 @@ namespace ArcadeFrontend.Data.Files
         [JsonConverter(typeof(JsonConverterVector4))]
         public Vector4 BackgroundColor { get; set; } = new Vector4(0.13141087f, 0.2670157f, 0.21376769f, 1);
 
+        public bool UseBackgroundImage { get; set; } = false;
+
         public string BackgroundImage { get; set; } = "default.png";
 
         public SettingsFile Clone()
