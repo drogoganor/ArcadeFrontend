@@ -36,33 +36,82 @@ public class GameCommandsProvider
         this.dbContextFactory = dbContextFactory;
     }
 
-    public void SetGameIndex(int gameIndex)
+    public void SetSystem(string system)
     {
         var state = frontendStateProvider.State;
 
-        state.CurrentGameIndex = gameIndex;
+        state.CurrentSystem = system;
+
+        var currentGame = gamesFileProvider.Data.Games.First(x => x.System == state.CurrentSystem);
+
+        SetGame(currentGame.Name);
+    }
+
+    public void SetGame(string game)
+    {
+        var state = frontendStateProvider.State;
+
+        state.CurrentGame = game;
 
         gameScreenshotImagesProvider.UpdateGame();
+    }
+
+    public void PreviousSystem()
+    {
+        var state = frontendStateProvider.State;
+
+        var currentSystem = gamesFileProvider.Data.Systems[state.CurrentSystem];
+        var systemIndex = gamesFileProvider.Data.Systems.Values.ToList().IndexOf(currentSystem);
+
+        var newIndex = systemIndex - 1;
+        if (newIndex < 0)
+            newIndex += gamesFileProvider.Data.Systems.Count;
+
+        var newSystem = gamesFileProvider.Data.Systems.Keys.ToList()[newIndex];
+
+        SetSystem(newSystem);
+    }
+
+    public void NextSystem()
+    {
+        var state = frontendStateProvider.State;
+        var currentSystem = gamesFileProvider.Data.Systems[state.CurrentSystem];
+        var systemIndex = gamesFileProvider.Data.Systems.Values.ToList().IndexOf(currentSystem);
+
+        var newIndex = (systemIndex + 1) % gamesFileProvider.Data.Systems.Count;
+
+        var newSystem = gamesFileProvider.Data.Systems.Keys.ToList()[newIndex];
+
+        SetSystem(newSystem);
     }
 
     public void PreviousGame()
     {
         var state = frontendStateProvider.State;
 
-        var newIndex = state.CurrentGameIndex - 1;
+        var currentGame = gamesFileProvider.Data.Games.First(x => x.Name == state.CurrentGame);
+        var gameIndex = gamesFileProvider.Data.Games.IndexOf(currentGame);
+
+        var newIndex = gameIndex - 1;
         if (newIndex < 0)
             newIndex += gamesFileProvider.Data.Games.Count;
 
-        SetGameIndex(newIndex);
+        var newGame = gamesFileProvider.Data.Games[newIndex];
+
+        SetGame(newGame.Name);
     }
 
     public void NextGame()
     {
         var state = frontendStateProvider.State;
+        var currentGame = gamesFileProvider.Data.Games.First(x => x.Name == state.CurrentGame);
+        var gameIndex = gamesFileProvider.Data.Games.IndexOf(currentGame);
 
-        var newIndex = (state.CurrentGameIndex + 1) % gamesFileProvider.Data.Games.Count;
+        var newIndex = (gameIndex + 1) % gamesFileProvider.Data.Games.Count;
 
-        SetGameIndex(newIndex);
+        var newGame = gamesFileProvider.Data.Games[newIndex];
+
+        SetGame(newGame.Name);
     }
 
     public void ToggleView()
@@ -79,10 +128,24 @@ public class GameCommandsProvider
         }
     }
 
+    public void ShowGames()
+    {
+        var state = frontendStateProvider.State;
+
+        state.CurrentView = ViewType.List;
+    }
+
+    public void ShowSystems()
+    {
+        var state = frontendStateProvider.State;
+
+        state.CurrentView = ViewType.System;
+    }
+
     public void LaunchGame()
     {
         var state = frontendStateProvider.State;
-        var currentGame = gamesFileProvider.Data.Games[state.CurrentGameIndex];
+        var currentGame = gamesFileProvider.Data.Games.First(x => x.Name == state.CurrentGame);
 
         var currentSystem = gamesFileProvider.Data.Systems[currentGame.System];
 

@@ -1,5 +1,4 @@
 ﻿using ArcadeFrontend.Data.Files;
-using ArcadeFrontend.Enums;
 using ArcadeFrontend.Sqlite;
 using ArcadeFrontend.Sqlite.Entities;
 using ArcadeFrontend.Utility.Options;
@@ -147,7 +146,7 @@ public class BuildMameSqliteDatabase
             {
                 Name = filename,
                 Arguments = filename,
-                System = SystemType.Mame
+                System = "Mame"
             };
 
             var mameRom = mameDbContext.MameRom.FirstOrDefault(x => x.Name == filename);

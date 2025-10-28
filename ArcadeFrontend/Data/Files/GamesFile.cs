@@ -1,30 +1,23 @@
-﻿using ArcadeFrontend.Data.Json;
-using ArcadeFrontend.Enums;
-using System.Text.Json.Serialization;
+﻿namespace ArcadeFrontend.Data.Files;
 
-namespace ArcadeFrontend.Data.Files
+public class GamesFile
 {
-    public class GamesFile
-    {
-        [JsonConverter(typeof(JsonConverterEnumDictionary<SystemType, SystemData>))]
-        public Dictionary<SystemType, SystemData> Systems { get; set; } = new();
-        public List<GameData> Games { get; set; } = new();
-    }
+    public Dictionary<string, SystemData> Systems { get; set; } = [];
+    public List<GameData> Games { get; set; } = [];
+}
 
-    public class GameData
-    {
-        public string Name { get; set; }
+public class GameData
+{
+    public string Name { get; set; }
 
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public SystemType System { get; set; }
-        public string Arguments { get; set; }
-    }
+    public string System { get; set; }
+    public string Arguments { get; set; }
+}
 
-    public class SystemData
-    {
-        public string Name { get; set; }
-        public string Directory { get; set; }
-        public string Executable { get; set; }
-        public string Arguments { get; set; }
-    }
+public class SystemData
+{
+    public string Name { get; set; }
+    public string Directory { get; set; }
+    public string Executable { get; set; }
+    public string Arguments { get; set; }
 }

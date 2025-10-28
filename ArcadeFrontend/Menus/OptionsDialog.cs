@@ -1,9 +1,10 @@
-﻿using ImGuiNET;
-using System.Numerics;
+﻿using ArcadeFrontend.Data.Files;
+using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
-using ArcadeFrontend.Data.Files;
-using ArcadeFrontend.Enums;
+using ImGuiNET;
+using System.Diagnostics;
+using System.Numerics;
 
 namespace ArcadeFrontend.Menus;
 
@@ -99,6 +100,11 @@ public class OptionsDialog : IRenderable
 
                 ImGui.Checkbox("Use Background Image", ref useBackgroundImage);
 
+                if (ImGui.Button("Open data directory in Explorer..."))
+                {
+                    OpenInExplorer(fileSystem.AppDataDirectory);
+                }
+
                 imGuiFontProvider.PopFont();
                 imGuiFontProvider.PushFont(FontSize.Medium);
 
@@ -139,5 +145,11 @@ public class OptionsDialog : IRenderable
 
             ImGui.End();
         }
+    }
+
+    static void OpenInExplorer(string path)
+    {
+        var cmd = "explorer.exe";
+        Process.Start(cmd, path);
     }
 }

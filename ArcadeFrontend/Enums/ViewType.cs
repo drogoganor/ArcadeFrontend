@@ -3,5 +3,6 @@
 public enum ViewType
 {
     List,
-    Big
+    Big,
+    System
 }

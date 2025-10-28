@@ -1,90 +1,87 @@
 ﻿using ArcadeFrontend.Interfaces;
-using System;
-using System.IO;
 using System.Text;
 using System.Text.Json;
 
-namespace ArcadeFrontend.Providers
+namespace ArcadeFrontend.Providers;
+
+public abstract class SettingsProvider<TSettings> : ISettingsProvider<TSettings> where TSettings : new()
 {
-    public abstract class SettingsProvider<TSettings> : ISettingsProvider<TSettings> where TSettings : new()
+    protected abstract string Filename { get; }
+
+    private readonly IFileSystem fileSystem;
+    private readonly string preferredSaveDirectory;
+
+    private TSettings settings;
+    public TSettings Settings => settings;
+
+    public SettingsProvider(
+        IFileSystem fileSystem)
     {
-        protected abstract string Filename { get; }
+        this.fileSystem = fileSystem;
+        preferredSaveDirectory = Path.Combine(fileSystem.SettingsDirectory, Filename);
 
-        private readonly IFileSystem fileSystem;
-        private readonly string preferredSaveDirectory;
-
-        private TSettings settings;
-        public TSettings Settings => settings;
-
-        public SettingsProvider(
-            IFileSystem fileSystem)
+        var paths = new[]
         {
-            this.fileSystem = fileSystem;
-            preferredSaveDirectory = Path.Combine(fileSystem.SettingsDirectory, Filename);
+            preferredSaveDirectory,
+            Path.Combine(Environment.CurrentDirectory, $@"Content/{Filename}")
+        };
 
-            var paths = new[]
+        foreach (var path in paths)
+        {
+            if (File.Exists(path))
             {
-                preferredSaveDirectory,
-                Path.Combine(Environment.CurrentDirectory, $@"Content/{Filename}")
-            };
-
-            foreach (var path in paths)
-            {
-                if (File.Exists(path))
+                try
                 {
-                    try
-                    {
-                        using var fs = File.OpenRead(path);
-                        using var sr = new StreamReader(fs, Encoding.UTF8);
-                        string content = sr.ReadToEnd();
-                        settings = JsonSerializer.Deserialize<TSettings>(content);
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-
-                    break;
+                    using var fs = File.OpenRead(path);
+                    using var sr = new StreamReader(fs, Encoding.UTF8);
+                    string content = sr.ReadToEnd();
+                    settings = JsonSerializer.Deserialize<TSettings>(content);
                 }
-                else
+                catch (Exception)
                 {
-                    Console.WriteLine($"Couldn't find settings file {Filename} at: {path}");
+                    throw;
                 }
+
+                break;
             }
-
-            settings ??= CreateNewSettings();
-            settings ??= new TSettings();
+            else
+            {
+                Console.WriteLine($"Couldn't find settings file {Filename} at: {path}");
+            }
         }
 
-        protected abstract TSettings CreateNewSettings();
+        settings ??= CreateNewSettings();
+        settings ??= new TSettings();
+    }
 
-        public virtual void SaveSettings(TSettings settings)
+    protected abstract TSettings CreateNewSettings();
+
+    public virtual void SaveSettings(TSettings settings)
+    {
+        this.settings = settings;
+        SaveSettings();
+    }
+
+    public void SaveSettings()
+    {
+        try
         {
-            this.settings = settings;
-            SaveSettings();
+            fileSystem.CreateAppDataDirectory();
+
+            if (File.Exists(preferredSaveDirectory))
+            {
+                File.Delete(preferredSaveDirectory);
+            }
+
+            using var fs = File.OpenWrite(preferredSaveDirectory);
+            using var sw = new StreamWriter(fs, Encoding.UTF8);
+            var content = JsonSerializer.Serialize(settings);
+            sw.WriteLine(content);
+            sw.Close();
         }
-
-        public void SaveSettings()
+        catch (Exception)
         {
-            try
-            {
-                fileSystem.CreateAppDataDirectory();
-
-                if (File.Exists(preferredSaveDirectory))
-                {
-                    File.Delete(preferredSaveDirectory);
-                }
-
-                using var fs = File.OpenWrite(preferredSaveDirectory);
-                using var sw = new StreamWriter(fs, Encoding.UTF8);
-                var content = JsonSerializer.Serialize(settings);
-                sw.WriteLine(content);
-                sw.Close();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            throw;
         }
     }
 }

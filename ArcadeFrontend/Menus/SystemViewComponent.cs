@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace ArcadeFrontend.Menus;
 
-public class ListViewComponent : IRenderable
+public class SystemViewComponent : IRenderable
 {
     private readonly IApplicationWindow window;
     private readonly GamesFileProvider gamesFileProvider;
@@ -15,7 +15,7 @@ public class ListViewComponent : IRenderable
     private readonly GameCommandsProvider gameCommandsProvider;
     private readonly GamePanelComponent gamePanelComponent;
 
-    public ListViewComponent(
+    public SystemViewComponent(
         IApplicationWindow window,
         GamesFileProvider gamesFileProvider,
         ImGuiFontProvider imGuiFontProvider,
@@ -36,10 +36,10 @@ public class ListViewComponent : IRenderable
         var windowSize = new Vector2(window.Width, window.Height);
 
         var state = frontendStateProvider.State;
-        var currentGame = gamesFileProvider.Data.Games.First(x => x.Name == state.CurrentGame);
-        var games = gamesFileProvider.Data.Games.Where(x => x.System == state.CurrentSystem);
 
-        imGuiFontProvider.PushFont(FontSize.Medium);
+        var systems = gamesFileProvider.Data.Systems;
+
+        imGuiFontProvider.PushFont(FontSize.Large);
 
         var menuHeight = 14;
         var borderSpaceWidthX = 12;
@@ -52,7 +52,7 @@ public class ListViewComponent : IRenderable
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
         ImGui.SetNextWindowPos(Vector2.Zero);
         ImGui.SetNextWindowSize(windowSize);
-        if (ImGui.Begin("Background",
+        if (ImGui.Begin("System Background",
             ImGuiWindowFlags.NoTitleBar |
             ImGuiWindowFlags.NoDecoration |
             ImGuiWindowFlags.NoCollapse |
@@ -66,11 +66,13 @@ public class ListViewComponent : IRenderable
             ImGui.SetCursorPos(listPosition);
             if (ImGui.BeginListBox("", listSize))
             {
-                foreach (var listItem in games)
+                foreach (var kvp in systems)
                 {
-                    if (ImGui.Selectable(listItem.Name, listItem.Name == state.CurrentGame))
+                    var listItem = kvp.Value;
+                    var key = kvp.Key;
+                    if (ImGui.Selectable(listItem.Name, key == state.CurrentSystem))
                     {
-                        gameCommandsProvider.SetGame(listItem.Name);
+                        gameCommandsProvider.SetSystem(key);
                     }
                 }
 
@@ -78,12 +80,12 @@ public class ListViewComponent : IRenderable
             }
 
             // Screenshot
-            var dialogSize = new Vector2(800, 620);
-            var screenshotSize = new Vector2(640, 480);
-            var listRight = listWidth + (2 * borderSpaceWidthX);
-            var dialogPosition = new Vector2(listRight + ((windowSize.X - listRight - dialogSize.X) / 2f), (windowSize.Y - dialogSize.Y) / 2f);
+            //var dialogSize = new Vector2(800, 620);
+            //var screenshotSize = new Vector2(640, 480);
+            //var listRight = listWidth + (2 * borderSpaceWidthX);
+            //var dialogPosition = new Vector2(listRight + ((windowSize.X - listRight - dialogSize.X) / 2f), (windowSize.Y - dialogSize.Y) / 2f);
 
-            gamePanelComponent.Draw(dialogPosition, dialogSize);
+            //gamePanelComponent.Draw(dialogPosition, dialogSize);
             ImGui.End();
         }
 

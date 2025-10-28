@@ -1,5 +1,4 @@
 ﻿using ArcadeFrontend.Data;
-using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
 using System.Numerics;
 using Veldrid.ImageSharp;
@@ -44,12 +43,12 @@ public class GameScreenshotImagesProvider
         var gd = graphicsDeviceProvider.GraphicsDevice;
 
         var state = frontendStateProvider.State;
-        var currentGame = gamesFileProvider.Data.Games[state.CurrentGameIndex];
+        var currentGame = gamesFileProvider.Data.Games.First(x => x.Name == state.CurrentGame);
 
         var currentSystem = gamesFileProvider.Data.Systems[currentGame.System];
 
         // Only mame for now
-        if (currentGame.System != SystemType.Mame)
+        if (currentGame.System != "Mame")
             return;
 
         var snapDirectory = Path.Combine(currentSystem.Directory, "snap", currentGame.Arguments);

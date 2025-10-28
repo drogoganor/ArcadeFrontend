@@ -17,6 +17,8 @@ public class LoadProvider : ILoadProvider
     private readonly InputProvider inputProvider;
     private readonly ControllerImagesProvider controllerImagesProvider;
     private readonly KeyboardImagesProvider keyboardImagesProvider;
+    private readonly FrontendStateProvider frontendStateProvider;
+    private readonly GamesFileProvider gamesFileProvider;
 
     public LoadProvider(
         IApplicationWindow window,
@@ -30,7 +32,9 @@ public class LoadProvider : ILoadProvider
         GameScreenshotImagesProvider gameScreenshotImagesProvider,
         InputProvider inputProvider,
         ControllerImagesProvider controllerImagesProvider,
-        KeyboardImagesProvider keyboardImagesProvider)
+        KeyboardImagesProvider keyboardImagesProvider,
+        FrontendStateProvider frontendStateProvider,
+        GamesFileProvider gamesFileProvider)
     {
         this.window = window;
         this.sdl2WindowProvider = sdl2WindowProvider;
@@ -44,6 +48,8 @@ public class LoadProvider : ILoadProvider
         this.inputProvider = inputProvider;
         this.controllerImagesProvider = controllerImagesProvider;
         this.keyboardImagesProvider = keyboardImagesProvider;
+        this.frontendStateProvider = frontendStateProvider;
+        this.gamesFileProvider = gamesFileProvider;
     }
 
     public void Load()
@@ -54,6 +60,11 @@ public class LoadProvider : ILoadProvider
         inputProvider.Load();
         imGuiProvider.Load();
         fileLoadProvider.Load();
+
+        // HACK: HACK HACK HACK
+        // Set the first system and game
+        frontendStateProvider.State.CurrentSystem = gamesFileProvider.Data.Systems.Keys.FirstOrDefault() ?? "Mame";
+        frontendStateProvider.State.CurrentGame = gamesFileProvider.Data.Games.FirstOrDefault(x => x.System == frontendStateProvider.State.CurrentSystem)?.Name;
 
         colorShader.Load();
         //textureShader.Load();

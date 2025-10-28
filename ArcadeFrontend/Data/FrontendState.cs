@@ -5,7 +5,8 @@ namespace ArcadeFrontend.Data;
 
 public class FrontendState
 {
-    public int CurrentGameIndex { get; set; }
+    public string CurrentSystem { get; set; } = "Mame";
+    public string CurrentGame { get; set; } = "19XX: The War Against Destiny";
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public ViewType CurrentView { get; set; }

@@ -42,7 +42,7 @@ public class GamePanelComponent
     public void Draw(Vector2 position, Vector2 size)
     {
         var state = frontendStateProvider.State;
-        var currentGame = gamesFileProvider.Data.Games[state.CurrentGameIndex];
+        var currentGame = gamesFileProvider.Data.Games.First(x => x.Name == state.CurrentGame);
         var currentSystem = gamesFileProvider.Data.Systems[currentGame.System];
 
         imGuiFontProvider.PushFont(FontSize.Medium);
