@@ -134,13 +134,11 @@ public class FooterComponent : IRenderable
 
     private void DrawSelectSystemText()
     {
-        var buttonSize = 32;
-
         ImGui.TableNextColumn();
 
         if (controllerImagesProvider.ImGuiImages.TryGetValue("s", out var buttonImage))
         {
-            ImGui.Image(buttonImage.IntPtr, new Vector2(buttonSize));
+            ImGui.Image(buttonImage.IntPtr, new Vector2(UIConstants.ButtonIconSize));
         }
 
         ImGui.TableNextColumn();
@@ -151,7 +149,7 @@ public class FooterComponent : IRenderable
 
         if (keyboardImagesProvider.ImGuiImages.TryGetValue("enter", out var keyImage))
         {
-            ImGui.Image(keyImage.IntPtr, new Vector2(buttonSize));
+            ImGui.Image(keyImage.IntPtr, new Vector2(UIConstants.ButtonIconSize));
         }
 
         ImGui.TableNextColumn();
@@ -161,13 +159,11 @@ public class FooterComponent : IRenderable
 
     private void DrawLaunchGameText()
     {
-        var buttonSize = 32;
-
         ImGui.TableNextColumn();
 
         if (controllerImagesProvider.ImGuiImages.TryGetValue("s", out var buttonImage))
         {
-            ImGui.Image(buttonImage.IntPtr, new Vector2(buttonSize));
+            ImGui.Image(buttonImage.IntPtr, new Vector2(UIConstants.ButtonIconSize));
         }
 
         ImGui.TableNextColumn();
@@ -178,7 +174,7 @@ public class FooterComponent : IRenderable
 
         if (keyboardImagesProvider.ImGuiImages.TryGetValue("enter", out var keyImage))
         {
-            ImGui.Image(keyImage.IntPtr, new Vector2(buttonSize));
+            ImGui.Image(keyImage.IntPtr, new Vector2(UIConstants.ButtonIconSize));
         }
 
         ImGui.TableNextColumn();

@@ -161,8 +161,6 @@ public class HeaderComponent : IRenderable
 
     private void DrawChangeSystemText()
     {
-        var buttonSize = 32;
-
         ImGui.TableNextColumn();
         ImGui.TableNextColumn();
         ImGui.Text("Press");
@@ -170,7 +168,7 @@ public class HeaderComponent : IRenderable
 
         if (controllerImagesProvider.ImGuiImages.TryGetValue("w", out var buttonImage))
         {
-            ImGui.Image(buttonImage.IntPtr, new Vector2(buttonSize));
+            ImGui.Image(buttonImage.IntPtr, new Vector2(UIConstants.ButtonIconSize));
         }
 
         ImGui.TableNextColumn();
@@ -181,7 +179,7 @@ public class HeaderComponent : IRenderable
 
         if (keyboardImagesProvider.ImGuiImages.TryGetValue("z", out var keyImage))
         {
-            ImGui.Image(keyImage.IntPtr, new Vector2(buttonSize));
+            ImGui.Image(keyImage.IntPtr, new Vector2(UIConstants.ButtonIconSize));
         }
 
         ImGui.TableNextColumn();
@@ -191,8 +189,6 @@ public class HeaderComponent : IRenderable
 
     private void DrawChangeViewText()
     {
-        var buttonSize = 32;
-
         ImGui.TableNextColumn();
         ImGui.TableNextColumn();
         ImGui.Text("Press");
@@ -200,7 +196,7 @@ public class HeaderComponent : IRenderable
 
         if (controllerImagesProvider.ImGuiImages.TryGetValue("n", out var buttonImage))
         {
-            ImGui.Image(buttonImage.IntPtr, new Vector2(buttonSize));
+            ImGui.Image(buttonImage.IntPtr, new Vector2(UIConstants.ButtonIconSize));
         }
 
         ImGui.TableNextColumn();
@@ -211,7 +207,7 @@ public class HeaderComponent : IRenderable
 
         if (keyboardImagesProvider.ImGuiImages.TryGetValue("x", out var keyImage))
         {
-            ImGui.Image(keyImage.IntPtr, new Vector2(buttonSize));
+            ImGui.Image(keyImage.IntPtr, new Vector2(UIConstants.ButtonIconSize));
         }
 
         ImGui.TableNextColumn();
