@@ -40,7 +40,7 @@ public class SystemViewComponent : IRenderable
 
         var systems = gamesFileProvider.Data.Systems;
 
-        imGuiFontProvider.PushFont(FontSize.Large);
+        imGuiFontProvider.PushFont(FontSize.ExtraLarge);
 
         var headerHeight = UIConstants.BannerHeight + (2 * UIConstants.Margin);
 

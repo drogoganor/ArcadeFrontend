@@ -19,7 +19,12 @@
     {
       "SizeEnum": "ExtraLarge",
       "FontName": "ARIAL.TTF",
-      "FontSize": 36
+      "FontSize": 44
+    },
+    {
+      "SizeEnum": "Huge",
+      "FontName": "ARIAL.TTF",
+      "FontSize": 58
     }
   ],
   "GamesFile": "games.json",

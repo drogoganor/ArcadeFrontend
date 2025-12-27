@@ -42,12 +42,12 @@ public class ListViewComponent : IRenderable
 
         var headerHeight = UIConstants.BannerHeight + (2 * UIConstants.Margin);
 
-        var listPosition = new Vector2(UIConstants.Margin, UIConstants.MenuHeight + headerHeight);
+        var listPosition = new Vector2(0, UIConstants.MenuHeight + headerHeight);
         var listSize = new Vector2(UIConstants.ListWidth, windowSize.Y - (UIConstants.MenuHeight + (2 * headerHeight)));
 
-        var panelWidth = windowSize.X - (UIConstants.ListWidth + (3 * UIConstants.Margin));
+        var panelWidth = windowSize.X - UIConstants.ListWidth;
         var size = new Vector2(panelWidth, listSize.Y);
-        var position = new Vector2(UIConstants.ListWidth + (2 * UIConstants.Margin), listPosition.Y);
+        var position = new Vector2(UIConstants.ListWidth, listPosition.Y);
 
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
         ImGui.SetNextWindowPos(Vector2.Zero);
@@ -83,7 +83,7 @@ public class ListViewComponent : IRenderable
 
             // Screenshot
             //var dialogSize = new Vector2(800, listSize.Y);
-            var screenshotSize = new Vector2(640, 480);
+            //var screenshotSize = new Vector2(640, 480);
             //var listRight = UIConstants.ListWidth + (2 * UIConstants.Margin);
             //var dialogPosition = new Vector2(
             //    listRight + ((windowSize.X - listRight - dialogSize.X) / 2f),

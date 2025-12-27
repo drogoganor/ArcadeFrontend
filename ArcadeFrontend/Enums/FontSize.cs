@@ -6,4 +6,5 @@ public enum FontSize
     Medium,
     Large,
     ExtraLarge,
+    Huge,
 }

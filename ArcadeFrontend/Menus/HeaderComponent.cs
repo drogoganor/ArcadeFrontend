@@ -143,7 +143,10 @@ public class HeaderComponent : IRenderable
             }
 
             ImGui.TableNextColumn();
+
+            imGuiFontProvider.PushFont(FontSize.ExtraLarge);
             ImGui.Text(label);
+            imGuiFontProvider.PopFont();
 
             if (showChangeSystem)
             {
