@@ -1,4 +1,5 @@
-﻿using ArcadeFrontend.Enums;
+﻿using ArcadeFrontend.Data;
+using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
 using ImGuiNET;
@@ -41,13 +42,14 @@ public class SystemViewComponent : IRenderable
 
         imGuiFontProvider.PushFont(FontSize.Large);
 
-        var menuHeight = 14;
-        var borderSpaceWidthX = 12;
-        var borderSpaceWidthY = 24;
-        var listWidth = 340;
+        var headerHeight = UIConstants.BannerHeight + (2 * UIConstants.Margin);
 
-        var listSize = new Vector2(listWidth, windowSize.Y - ((2 * borderSpaceWidthY) + menuHeight));
-        var listPosition = new Vector2(borderSpaceWidthX, borderSpaceWidthY + menuHeight);
+        var listPosition = new Vector2(UIConstants.Margin, UIConstants.MenuHeight + headerHeight);
+        var listSize = new Vector2(UIConstants.ListWidth, windowSize.Y - (UIConstants.MenuHeight + (2 * headerHeight)));
+
+        var panelWidth = windowSize.X - (UIConstants.ListWidth + (3 * UIConstants.Margin));
+        var size = new Vector2(panelWidth, listSize.Y);
+        var position = new Vector2(UIConstants.ListWidth + (2 * UIConstants.Margin), listPosition.Y);
 
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
         ImGui.SetNextWindowPos(Vector2.Zero);

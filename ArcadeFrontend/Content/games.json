@@ -1,311 +1,344 @@
 {
-    "Games": [
-        {
-            "Arguments": "19xx",
-            "Name": "19XX: The War Against Destiny",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "avsp",
-            "Name": "Alien vs. Predator",
-            "System": "Mame"
-        },
-        {
-          "Arguments": "batcir",
-          "Name": "Battle Circuit",
-          "System": "Mame"
-        },
-        {
-            "Arguments": "dino",
-            "Name": "Cadillacs and Dinosaurs",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "cameltry",
-            "Name": "Cameltry",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "captaven",
-            "Name": "Captain America and The Avengers",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "ddragon2",
-            "Name": "Double Dragon II: The Revenge",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "ddsom",
-            "Name": "Dungeons & Dragons: Shadow over Mystara",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "ddtod",
-            "Name": "Dungeons & Dragons: Tower of Doom",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "exvania",
-            "Name": "Exvania",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "ffight",
-            "Name": "Final Fight",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "ffightae",
-            "Name": "Final Fight 30th Anniversary Edition",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "ga2",
-            "Name": "Golden Axe: The Revenge of Death Adder",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "ghouls",
-            "Name": "Ghouls'n Ghosts",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "goldnaxe",
-            "Name": "Golden Axe",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "knights",
-            "Name": "Knights of the Round",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "kod",
-            "Name": "The King of Dragons",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "kov",
-            "Name": "Knights of Valour / Sanguo Zhan Ji / Sangoku Senki",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "kov2",
-            "Name": "Knights of Valour 2 / Sanguo Zhan Ji 2 / Sangoku Senki 2",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "machbrkr",
-            "Name": "Mach Breakers",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "mk2",
-            "Name": "Mortal Kombat II",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "mshvsf",
-            "Name": "Marvel Super Heroes Vs. Street Fighter",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "mslug",
-            "Name": "Metal Slug - Super Vehicle-001",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "mslug2",
-            "Name": "Metal Slug 2 - Super Vehicle-001/II",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "mslug3",
-            "Name": "Metal Slug 3",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "mslug4",
-            "Name": "Metal Slug 4",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "mslug5",
-            "Name": "Metal Slug 5",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "mslugx",
-            "Name": "Metal Slug X - Super Vehicle-001",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "mvsc",
-            "Name": "Marvel Vs. Capcom: Clash of Super Heroes",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "mystwarr",
-            "Name": "Mystic Warriors",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "numanath",
-            "Name": "Numan Athletics",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "nwarr",
-            "Name": "Night Warriors: Darkstalkers' Revenge",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "parodius",
-            "Name": "Parodius Da!: Shinwa kara Owarai e",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "raiden",
-            "Name": "Raiden",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "raiden2",
-            "Name": "Raiden II",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "raidendx",
-            "Name": "Raiden DX",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "rampage",
-            "Name": "Rampage",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "rmpgwt",
-            "Name": "Rampage: World Tour",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "samsh5sp",
-            "Name": "Samurai Shodown V Special / Samurai Spirits Zero Special",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "scontra",
-            "Name": "Super Contra",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "sfa3",
-            "Name": "Street Fighter Alpha 3",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "sfiii3",
-            "Name": "Street Fighter III 3rd Strike: Fight for the Future",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "sgemf",
-            "Name": "Super Gem Fighter: Mini Mix",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "simpsons",
-            "Name": "The Simpsons",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "spf2t",
-            "Name": "Super Puzzle Fighter II Turbo",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "ssf2t",
-            "Name": "Super Street Fighter II Turbo",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "ssriders",
-            "Name": "Sunset Riders",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "tetrisp2",
-            "Name": "Tetris Plus 2",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "tgm2",
-            "Name": "Tetris: The Absolute - The Grand Master 2",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "tmnt",
-            "Name": "Teenage Mutant Ninja Turtles",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "tmnt2",
-            "Name": "Teenage Mutant Ninja Turtles: Turtles in Time",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "tnzs",
-            "Name": "The NewZealand Story",
-            "System": "Mame"
-        },
-        {
-          "Arguments": "turbofrc",
-          "Name": "Turbo Force",
-          "System": "Mame"
-        },
-        {
-            "Arguments": "umk3",
-            "Name": "Ultimate Mortal Kombat 3",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "viostorm",
-            "Name": "Violent Storm",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "vsav",
-            "Name": "Vampire Savior: The Lord of Vampire",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "vsav2",
-            "Name": "Vampire Savior 2: The Lord of Vampire",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "xmcota",
-            "Name": "X-Men: Children of the Atom",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "xmen",
-            "Name": "X-Men",
-            "System": "Mame"
-        },
-        {
-            "Arguments": "xmvsf",
-            "Name": "X-Men Vs. Street Fighter",
-            "System": "Mame"
-        }
-    ],
-    "Systems": {
-        "Mame": {
-            "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mame",
-            "Executable": "mame.exe",
-            "Name": "Arcade"
-        }
+  "Games": [
+    {
+      "Arguments": "19xx",
+      "Name": "19XX: The War Against Destiny",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "avsp",
+      "Name": "Alien vs. Predator",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "batcir",
+      "Name": "Battle Circuit",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "dino",
+      "Name": "Cadillacs and Dinosaurs",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "cameltry",
+      "Name": "Cameltry",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "captaven",
+      "Name": "Captain America and The Avengers",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "ddragon2",
+      "Name": "Double Dragon II: The Revenge",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "ddsom",
+      "Name": "Dungeons & Dragons: Shadow over Mystara",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "ddtod",
+      "Name": "Dungeons & Dragons: Tower of Doom",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "exvania",
+      "Name": "Exvania",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "ffight",
+      "Name": "Final Fight",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "ffightae",
+      "Name": "Final Fight 30th Anniversary Edition",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "ga2",
+      "Name": "Golden Axe: The Revenge of Death Adder",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "ghouls",
+      "Name": "Ghouls'n Ghosts",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "goldnaxe",
+      "Name": "Golden Axe",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "knights",
+      "Name": "Knights of the Round",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "kod",
+      "Name": "The King of Dragons",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "kov",
+      "Name": "Knights of Valour / Sanguo Zhan Ji / Sangoku Senki",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "kov2",
+      "Name": "Knights of Valour 2 / Sanguo Zhan Ji 2 / Sangoku Senki 2",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "machbrkr",
+      "Name": "Mach Breakers",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "mk2",
+      "Name": "Mortal Kombat II",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "mshvsf",
+      "Name": "Marvel Super Heroes Vs. Street Fighter",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "mslug",
+      "Name": "Metal Slug - Super Vehicle-001",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "mslug2",
+      "Name": "Metal Slug 2 - Super Vehicle-001/II",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "mslug3",
+      "Name": "Metal Slug 3",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "mslug4",
+      "Name": "Metal Slug 4",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "mslug5",
+      "Name": "Metal Slug 5",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "mslugx",
+      "Name": "Metal Slug X - Super Vehicle-001",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "mvsc",
+      "Name": "Marvel Vs. Capcom: Clash of Super Heroes",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "mystwarr",
+      "Name": "Mystic Warriors",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "numanath",
+      "Name": "Numan Athletics",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "nwarr",
+      "Name": "Night Warriors: Darkstalkers' Revenge",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "parodius",
+      "Name": "Parodius Da!: Shinwa kara Owarai e",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "raiden",
+      "Name": "Raiden",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "raiden2",
+      "Name": "Raiden II",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "raidendx",
+      "Name": "Raiden DX",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "rampage",
+      "Name": "Rampage",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "rmpgwt",
+      "Name": "Rampage: World Tour",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "samsh5sp",
+      "Name": "Samurai Shodown V Special / Samurai Spirits Zero Special",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "scontra",
+      "Name": "Super Contra",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "sfa3",
+      "Name": "Street Fighter Alpha 3",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "sfiii3",
+      "Name": "Street Fighter III 3rd Strike: Fight for the Future",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "sgemf",
+      "Name": "Super Gem Fighter: Mini Mix",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "simpsons",
+      "Name": "The Simpsons",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "spf2t",
+      "Name": "Super Puzzle Fighter II Turbo",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "ssf2t",
+      "Name": "Super Street Fighter II Turbo",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "ssriders",
+      "Name": "Sunset Riders",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "tetrisp2",
+      "Name": "Tetris Plus 2",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "tgm2",
+      "Name": "Tetris: The Absolute - The Grand Master 2",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "tmnt",
+      "Name": "Teenage Mutant Ninja Turtles",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "tmnt2",
+      "Name": "Teenage Mutant Ninja Turtles: Turtles in Time",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "tnzs",
+      "Name": "The NewZealand Story",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "turbofrc",
+      "Name": "Turbo Force",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "umk3",
+      "Name": "Ultimate Mortal Kombat 3",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "viostorm",
+      "Name": "Violent Storm",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "vsav",
+      "Name": "Vampire Savior: The Lord of Vampire",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "vsav2",
+      "Name": "Vampire Savior 2: The Lord of Vampire",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "xmcota",
+      "Name": "X-Men: Children of the Atom",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "xmen",
+      "Name": "X-Men",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "xmvsf",
+      "Name": "X-Men Vs. Street Fighter",
+      "System": "Mame"
+    },
+    {
+      "Arguments": "-- isos\\[PSX] Castlevania.Symphony.Of.The.Night.NTSC.US.bin",
+      "Name": "Castlevania: Symphony of the Night",
+      "System": "PSX"
+    },
+    {
+      "Arguments": "\"roms\\Final Fantasy - Tactics Advance.gba\"",
+      "Name": "Final Fantasy: Tactics Advance",
+      "System": "GBA"
+    },
+    {
+      "Arguments": "\"roms\\Contra.nes\"",
+      "Name": "Contra",
+      "System": "NES"
     }
+  ],
+  "Systems": {
+    "Mame": {
+      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mame",
+      "Executable": "mame.exe",
+      "Name": "Arcade"
+    },
+    "PSX": {
+      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\duckstation-windows-x64-release",
+      "Executable": "duckstation-qt-x64-ReleaseLTCG.exe",
+      "Name": "PSX",
+      "Arguments": "-fullscreen"
+    },
+    "GBA": {
+      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mGBA-0.10.5-win64",
+      "Executable": "mGBA.exe",
+      "Name": "GBA",
+      "Arguments": "--fullscreen"
+    },
+    "NES": {
+      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\Mesen_2.1.1_Windows",
+      "Executable": "Mesen.exe",
+      "Name": "NES",
+      "Arguments": "--fullscreen"
+    }
+  }
 }

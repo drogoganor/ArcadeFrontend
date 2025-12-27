@@ -115,7 +115,7 @@ public static class XInputTracker
 
         state = _buttonsState[XButton.DPadUp];
         state.IsButtonDown = gamepad.Dpad_Up_down;
-        state.IsButtonUp = gamepad.Dpad_Right_up;
+        state.IsButtonUp = gamepad.Dpad_Up_up;
 
         state = _buttonsState[XButton.DPadDown];
         state.IsButtonDown = gamepad.Dpad_Down_down;

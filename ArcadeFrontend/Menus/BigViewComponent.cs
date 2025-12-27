@@ -1,4 +1,5 @@
-﻿using ArcadeFrontend.Enums;
+﻿using ArcadeFrontend.Data;
+using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
 using ImGuiNET;
@@ -40,10 +41,12 @@ public class BigViewComponent : IRenderable
 
         imGuiFontProvider.PushFont(FontSize.Medium);
 
-        var dialogSize = new Vector2(800, 620);
-        var dialogPosition = (windowSize - dialogSize) / 2;
+        var headerHeight = UIConstants.BannerHeight + (2 * UIConstants.Margin);
+
+        var position = new Vector2(UIConstants.LargeBorderWidth, UIConstants.MenuHeight + headerHeight);
+        var size = new Vector2(windowSize.X - (2 * UIConstants.LargeBorderWidth), windowSize.Y - (UIConstants.MenuHeight + (2 * headerHeight)));
+
         var controllerImageSize = new Vector2(96);
-        var borderSpaceWidth = 128;
 
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
         ImGui.SetNextWindowPos(Vector2.Zero);
@@ -61,8 +64,8 @@ public class BigViewComponent : IRenderable
         {
             ImGui.SetCursorPos(Vector2.Zero);
 
-            var leftButtonPosition = new Vector2(borderSpaceWidth - controllerImageSize.X, (windowSize.Y - controllerImageSize.Y) / 2f);
-            var rightButtonPosition = new Vector2(windowSize.X - borderSpaceWidth, (windowSize.Y - controllerImageSize.Y) / 2f);
+            var leftButtonPosition = new Vector2((UIConstants.LargeBorderWidth - controllerImageSize.X) / 2f, position.Y + ((size.Y - controllerImageSize.Y) / 2f));
+            var rightButtonPosition = new Vector2(windowSize.X - ((UIConstants.LargeBorderWidth + controllerImageSize.X) / 2f), position.Y + ((size.Y - controllerImageSize.Y) / 2f));
 
             if (controllerImagesProvider.ImGuiImages.TryGetValue("dpleft", out var leftImage))
             {
@@ -83,6 +86,6 @@ public class BigViewComponent : IRenderable
 
         imGuiFontProvider.PopFont();
 
-        gamePanelComponent.Draw(dialogPosition, dialogSize);
+        gamePanelComponent.Draw(position, size);
     }
 }

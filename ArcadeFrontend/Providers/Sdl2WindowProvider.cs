@@ -1,5 +1,6 @@
 ﻿using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
+using ArcadeFrontend.Platform;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
@@ -36,10 +37,14 @@ public class Sdl2WindowProvider : ILoad
             _ => WindowState.Normal,
         };
 
+        var displayResolution = MonitorResolution.GetDisplayResolution();
+
+        var windowPos = (displayResolution - windowSize) / 2f;
+
         var windowCreateInfo = new WindowCreateInfo
         {
-            X = 100,
-            Y = 100,
+            X = (int)windowPos.X,
+            Y = (int)windowPos.Y,
             WindowInitialState = initialState,
             WindowWidth = (int)windowSize.X,
             WindowHeight = (int)windowSize.Y,

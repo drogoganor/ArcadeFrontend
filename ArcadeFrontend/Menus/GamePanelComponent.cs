@@ -1,4 +1,5 @@
-﻿using ArcadeFrontend.Enums;
+﻿using ArcadeFrontend.Data;
+using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
 using ImGuiNET;
@@ -47,9 +48,11 @@ public class GamePanelComponent
 
         imGuiFontProvider.PushFont(FontSize.Medium);
 
-        var buttonSize = 32;
+        imGuiFontProvider.PushFont(FontSize.ExtraLarge);
+        imGuiFontProvider.PopFont();
 
-        var screenshotSize = new Vector2(640, 480);
+
+        var maxScreenshotWidth = size.X - (2 * UIConstants.Margin);
 
         ImGui.SetNextWindowPos(position);
         ImGui.SetNextWindowSize(size);
@@ -72,83 +75,32 @@ public class GamePanelComponent
             //ImGuiWindowFlags.NoFocusOnAppearing
             ))
         {
-            imGuiFontProvider.PushFont(FontSize.Large);
+            imGuiFontProvider.PushFont(FontSize.ExtraLarge);
             HorizontallyCenteredColoredText(currentGame.Name, size.X, RgbaFloat.Green.ToVector4());
+
+            var titleHeight = ImGui.CalcTextSize(currentGame.Name);
+            var maxScreenshotHeight = size.Y - ((3 * UIConstants.Margin) + titleHeight.Y);
+
             imGuiFontProvider.PopFont();
-            HorizontallyCenteredText(currentSystem.Name, size.X);
+
+            //HorizontallyCenteredText(currentSystem.Name, size.X);
+
+            var maxScreenshotSize = new Vector2(maxScreenshotWidth, maxScreenshotHeight);
 
             var firstScreenshot = gameScreenshotImagesProvider.ImGuiImages.FirstOrDefault();
             if (firstScreenshot != null)
             {
+                var screenshotSize = Utils.ScaleSizeProportionally(firstScreenshot.PixelSize, maxScreenshotSize);
+
                 ImGui.SetCursorPosX((size.X - screenshotSize.X) / 2f);
                 ImGui.Image(firstScreenshot.IntPtr, screenshotSize);
             }
 
-
-            var actionsWidth = 200;
-            var actionsX = (size.X - actionsWidth) / 2f;
-
-            ImGui.SetCursorPosX(actionsX);
-
-            imGuiFontProvider.PushFont(FontSize.Large);
-            ImGui.BeginTable("ActionsBar", 4);
-            ImGui.TableSetupColumn("Button", ImGuiTableColumnFlags.WidthFixed);
-            ImGui.TableSetupColumn("Or", ImGuiTableColumnFlags.WidthFixed);
-            ImGui.TableSetupColumn("Key", ImGuiTableColumnFlags.WidthFixed);
-            ImGui.TableSetupColumn("Text", ImGuiTableColumnFlags.WidthStretch);
-
-            ImGui.TableNextColumn();
-
-            if (controllerImagesProvider.ImGuiImages.TryGetValue("s", out var buttonImage))
-            {
-                ImGui.Image(buttonImage.IntPtr, new Vector2(buttonSize));
-            }
-
-            ImGui.TableNextColumn();
-
-            ImGui.Text("or");
-
-            ImGui.TableNextColumn();
-
-            if (keyboardImagesProvider.ImGuiImages.TryGetValue("enter", out var keyImage))
-            {
-                ImGui.Image(keyImage.IntPtr, new Vector2(buttonSize));
-            }
-
-            ImGui.TableNextColumn();
-
-            ImGui.Text("to start game");
-
-            ImGui.TableNextColumn();
-
-            if (controllerImagesProvider.ImGuiImages.TryGetValue("w", out buttonImage))
-            {
-                ImGui.Image(buttonImage.IntPtr, new Vector2(buttonSize));
-            }
-
-            ImGui.TableNextColumn();
-
-            ImGui.Text("or");
-
-            ImGui.TableNextColumn();
-
-            if (keyboardImagesProvider.ImGuiImages.TryGetValue("z", out keyImage))
-            {
-                ImGui.Image(keyImage.IntPtr, new Vector2(buttonSize));
-            }
-
-            ImGui.TableNextColumn();
-
-            ImGui.Text("to change view");
-
-            ImGui.EndTable();
-            imGuiFontProvider.PopFont();
-
             ImGui.End();
         }
 
-        ImGui.PopStyleVar();
         //ImGui.PopStyleVar();
+        ImGui.PopStyleVar();
         imGuiColorsProvider.PopColor();
 
         //ImGui.PopStyleVar();

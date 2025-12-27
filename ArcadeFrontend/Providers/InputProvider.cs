@@ -69,11 +69,11 @@ public class InputProvider : ITick, ILoad
             {
                 gameCommandsProvider.LaunchGame();
             }
-            else if (InputTracker.GetKeyDown(Key.Z) || XInputTracker.GetButtonDown(XButton.X))
+            else if (InputTracker.GetKeyDown(Key.X) || XInputTracker.GetButtonDown(XButton.Y))
             {
                 gameCommandsProvider.ToggleView();
             }
-            else if (InputTracker.GetKeyDown(Key.X) || XInputTracker.GetButtonDown(XButton.Y))
+            else if (InputTracker.GetKeyDown(Key.Z) || XInputTracker.GetButtonDown(XButton.X))
             {
                 gameCommandsProvider.ShowSystems();
             }
@@ -81,7 +81,7 @@ public class InputProvider : ITick, ILoad
         else
         {
             if (InputTracker.GetKeyDown(Key.Enter) || XInputTracker.GetButtonDown(XButton.A) ||
-                InputTracker.GetKeyDown(Key.X) || XInputTracker.GetButtonDown(XButton.Y))
+                InputTracker.GetKeyDown(Key.Z) || XInputTracker.GetButtonDown(XButton.X))
             {
                 gameCommandsProvider.ShowGames();
             }

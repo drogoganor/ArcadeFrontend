@@ -55,6 +55,8 @@ public static class DependencyInjection
             services.AddSingleton<GamePanelComponent>();
             services.AddSingleton<KeyboardImagesProvider>();
             services.AddSingleton<SystemViewComponent>();
+            services.AddSingleton<HeaderComponent>();
+            services.AddSingleton<FooterComponent>();
 
             services.AddLogger();
             services.AddMameDb();

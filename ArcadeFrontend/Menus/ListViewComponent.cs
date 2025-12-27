@@ -1,4 +1,5 @@
-﻿using ArcadeFrontend.Enums;
+﻿using ArcadeFrontend.Data;
+using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
 using ImGuiNET;
@@ -39,15 +40,14 @@ public class ListViewComponent : IRenderable
         var currentGame = gamesFileProvider.Data.Games.First(x => x.Name == state.CurrentGame);
         var games = gamesFileProvider.Data.Games.Where(x => x.System == state.CurrentSystem);
 
-        imGuiFontProvider.PushFont(FontSize.Medium);
+        var headerHeight = UIConstants.BannerHeight + (2 * UIConstants.Margin);
 
-        var menuHeight = 14;
-        var borderSpaceWidthX = 12;
-        var borderSpaceWidthY = 24;
-        var listWidth = 340;
+        var listPosition = new Vector2(UIConstants.Margin, UIConstants.MenuHeight + headerHeight);
+        var listSize = new Vector2(UIConstants.ListWidth, windowSize.Y - (UIConstants.MenuHeight + (2 * headerHeight)));
 
-        var listSize = new Vector2(listWidth, windowSize.Y - ((2 * borderSpaceWidthY) + menuHeight));
-        var listPosition = new Vector2(borderSpaceWidthX, borderSpaceWidthY + menuHeight);
+        var panelWidth = windowSize.X - (UIConstants.ListWidth + (3 * UIConstants.Margin));
+        var size = new Vector2(panelWidth, listSize.Y);
+        var position = new Vector2(UIConstants.ListWidth + (2 * UIConstants.Margin), listPosition.Y);
 
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero);
         ImGui.SetNextWindowPos(Vector2.Zero);
@@ -63,6 +63,8 @@ public class ListViewComponent : IRenderable
             ImGuiWindowFlags.NoMouseInputs |
             ImGuiWindowFlags.NoFocusOnAppearing))
         {
+            imGuiFontProvider.PushFont(FontSize.Large);
+
             ImGui.SetCursorPos(listPosition);
             if (ImGui.BeginListBox("", listSize))
             {
@@ -77,17 +79,20 @@ public class ListViewComponent : IRenderable
                 ImGui.EndListBox();
             }
 
-            // Screenshot
-            var dialogSize = new Vector2(800, 620);
-            var screenshotSize = new Vector2(640, 480);
-            var listRight = listWidth + (2 * borderSpaceWidthX);
-            var dialogPosition = new Vector2(listRight + ((windowSize.X - listRight - dialogSize.X) / 2f), (windowSize.Y - dialogSize.Y) / 2f);
+            imGuiFontProvider.PopFont();
 
-            gamePanelComponent.Draw(dialogPosition, dialogSize);
+            // Screenshot
+            //var dialogSize = new Vector2(800, listSize.Y);
+            var screenshotSize = new Vector2(640, 480);
+            //var listRight = UIConstants.ListWidth + (2 * UIConstants.Margin);
+            //var dialogPosition = new Vector2(
+            //    listRight + ((windowSize.X - listRight - dialogSize.X) / 2f),
+            //    UIConstants.MenuHeight + UIConstants.Margin);
+
+            gamePanelComponent.Draw(position, size);
             ImGui.End();
         }
 
         ImGui.PopStyleVar();
-        imGuiFontProvider.PopFont();
     }
 }

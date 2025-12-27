@@ -23,6 +23,8 @@ public class ArcadeUI : Menu
     private readonly FrontendSettingsProvider frontendSettingsProvider;
     private readonly BackgroundImagesProvider backgroundImagesProvider;
     private readonly SystemViewComponent systemViewComponent;
+    private readonly HeaderComponent headerComponent;
+    private readonly FooterComponent footerComponent;
 
     public ArcadeUI(
         ILogger<ArcadeUI> logger,
@@ -40,7 +42,9 @@ public class ArcadeUI : Menu
         FrontendStateProvider frontendStateProvider,
         FrontendSettingsProvider frontendSettingsProvider,
         BackgroundImagesProvider backgroundImagesProvider,
-        SystemViewComponent systemViewComponent)
+        SystemViewComponent systemViewComponent,
+        HeaderComponent headerComponent,
+        FooterComponent footerComponent)
         : base(window, imGuiProvider, imGuiFontProvider, graphicsDeviceProvider)
     {
         this.logger = logger;
@@ -55,6 +59,8 @@ public class ArcadeUI : Menu
         this.frontendSettingsProvider = frontendSettingsProvider;
         this.backgroundImagesProvider = backgroundImagesProvider;
         this.systemViewComponent = systemViewComponent;
+        this.headerComponent = headerComponent;
+        this.footerComponent = footerComponent;
     }
 
     private void HandleConfirmExit(bool result)
@@ -72,6 +78,8 @@ public class ArcadeUI : Menu
 
         DrawMenu();
 
+        headerComponent.Draw(deltaSeconds);
+
         var state = frontendStateProvider.State;
         if (state.CurrentView == ViewType.Big)
         {
@@ -85,6 +93,8 @@ public class ArcadeUI : Menu
         {
             systemViewComponent.Draw(deltaSeconds);
         }
+
+        footerComponent.Draw(deltaSeconds);
 
         optionsDialog.Draw(deltaSeconds);
         confirmDialog.Draw(deltaSeconds);
