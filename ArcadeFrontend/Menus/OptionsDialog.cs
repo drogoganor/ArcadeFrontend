@@ -135,13 +135,15 @@ public class OptionsDialog : IRenderable
 
                 ImGui.EndTable();
 
-                ImGui.End();
-
                 imGuiFontProvider.PopFont();
+
+                ImGui.End();
             }
 
             ImGui.End();
         }
+
+        imGuiFontProvider.PopFont();
     }
 
     static void OpenInExplorer(string path)

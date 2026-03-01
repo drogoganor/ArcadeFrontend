@@ -1,4 +1,5 @@
-﻿using ArcadeFrontend.Interfaces;
+﻿using ArcadeFrontend.Enums;
+using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
 
 namespace ArcadeFrontend.Render;
@@ -27,6 +28,20 @@ public class Scene : IRenderable
     public void Draw(float deltaSeconds)
     {
         world.Draw(deltaSeconds);
+    }
+
+    public void DrawUI(float deltaSeconds)
+    {
+        world.DrawUI(deltaSeconds);
+    }
+
+    public void PostDraw(float deltaSeconds)
+    {
+        world.PostDraw(deltaSeconds);
+
+        //var screenshot = hotKeyProvider.GetInputDown(InputBindingType.TakeScreenshot);
+        //if (screenshot)
+        //    screenshotProvider.TakeScreenshot();
     }
 
     private void HandleWindowResize()

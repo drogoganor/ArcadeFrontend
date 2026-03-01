@@ -36,7 +36,9 @@ public class AppClient : IAppClient
 
         window.Tick += Window_Tick;
         window.Rendering += Window_Rendering;
-        //window.KeyPressed += Window_KeyPressed;
+        window.RenderingUI += Window_RenderingUI;
+        window.PostRender += Window_PostRender;
+
         ui.OnExit += ExitGame;
     }
 
@@ -45,19 +47,27 @@ public class AppClient : IAppClient
         world.Tick(deltaSeconds);
     }
 
-    //private void Window_KeyPressed(KeyEvent obj)
-    //{
-    //    if (obj.Key == Key.Escape)
-    //    {
-    //        //ToggleInGameMenu();
-    //    }
-    //}
-
     private void Window_Rendering(float deltaSeconds)
     {
         if (!isExiting)
         {
             scene.Draw(deltaSeconds);
+        }
+    }
+
+    private void Window_RenderingUI(float deltaSeconds)
+    {
+        if (!isExiting)
+        {
+            scene.DrawUI(deltaSeconds);
+        }
+    }
+
+    private void Window_PostRender(float deltaSeconds)
+    {
+        if (!isExiting)
+        {
+            scene.PostDraw(deltaSeconds);
         }
     }
 

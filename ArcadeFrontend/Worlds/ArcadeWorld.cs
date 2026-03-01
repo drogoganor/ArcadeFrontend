@@ -28,13 +28,23 @@ public class ArcadeWorld : IWorld
         this.inputProvider = inputProvider;
         //this.gameSpriteRenderer = gameSpriteRenderer;
         //this.orthoSpriteRenderer = orthoSpriteRenderer;
+
+        loadProvider.Load();
     }
 
     public void Draw(float deltaSeconds)
     {
         worldRenderer.Draw(deltaSeconds);
+    }
 
+    public void DrawUI(float deltaSeconds)
+    {
         menuProvider.Draw(deltaSeconds);
+    }
+
+    public void PostDraw(float deltaSeconds)
+    {
+
     }
 
     public void Tick(float deltaSeconds)

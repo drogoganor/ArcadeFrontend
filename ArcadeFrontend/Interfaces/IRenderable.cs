@@ -1,7 +1,6 @@
-﻿namespace ArcadeFrontend.Interfaces
+﻿namespace ArcadeFrontend.Interfaces;
+
+public interface IRenderable
 {
-    public interface IRenderable
-    {
-        void Draw(float deltaSeconds);
-    }
+    void Draw(float deltaSeconds);
 }
