@@ -37,8 +37,8 @@ public class ListViewComponent : IRenderable
         var windowSize = new Vector2(window.Width, window.Height);
 
         var state = frontendStateProvider.State;
-        var currentGame = gamesFileProvider.Data.Games.First(x => x.Name == state.CurrentGame);
-        var games = gamesFileProvider.Data.Games.Where(x => x.System == state.CurrentSystem);
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
+        var currentGame = currentSystem.Games.First(x => state.CurrentGame == null || x.Name == state.CurrentGame);
 
         var headerHeight = UIConstants.BannerHeight + (2 * UIConstants.Margin);
 
@@ -68,7 +68,7 @@ public class ListViewComponent : IRenderable
             ImGui.SetCursorPos(listPosition);
             if (ImGui.BeginListBox("##", listSize))
             {
-                foreach (var listItem in games)
+                foreach (var listItem in currentSystem.Games)
                 {
                     if (ImGui.Selectable(listItem.Name, listItem.Name == state.CurrentGame))
                     {

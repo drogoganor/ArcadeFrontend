@@ -49,10 +49,14 @@ public class LoadProvider : ILoadProvider
         inputProvider.Load();
         fileLoadProvider.Load();
 
+        var currentSystem = gamesFileProvider.Data.Keys.FirstOrDefault() ?? "Mame";
+
+        var games = gamesFileProvider.Data[currentSystem].Games;
+
         // HACK: HACK HACK HACK
         // Set the first system and game
-        frontendStateProvider.State.CurrentSystem = gamesFileProvider.Data.Systems.Keys.FirstOrDefault() ?? "Mame";
-        frontendStateProvider.State.CurrentGame = gamesFileProvider.Data.Games.FirstOrDefault(x => x.System == frontendStateProvider.State.CurrentSystem)?.Name;
+        frontendStateProvider.State.CurrentSystem = currentSystem;
+        frontendStateProvider.State.CurrentGame = games.FirstOrDefault(x => x.System == frontendStateProvider.State.CurrentSystem)?.Name;
 
         colorShader.Load();
         //textureShader.Load();

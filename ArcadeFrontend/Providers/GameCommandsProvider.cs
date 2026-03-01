@@ -41,8 +41,10 @@ public class GameCommandsProvider
         var state = frontendStateProvider.State;
 
         state.CurrentSystem = system;
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
 
-        var currentGame = gamesFileProvider.Data.Games.First(x => x.System == state.CurrentSystem);
+        var currentGame = currentSystem.Games.FirstOrDefault(x => state.CurrentGame == null || x.Name == state.CurrentGame)
+            ?? currentSystem.Games.First();
 
         SetGame(currentGame.Name);
     }
@@ -60,14 +62,14 @@ public class GameCommandsProvider
     {
         var state = frontendStateProvider.State;
 
-        var currentSystem = gamesFileProvider.Data.Systems[state.CurrentSystem];
-        var systemIndex = gamesFileProvider.Data.Systems.Values.ToList().IndexOf(currentSystem);
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
+        var systemIndex = gamesFileProvider.Data.Values.ToList().IndexOf(currentSystem);
 
         var newIndex = systemIndex - 1;
         if (newIndex < 0)
-            newIndex += gamesFileProvider.Data.Systems.Count;
+            newIndex += gamesFileProvider.Data.Values.Count;
 
-        var newSystem = gamesFileProvider.Data.Systems.Keys.ToList()[newIndex];
+        var newSystem = gamesFileProvider.Data.Keys.ToList()[newIndex];
 
         SetSystem(newSystem);
     }
@@ -75,12 +77,13 @@ public class GameCommandsProvider
     public void NextSystem()
     {
         var state = frontendStateProvider.State;
-        var currentSystem = gamesFileProvider.Data.Systems[state.CurrentSystem];
-        var systemIndex = gamesFileProvider.Data.Systems.Values.ToList().IndexOf(currentSystem);
 
-        var newIndex = (systemIndex + 1) % gamesFileProvider.Data.Systems.Count;
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
+        var systemIndex = gamesFileProvider.Data.Values.ToList().IndexOf(currentSystem);
 
-        var newSystem = gamesFileProvider.Data.Systems.Keys.ToList()[newIndex];
+        var newIndex = (systemIndex + 1) % gamesFileProvider.Data.Values.Count;
+
+        var newSystem = gamesFileProvider.Data.Keys.ToList()[newIndex];
 
         SetSystem(newSystem);
     }
@@ -88,18 +91,16 @@ public class GameCommandsProvider
     public void PreviousGame()
     {
         var state = frontendStateProvider.State;
-        var gamesList = gamesFileProvider.Data.Games
-            .Where(x => x.System == state.CurrentSystem)
-            .ToList();
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
 
-        var currentGame = gamesList.First(x => x.Name == state.CurrentGame);
-        var gameIndex = gamesList.IndexOf(currentGame); // TODO: Write an indexer
+        var currentGame = currentSystem.Games.First(x => x.Name == state.CurrentGame);
+        var gameIndex = currentSystem.Games.IndexOf(currentGame); // TODO: Write an indexer
 
         var newIndex = gameIndex - 1;
         if (newIndex < 0)
-            newIndex += gamesList.Count;
+            newIndex += currentSystem.Games.Count;
 
-        var newGame = gamesList[newIndex];
+        var newGame = currentSystem.Games[newIndex];
 
         SetGame(newGame.Name);
     }
@@ -107,16 +108,14 @@ public class GameCommandsProvider
     public void NextGame()
     {
         var state = frontendStateProvider.State;
-        var gamesList = gamesFileProvider.Data.Games
-            .Where(x => x.System == state.CurrentSystem)
-            .ToList();
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
 
-        var currentGame = gamesList.First(x => x.Name == state.CurrentGame);
-        var gameIndex = gamesList.IndexOf(currentGame); // TODO: Write an indexer
+        var currentGame = currentSystem.Games.First(x => state.CurrentGame == null || x.Name == state.CurrentGame);
+        var gameIndex = currentSystem.Games.IndexOf(currentGame); // TODO: Write an indexer
 
-        var newIndex = (gameIndex + 1) % gamesList.Count;
+        var newIndex = (gameIndex + 1) % currentSystem.Games.Count;
 
-        var newGame = gamesList[newIndex];
+        var newGame = currentSystem.Games[newIndex];
 
         SetGame(newGame.Name);
     }
@@ -152,9 +151,9 @@ public class GameCommandsProvider
     public void LaunchGame()
     {
         var state = frontendStateProvider.State;
-        var currentGame = gamesFileProvider.Data.Games.First(x => x.Name == state.CurrentGame);
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
 
-        var currentSystem = gamesFileProvider.Data.Systems[currentGame.System];
+        var currentGame = currentSystem.Games.First(x => x.Name == state.CurrentGame);
 
         var arguments = string.Empty;
         if (!string.IsNullOrWhiteSpace(currentSystem.Arguments))

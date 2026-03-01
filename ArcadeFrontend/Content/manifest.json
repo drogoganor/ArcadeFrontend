@@ -27,6 +27,11 @@
       "FontSize": 58
     }
   ],
-  "GamesFile": "games.json",
+  "GamesFiles": [
+    "mame.json",
+    "gba.json",
+    "nes.json",
+    "psx.json"
+  ],
   "LanguagesFile": "i18n.json"
 }

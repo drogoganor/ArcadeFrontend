@@ -1,0 +1,13 @@
+{
+  "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\Mesen_2.1.1_Windows",
+  "Executable": "Mesen.exe",
+  "Name": "NES",
+  "Arguments": "--fullscreen",
+  "Games": [
+    {
+      "Arguments": "\"roms\\Contra.nes\"",
+      "Name": "Contra",
+      "System": "NES"
+    }
+  ]
+}

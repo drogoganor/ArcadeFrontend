@@ -9,8 +9,7 @@ public class GamesFileProvider
     private readonly IFileSystem fileSystem;
     private readonly ManifestProvider manifestProvider;
 
-    private GamesFile data;
-    public GamesFile Data => data;
+    public Dictionary<string, GamesFile> Data { get; private set; } = new();
 
     public GamesFileProvider(
         IFileSystem fileSystem,
@@ -22,21 +21,27 @@ public class GamesFileProvider
 
     public void Load()
     {
-        var filePath = Path.Combine(fileSystem.ContentDirectory, manifestProvider.ManifestFile.GamesFile);
-        var json = File.ReadAllText(filePath);
+        var files = manifestProvider.ManifestFile.GamesFiles;
+        foreach (var file in files)
+        {
+            var filePath = Path.Combine(fileSystem.ContentDirectory, file);
+            var json = File.ReadAllText(filePath);
 
-        try
-        {
-            data = JsonSerializer.Deserialize<GamesFile>(json);
+            try
+            {
+                var data = JsonSerializer.Deserialize<GamesFile>(json);
+                Data.Add(data.Name, data);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
-        catch (Exception)
-        {
-            throw;
-        }
+
     }
 
     public void Unload()
     {
-        data = null;
+        Data.Clear();
     }
 }

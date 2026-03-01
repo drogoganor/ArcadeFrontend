@@ -1,0 +1,13 @@
+{
+  "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mGBA-0.10.5-win64",
+  "Executable": "mGBA.exe",
+  "Name": "GBA",
+  "Arguments": "--fullscreen",
+  "Games": [
+    {
+      "Arguments": "\"roms\\Final Fantasy - Tactics Advance.gba\"",
+      "Name": "Final Fantasy: Tactics Advance",
+      "System": "GBA"
+    }
+  ]
+}

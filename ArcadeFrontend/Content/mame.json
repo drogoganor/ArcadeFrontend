@@ -1,4 +1,7 @@
 {
+  "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mame",
+  "Executable": "mame.exe",
+  "Name": "Arcade",
   "Games": [
     {
       "Arguments": "19xx",
@@ -299,46 +302,6 @@
       "Arguments": "xmvsf",
       "Name": "X-Men Vs. Street Fighter",
       "System": "Mame"
-    },
-    {
-      "Arguments": "-- isos\\[PSX] Castlevania.Symphony.Of.The.Night.NTSC.US.bin",
-      "Name": "Castlevania: Symphony of the Night",
-      "System": "PSX"
-    },
-    {
-      "Arguments": "\"roms\\Final Fantasy - Tactics Advance.gba\"",
-      "Name": "Final Fantasy: Tactics Advance",
-      "System": "GBA"
-    },
-    {
-      "Arguments": "\"roms\\Contra.nes\"",
-      "Name": "Contra",
-      "System": "NES"
     }
-  ],
-  "Systems": {
-    "Mame": {
-      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mame",
-      "Executable": "mame.exe",
-      "Name": "Arcade"
-    },
-    "PSX": {
-      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\duckstation-windows-x64-release",
-      "Executable": "duckstation-qt-x64-ReleaseLTCG.exe",
-      "Name": "PSX",
-      "Arguments": "-fullscreen"
-    },
-    "GBA": {
-      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mGBA-0.10.5-win64",
-      "Executable": "mGBA.exe",
-      "Name": "GBA",
-      "Arguments": "--fullscreen"
-    },
-    "NES": {
-      "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\Mesen_2.1.1_Windows",
-      "Executable": "Mesen.exe",
-      "Name": "NES",
-      "Arguments": "--fullscreen"
-    }
-  }
+  ]
 }

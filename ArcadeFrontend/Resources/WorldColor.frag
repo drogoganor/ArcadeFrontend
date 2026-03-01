@@ -5,5 +5,5 @@ layout(location = 0) out vec4 fsout_color;
 
 void main()
 {
-    fsout_color =  fsin_color;
+    fsout_color = fsin_color;
 }

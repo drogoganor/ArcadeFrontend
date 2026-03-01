@@ -39,9 +39,9 @@ public class GameScreenshotImagesProvider
     public void Load()
     {
         var state = frontendStateProvider.State;
-        var currentGame = gamesFileProvider.Data.Games.First(x => x.Name == state.CurrentGame);
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
 
-        var currentSystem = gamesFileProvider.Data.Systems[currentGame.System];
+        var currentGame = currentSystem.Games.First(x => state.CurrentGame == null || x.Name == state.CurrentGame);
 
         // Only mame for now
         if (currentGame.System != "Mame")

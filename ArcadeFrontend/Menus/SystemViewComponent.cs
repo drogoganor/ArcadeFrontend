@@ -37,8 +37,7 @@ public class SystemViewComponent : IRenderable
         var windowSize = new Vector2(window.Width, window.Height);
 
         var state = frontendStateProvider.State;
-
-        var systems = gamesFileProvider.Data.Systems;
+        var systems = gamesFileProvider.Data;
 
         imGuiFontProvider.PushFont(FontSize.ExtraLarge);
 

@@ -1,0 +1,13 @@
+{
+  "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\duckstation-windows-x64-release",
+  "Executable": "duckstation-qt-x64-ReleaseLTCG.exe",
+  "Name": "PSX",
+  "Arguments": "-fullscreen",
+  "Games": [
+    {
+      "Arguments": "-- isos\\[PSX] Castlevania.Symphony.Of.The.Night.NTSC.US.bin",
+      "Name": "Castlevania: Symphony of the Night",
+      "System": "PSX"
+    }
+  ]
+}

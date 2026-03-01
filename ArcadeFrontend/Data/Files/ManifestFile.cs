@@ -6,7 +6,7 @@ namespace ArcadeFrontend.Data.Files
     public class ManifestFile
     {
         public string Name { get; set; }
-        public string GamesFile { get; set; }
+        public string[] GamesFiles { get; set; }
         public string LanguagesFile { get; set; }
         public ModMenuFont[] Fonts { get; set; }
     }
