@@ -3,8 +3,8 @@
 layout(location = 0) in vec3 fsin_texCoords;
 layout(location = 0) out vec4 fsout_color;
 
-layout(set = 1, binding = 1) uniform texture2DArray SurfaceTexture;
-layout(set = 1, binding = 2) uniform sampler SurfaceSampler;
+layout(set = 2, binding = 0) uniform texture2DArray SurfaceTexture;
+layout(set = 2, binding = 0) uniform sampler SurfaceSampler;
 
 // By Lucius - Only for pixel-level coords
 vec2 bilinearSharpness(vec2 uv, float sharpness)
