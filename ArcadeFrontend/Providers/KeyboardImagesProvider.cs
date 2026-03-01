@@ -1,7 +1,8 @@
 ﻿using ArcadeFrontend.Data;
 using ArcadeFrontend.Interfaces;
 using System.Numerics;
-using Veldrid.ImageSharp;
+using static SDL3.SDL;
+using static ArcadeFrontend.Shaders.ShaderCommon;
 
 namespace ArcadeFrontend.Providers;
 
@@ -10,17 +11,14 @@ namespace ArcadeFrontend.Providers;
 /// </summary>
 public class KeyboardImagesProvider
 {
-    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
-    private readonly ImGuiProvider imGuiProvider;
+    private readonly IApplicationWindow window;
 
     public Dictionary<string, ImGuiImageInfo> ImGuiImages { get; private set; } = new();
 
     public KeyboardImagesProvider(
-        IGraphicsDeviceProvider graphicsDeviceProvider,
-        ImGuiProvider imGuiProvider)
+        IApplicationWindow window)
     {
-        this.graphicsDeviceProvider = graphicsDeviceProvider;
-        this.imGuiProvider = imGuiProvider;
+        this.window = window;
     }
 
     public void UpdateGame()
@@ -31,8 +29,6 @@ public class KeyboardImagesProvider
 
     public void Load()
     {
-        var gd = graphicsDeviceProvider.GraphicsDevice;
-
         var imagesDirectory = Path.Combine(Environment.CurrentDirectory, "Content", "images", "keyboard");
 
         if (!Directory.Exists(imagesDirectory))
@@ -43,33 +39,24 @@ public class KeyboardImagesProvider
         for (uint i = 0; i < imageFiles.Length; i++)
         {
             var backgroundFile = imageFiles[i];
-            var image = new ImageSharpTexture(backgroundFile);
-            var deviceImage = image.CreateDeviceTexture(gd, gd.ResourceFactory);
 
-            var imageSize = new Vector2(image.Width, image.Height);
-            var view = gd.ResourceFactory.CreateTextureView(deviceImage);
-            var ptr = imGuiProvider.ImGuiRenderer.GetOrCreateImGuiBinding(gd.ResourceFactory, view);
+            var texture = LoadImage(window, backgroundFile, 4, out var imageWidth, out var imageHeight);
+            var imageSize = new Vector2(imageWidth, imageHeight);
 
             var imageKey = Path.GetFileNameWithoutExtension(backgroundFile);
-
             ImGuiImages.Add(imageKey, new ImGuiImageInfo
             {
                 PixelSize = imageSize,
-                IntPtr = ptr,
-                Texture = deviceImage,
-                TextureView = view,
+                IntPtr = texture
             });
         }
     }
 
     public void Unload()
     {
-        foreach (var kvp in ImGuiImages)
+        foreach (var img in ImGuiImages)
         {
-            var image = kvp.Value;
-            imGuiProvider.ImGuiRenderer.RemoveImGuiBinding(image.TextureView);
-            image.TextureView.Dispose();
-            image.Texture.Dispose();
+            SDL_DestroyTexture(img.Value.IntPtr);
         }
 
         ImGuiImages.Clear();

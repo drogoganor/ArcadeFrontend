@@ -54,7 +54,7 @@ public class ConfirmDialog : IRenderable
 
         ImGui.SetNextWindowPos(Vector2.Zero);
         ImGui.SetNextWindowSize(fullScreenSize);
-        if (ImGui.Begin("",
+        if (ImGui.Begin("##",
             ImGuiWindowFlags.NoTitleBar |
             ImGuiWindowFlags.NoDecoration |
             ImGuiWindowFlags.NoCollapse |

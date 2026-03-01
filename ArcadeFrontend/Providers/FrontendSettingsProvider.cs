@@ -1,7 +1,6 @@
 ﻿using ArcadeFrontend.Data.Files;
 using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
-using Veldrid;
 
 namespace ArcadeFrontend.Providers;
 
@@ -38,12 +37,12 @@ public class FrontendSettingsProvider : SettingsProvider<SettingsFile>
             var inputBind = binding.Value;
             if (inputBind.InputType == InputType.Key)
             {
-                var parsedKey = (Key)Enum.Parse(typeof(Key), inputBind.Input);
+                var parsedKey = (SdlKey)Enum.Parse(typeof(SdlKey), inputBind.Input);
                 inputBind.Key = parsedKey;
             }
             else if (inputBind.InputType == InputType.Mouse)
             {
-                var parsedMouse = (MouseButton)Enum.Parse(typeof(MouseButton), inputBind.Input);
+                var parsedMouse = (SdlMouseButton)Enum.Parse(typeof(SdlMouseButton), inputBind.Input);
                 inputBind.MouseButton = parsedMouse;
             }
         }

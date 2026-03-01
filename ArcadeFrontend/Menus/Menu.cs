@@ -7,8 +7,6 @@ namespace ArcadeFrontend.Menus;
 public abstract class Menu : IRenderable
 {
     protected readonly IApplicationWindow window;
-    protected readonly IGraphicsDeviceProvider graphicsDeviceProvider;
-    protected readonly ImGuiProvider imGuiProvider;
     protected readonly ImGuiFontProvider imGuiFontProvider;
 
     protected bool IsVisible = true;
@@ -25,14 +23,10 @@ public abstract class Menu : IRenderable
 
     public Menu(
         IApplicationWindow window,
-        ImGuiProvider imGuiProvider,
-        ImGuiFontProvider imGuiFontProvider,
-        IGraphicsDeviceProvider graphicsDeviceProvider)
+        ImGuiFontProvider imGuiFontProvider)
     {
         this.window = window;
-        this.imGuiProvider = imGuiProvider;
         this.imGuiFontProvider = imGuiFontProvider;
-        this.graphicsDeviceProvider = graphicsDeviceProvider;
 
         window.Resized += HandleWindowResize;
     }
@@ -40,24 +34,11 @@ public abstract class Menu : IRenderable
     public virtual void Draw(float deltaSeconds)
     {
         if (!IsVisible) return;
-
-        var gd = graphicsDeviceProvider.GraphicsDevice;
-        var cl = imGuiProvider.CommandList;
-        var imGuiRenderer = imGuiProvider.ImGuiRenderer;
-
-        if (cl == null)
-            return;
-
-        cl.Begin();
-        cl.SetFramebuffer(graphicsDeviceProvider.Framebuffer);
-        imGuiRenderer.Render(gd, cl);
-        cl.End();
-        gd.SubmitCommands(cl);
     }
 
     protected virtual void HandleWindowResize()
     {
-        imGuiProvider.ImGuiRenderer.WindowResized((int)window.Width, (int)window.Height);
+        //imGuiProvider.ImGuiRenderer.WindowResized((int)window.Width, (int)window.Height);
     }
 
     protected static void HorizontallyCenteredText(string text, float width)

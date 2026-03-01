@@ -13,7 +13,6 @@ public class OptionsDialog : IRenderable
     public bool IsVisible => isVisible;
 
     private readonly IApplicationWindow window;
-    private readonly ImGuiProvider imGuiProvider;
     private readonly ImGuiFontProvider imGuiFontProvider;
     private readonly IFileSystem fileSystem;
     private readonly FrontendSettingsProvider frontendSettingsProvider;
@@ -28,13 +27,11 @@ public class OptionsDialog : IRenderable
 
     public OptionsDialog(
         IApplicationWindow window,
-        ImGuiProvider imGuiProvider,
         ImGuiFontProvider imGuiFontProvider,
         IFileSystem fileSystem,
         FrontendSettingsProvider frontendSettingsProvider)
     {
         this.window = window;
-        this.imGuiProvider = imGuiProvider;
         this.imGuiFontProvider = imGuiFontProvider;
         this.fileSystem = fileSystem;
         this.frontendSettingsProvider = frontendSettingsProvider;
@@ -76,7 +73,7 @@ public class OptionsDialog : IRenderable
 
         ImGui.SetNextWindowPos(Vector2.Zero);
         ImGui.SetNextWindowSize(fullScreenSize);
-        if (ImGui.Begin("",
+        if (ImGui.Begin("##",
             ImGuiWindowFlags.NoTitleBar |
             ImGuiWindowFlags.NoDecoration |
             ImGuiWindowFlags.NoCollapse |

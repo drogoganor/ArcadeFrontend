@@ -20,10 +20,7 @@ public static class DependencyInjection
 
         builder.ConfigureServices((hostContext, services) =>
         {
-            services.AddSingleton<IGraphicsDeviceProvider, GraphicsDeviceProvider>();
-            services.AddSingleton<Sdl2WindowProvider>();
-            services.AddSingleton<IApplicationWindow, VeldridStartupWindow>();
-            services.AddSingleton<ImGuiProvider>();
+            services.AddSingleton<IApplicationWindow, Sdl3Window>();
             services.AddSingleton<ImGuiFontProvider>();
             services.AddSingleton<ImGuiColorsProvider>();
             services.AddSingleton<IMenuProvider, AppMenuProvider>();

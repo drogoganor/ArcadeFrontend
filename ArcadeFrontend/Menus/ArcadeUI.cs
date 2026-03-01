@@ -30,9 +30,7 @@ public class ArcadeUI : Menu
         ILogger<ArcadeUI> logger,
         IFileSystem fileSystem,
         IApplicationWindow window,
-        ImGuiProvider imGuiProvider,
         ImGuiFontProvider imGuiFontProvider,
-        IGraphicsDeviceProvider graphicsDeviceProvider,
         ConfirmDialog confirmDialog,
         OptionsDialog optionsDialog,
         NextTickActionProvider nextTickActionProvider,
@@ -45,7 +43,7 @@ public class ArcadeUI : Menu
         SystemViewComponent systemViewComponent,
         HeaderComponent headerComponent,
         FooterComponent footerComponent)
-        : base(window, imGuiProvider, imGuiFontProvider, graphicsDeviceProvider)
+        : base(window, imGuiFontProvider)
     {
         this.logger = logger;
         this.fileSystem = fileSystem;

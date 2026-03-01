@@ -2,13 +2,12 @@
 using ArcadeFrontend.Providers;
 using ArcadeFrontend.Shaders;
 using System.Numerics;
-using Veldrid;
 
 namespace ArcadeFrontend.Render;
 
 public class WorldRenderer : IRenderable
 {
-    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
+    private readonly IApplicationWindow window;
     private readonly ColorShader colorShader;
     private readonly TextureShader textureShader;
     private readonly FrontendSettingsProvider frontendSettingsProvider;
@@ -16,14 +15,14 @@ public class WorldRenderer : IRenderable
     private readonly Camera camera;
 
     public WorldRenderer(
-        IGraphicsDeviceProvider graphicsDeviceProvider,
+        IApplicationWindow window,
         ColorShader colorShader,
         TextureShader textureShader,
         Camera camera,
         FrontendSettingsProvider frontendSettingsProvider,
         FrontendStateProvider frontendStateProvider)
     {
-        this.graphicsDeviceProvider = graphicsDeviceProvider;
+        this.window = window;
         this.colorShader = colorShader;
         this.textureShader = textureShader;
         this.camera = camera;
@@ -34,6 +33,7 @@ public class WorldRenderer : IRenderable
 
     public void Draw(float deltaSeconds)
     {
+        /*
         var settings = frontendSettingsProvider.Settings;
         var state = frontendStateProvider.State;
         var shader = colorShader;
@@ -51,18 +51,11 @@ public class WorldRenderer : IRenderable
         else
             cl.ClearColorTarget(0, RgbaFloat.Black); // Background color bleeds into the background image at the edges slightly so use black
 
-            cl.ClearDepthStencil(1f);
+        cl.ClearDepthStencil(1f);
         cl.SetPipeline(shader.Pipeline);
-
-        //if (mapVertexBufferProvider.VertexBuffer != null)
-        //{
-        //    cl.SetVertexBuffer(0, mapVertexBufferProvider.VertexBuffer);
-        //    cl.SetGraphicsResourceSet(0, shader.ProjectionViewSet);
-        //    cl.SetGraphicsResourceSet(1, shader.WorldTextureSet);
-        //    cl.Draw((uint)mapVertexBufferProvider.Vertices.Length);
-        //}
 
         cl.End();
         gd.SubmitCommands(cl);
+        */
     }
 }

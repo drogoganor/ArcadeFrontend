@@ -4,7 +4,6 @@ using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
 using ImGuiNET;
 using System.Numerics;
-using Veldrid;
 
 namespace ArcadeFrontend.Menus;
 
@@ -76,7 +75,7 @@ public class GamePanelComponent
             ))
         {
             imGuiFontProvider.PushFont(FontSize.ExtraLarge);
-            HorizontallyCenteredColoredText(currentGame.Name, size.X, RgbaFloat.Green.ToVector4());
+            HorizontallyCenteredColoredText(currentGame.Name, size.X, ColorConstants.Green);
 
             var titleHeight = ImGui.CalcTextSize(currentGame.Name);
             var maxScreenshotHeight = size.Y - ((3 * UIConstants.Margin) + titleHeight.Y);

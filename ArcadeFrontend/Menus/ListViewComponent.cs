@@ -66,7 +66,7 @@ public class ListViewComponent : IRenderable
             imGuiFontProvider.PushFont(FontSize.Large);
 
             ImGui.SetCursorPos(listPosition);
-            if (ImGui.BeginListBox("", listSize))
+            if (ImGui.BeginListBox("##", listSize))
             {
                 foreach (var listItem in games)
                 {

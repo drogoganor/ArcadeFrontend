@@ -6,9 +6,6 @@ namespace ArcadeFrontend.Providers;
 public class LoadProvider : ILoadProvider
 {
     private readonly IApplicationWindow window;
-    private readonly Sdl2WindowProvider sdl2WindowProvider;
-    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
-    private readonly ImGuiProvider imGuiProvider;
     private readonly FileLoadProvider fileLoadProvider;
     private readonly ColorShader colorShader;
     private readonly TextureShader textureShader;
@@ -22,9 +19,6 @@ public class LoadProvider : ILoadProvider
 
     public LoadProvider(
         IApplicationWindow window,
-        Sdl2WindowProvider sdl2WindowProvider,
-        IGraphicsDeviceProvider graphicsDeviceProvider,
-        ImGuiProvider imGuiProvider,
         FileLoadProvider fileLoadProvider,
         ColorShader colorShader,
         TextureShader textureShader,
@@ -37,9 +31,6 @@ public class LoadProvider : ILoadProvider
         GamesFileProvider gamesFileProvider)
     {
         this.window = window;
-        this.sdl2WindowProvider = sdl2WindowProvider;
-        this.graphicsDeviceProvider = graphicsDeviceProvider;
-        this.imGuiProvider = imGuiProvider;
         this.fileLoadProvider = fileLoadProvider;
         this.colorShader = colorShader;
         this.textureShader = textureShader;
@@ -54,11 +45,8 @@ public class LoadProvider : ILoadProvider
 
     public void Load()
     {
-        sdl2WindowProvider.Load();
-        graphicsDeviceProvider.Load();
         window.Load();
         inputProvider.Load();
-        imGuiProvider.Load();
         fileLoadProvider.Load();
 
         // HACK: HACK HACK HACK
@@ -86,10 +74,7 @@ public class LoadProvider : ILoadProvider
         colorShader.Unload();
 
         fileLoadProvider.Unload();
-        imGuiProvider.Unload();
         inputProvider.Unload();
         window.Unload();
-        graphicsDeviceProvider.Unload();
-        sdl2WindowProvider.Unload();
     }
 }

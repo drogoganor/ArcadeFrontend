@@ -1,7 +1,8 @@
 ﻿using ArcadeFrontend.Data;
 using ArcadeFrontend.Interfaces;
 using System.Numerics;
-using Veldrid.ImageSharp;
+using static SDL3.SDL;
+using static ArcadeFrontend.Shaders.ShaderCommon;
 
 namespace ArcadeFrontend.Providers;
 
@@ -11,43 +12,33 @@ namespace ArcadeFrontend.Providers;
 public class BackgroundImagesProvider
 {
     private readonly IFileSystem fileSystem;
-    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
-    private readonly ImGuiProvider imGuiProvider;
+    private readonly IApplicationWindow window;
 
     public Dictionary<string, ImGuiImageInfo> ImGuiImages { get; private set; } = new();
 
     public BackgroundImagesProvider(
-        IFileSystem fileSystem,
-        IGraphicsDeviceProvider graphicsDeviceProvider,
-        ImGuiProvider imGuiProvider)
+        IApplicationWindow window,
+        IFileSystem fileSystem)
     {
-        this.graphicsDeviceProvider = graphicsDeviceProvider;
+        this.window = window;
         this.fileSystem = fileSystem;
-        this.imGuiProvider = imGuiProvider;
     }
 
     public void Load()
     {
-        var gd = graphicsDeviceProvider.GraphicsDevice;
-
         var backgroundFiles = Directory.GetFiles(fileSystem.BackgroundsDirectory, "*.png");
 
         for (uint i = 0; i < backgroundFiles.Length; i++)
         {
             var backgroundFile = backgroundFiles[i];
-            var image = new ImageSharpTexture(backgroundFile);
-            var deviceImage = image.CreateDeviceTexture(gd, gd.ResourceFactory);
 
-            var imageSize = new Vector2(image.Width, image.Height);
-            var view = gd.ResourceFactory.CreateTextureView(deviceImage);
-            var ptr = imGuiProvider.ImGuiRenderer.GetOrCreateImGuiBinding(gd.ResourceFactory, view);
+            var texture = LoadImage(window, backgroundFile, 4, out var imageWidth, out var imageHeight);
+            var imageSize = new Vector2(imageWidth, imageHeight);
 
             ImGuiImages.Add(Path.GetFileName(backgroundFile), new ImGuiImageInfo
             {
                 PixelSize = imageSize,
-                IntPtr = ptr,
-                Texture = deviceImage,
-                TextureView = view,
+                IntPtr = texture
             });
         }
     }
@@ -56,9 +47,7 @@ public class BackgroundImagesProvider
     {
         foreach (var img in ImGuiImages)
         {
-            imGuiProvider.ImGuiRenderer.RemoveImGuiBinding(img.Value.TextureView);
-            img.Value.TextureView.Dispose();
-            img.Value.Texture.Dispose();
+            SDL_DestroyTexture(img.Value.IntPtr);
         }
 
         ImGuiImages.Clear();

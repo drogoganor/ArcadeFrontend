@@ -2,7 +2,6 @@
 using ArcadeFrontend.Enums;
 using System.Numerics;
 using System.Text.Json.Serialization;
-using Veldrid;
 
 namespace ArcadeFrontend.Data.Files;
 
@@ -61,10 +60,10 @@ public class BoundInput
 
     // Key and MouseButton are set on load in GameAppLoadProvider
     [JsonIgnore]
-    public Key Key { get; set; }
+    public SdlKey Key { get; set; }
 
     [JsonIgnore]
-    public MouseButton MouseButton { get; set; }
+    public SdlMouseButton MouseButton { get; set; }
 }
 
 public class AudioSettings

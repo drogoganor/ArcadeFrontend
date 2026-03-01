@@ -1,127 +1,122 @@
-﻿using ArcadeFrontend.Enums;
-using ArcadeFrontend.Interfaces;
+﻿using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
-using Veldrid;
-using Veldrid.SPIRV;
+using ArcadeFrontend.Data;
+using static SDL3.SDL;
+using static ArcadeFrontend.Shaders.ShaderCommon;
 
 namespace ArcadeFrontend.Shaders;
 
-public class TextureShader : Shader, ILoad, IShader
+public class TextureShader : ILoad, IShader
 {
-    public DeviceBuffer ProjectionBuffer { get; private set; }
-    public DeviceBuffer ViewBuffer { get; private set; }
-    public DeviceBuffer WorldBuffer { get; private set; }
-    public CommandList CommandList { get; private set; }
-    public Pipeline Pipeline { get; private set; }
-    public ResourceSet ProjectionViewSet { get; private set; }
-    public ResourceSet WorldTextureSet { get; private set; }
-    public TextureView SurfaceTextureView { get; private set; }
+    public nint SdlPipeline { get; private set; }
 
-    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
-    //private readonly ITextureResourcesProvider textureResourcesProvider;
+    private VertexFragmentShaderPair shader;
+
+    private readonly IApplicationWindow window;
     private readonly FrontendSettingsProvider frontendSettingsProvider;
 
     private readonly IFileSystem fileSystem;
 
     public TextureShader(
-        IFileSystem fileSystem,
         IApplicationWindow window,
-        IGraphicsDeviceProvider graphicsDeviceProvider,
-        //ITextureResourcesProvider textureResourcesProvider,
+        IFileSystem fileSystem,
         FrontendSettingsProvider frontendSettingsProvider)
-        : base(window, graphicsDeviceProvider)
     {
+        this.window = window;
         this.fileSystem = fileSystem;
-        this.graphicsDeviceProvider = graphicsDeviceProvider;
-        //this.textureResourcesProvider = textureResourcesProvider;
         this.frontendSettingsProvider = frontendSettingsProvider;
     }
 
-    public override void Load()
+    public unsafe void Load()
     {
-        base.Load();
+        shader = InitShader(window.Device, "WorldTexture", numSamplers: 1, numStorageTextures: 0);
 
-        var rf = graphicsDeviceProvider.ResourceFactory;
-        var settings = frontendSettingsProvider.Settings.Video;
-        var sampler = settings.SpriteSamplerType switch
+        var vertexBuffDesc = stackalloc SDL_GPUVertexBufferDescription[1]
         {
-            SamplerType.Point => GraphicsDevice.PointSampler,
-            SamplerType.Linear => GraphicsDevice.LinearSampler,
-            SamplerType.Aniso4x => GraphicsDevice.Aniso4xSampler,
-            _ => GraphicsDevice.PointSampler
+            new()
+            {
+                slot = 0,
+                pitch = VertexPositionTexture.SizeInBytes,
+                input_rate = SDL_GPUVertexInputRate.SDL_GPU_VERTEXINPUTRATE_VERTEX,
+                instance_step_rate = 0
+            }
         };
 
-        ProjectionBuffer = rf.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
-        ViewBuffer = rf.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
-        WorldBuffer = rf.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
 
-        //SurfaceTextureView = textureResourcesProvider.TextureView;
-
-        var shadersPath = fileSystem.ShaderDirectory;
-        var vertexShaderBytes = File.ReadAllBytes(Path.Combine(shadersPath, "WorldTexture.vert.spv"));
-        var fragmentShaderBytes = File.ReadAllBytes(Path.Combine(shadersPath, "WorldTexture.frag.spv"));
-
-        ShaderSetDescription shaderSet = new ShaderSetDescription(
-            new[]
+        var vertexAttr = stackalloc SDL_GPUVertexAttribute[2]
+        {
+            // Position : float3
+            new()
             {
-                new VertexLayoutDescription(
-                    new VertexElementDescription("Position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-                    new VertexElementDescription("TexCoords", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3))
+                format = SDL_GPUVertexElementFormat.SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3,
+                location = 0,
+                offset = 0
             },
-            rf.CreateFromSpirv(
-                new ShaderDescription(ShaderStages.Vertex, vertexShaderBytes, "main"),
-                new ShaderDescription(ShaderStages.Fragment, fragmentShaderBytes, "main")));
+            // TexCoords : float3
+            new()
+            {
+                format = SDL_GPUVertexElementFormat.SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3,
+                location = 1,
+                offset = sizeof(float) * 3
+            }
+        };
 
-        ResourceLayout projViewLayout = rf.CreateResourceLayout(
-            new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("ProjectionBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex),
-                new ResourceLayoutElementDescription("ViewBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
+        var colorTargetDesc = stackalloc SDL_GPUColorTargetDescription[1]
+        {
+            new()
+            {
+                format = SDL_GetGPUSwapchainTextureFormat(window.Device, window.Window),
+                blend_state = new()
+                {
+                    src_color_blendfactor = SDL_GPUBlendFactor.SDL_GPU_BLENDFACTOR_SRC_ALPHA,
+                    dst_color_blendfactor = SDL_GPUBlendFactor.SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
+                    color_blend_op = SDL_GPUBlendOp.SDL_GPU_BLENDOP_ADD,
+                    src_alpha_blendfactor = SDL_GPUBlendFactor.SDL_GPU_BLENDFACTOR_ONE,
+                    dst_alpha_blendfactor = SDL_GPUBlendFactor.SDL_GPU_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
+                    alpha_blend_op = SDL_GPUBlendOp.SDL_GPU_BLENDOP_ADD,
+                    enable_blend = true,
+                    enable_color_write_mask = false,
+                }
+            }
+        };
 
-        ResourceLayout worldTextureLayout = rf.CreateResourceLayout(
-            new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex),
-                new ResourceLayoutElementDescription("SurfaceTexture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
-                new ResourceLayoutElementDescription("SurfaceSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
-
-        Pipeline = rf.CreateGraphicsPipeline(new GraphicsPipelineDescription(
-            BlendStateDescription.SingleOverrideBlend,
-            DepthStencilStateDescription.DepthOnlyLessEqual,
-            RasterizerStateDescription.Default,
-            PrimitiveTopology.TriangleList,
-            shaderSet,
-            new[] { projViewLayout, worldTextureLayout },
-            MainSwapchain.Framebuffer.OutputDescription));
-
-        ProjectionViewSet = rf.CreateResourceSet(new ResourceSetDescription(
-            projViewLayout,
-            ProjectionBuffer,
-            ViewBuffer));
-
-        WorldTextureSet = rf.CreateResourceSet(new ResourceSetDescription(
-            worldTextureLayout,
-            WorldBuffer,
-            SurfaceTextureView,
-            sampler));
-
-        CommandList = rf.CreateCommandList();
+        SdlPipeline = SDL_CreateGPUGraphicsPipeline(window.Device, new SDL_GPUGraphicsPipelineCreateInfo
+        {
+            vertex_shader = shader.VertexShader,
+            fragment_shader = shader.FragmentShader,
+            vertex_input_state = new()
+            {
+                vertex_buffer_descriptions = vertexBuffDesc,
+                num_vertex_buffers = 1,
+                vertex_attributes = vertexAttr,
+                num_vertex_attributes = 2,
+            },
+            primitive_type = SDL_GPUPrimitiveType.SDL_GPU_PRIMITIVETYPE_TRIANGLELIST,
+            rasterizer_state = new()
+            {
+                cull_mode = SDL_GPUCullMode.SDL_GPU_CULLMODE_FRONT,
+            },
+            multisample_state = new(),
+            depth_stencil_state = new()
+            {
+                enable_depth_test = true,
+                enable_depth_write = true,
+                compare_op = SDL_GPUCompareOp.SDL_GPU_COMPAREOP_LESS_OR_EQUAL,
+            },
+            target_info = new()
+            {
+                num_color_targets = 1,
+                color_target_descriptions = colorTargetDesc,
+                has_depth_stencil_target = true,
+                depth_stencil_format = SDL_GPUTextureFormat.SDL_GPU_TEXTUREFORMAT_D24_UNORM_S8_UINT
+            }
+        });
     }
 
-    public override void Unload()
+    public void Unload()
     {
-        base.Unload();
-
-        if (CommandList != null)
-        {
-            CommandList.Dispose();
-            CommandList = null;
-
-            WorldTextureSet.Dispose();
-            ProjectionViewSet.Dispose();
-            Pipeline.Dispose();
-
-            ProjectionBuffer.Dispose();
-            ViewBuffer.Dispose();
-            WorldBuffer.Dispose();
-        }
+        SDL_ReleaseGPUShader(window.Device, shader.VertexShader);
+        SDL_ReleaseGPUShader(window.Device, shader.FragmentShader);
+        SDL_ReleaseGPUGraphicsPipeline(window.Device, SdlPipeline);
     }
 }

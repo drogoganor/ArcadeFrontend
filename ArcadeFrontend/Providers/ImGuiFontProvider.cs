@@ -10,54 +10,34 @@ namespace ArcadeFrontend.Providers;
 /// </summary>
 public class ImGuiFontProvider
 {
+    private readonly IApplicationWindow window;
     private readonly IFileSystem fileSystem;
     private readonly ManifestProvider manifestProvider;
-    private readonly ImGuiProvider imGuiProvider;
     private readonly FrontendSettingsProvider frontendSettingsProvider;
-
-    // HACK: If we started as Vulkan we can't switch to D3D11 with fonts unless the whole app is restarted.
-    private bool wasEverVulkan = false;
 
     private BackendType backendType => frontendSettingsProvider.Settings.Video.BackendType;
 
     public ImGuiFontProvider(
+        IApplicationWindow window,
         IFileSystem fileSystem,
-        ImGuiProvider imGuiProvider,
         ManifestProvider manifestProvider,
         FrontendSettingsProvider frontendSettingsProvider)
     {
+        this.window = window;
         this.fileSystem = fileSystem;
-        this.imGuiProvider = imGuiProvider;
         this.manifestProvider = manifestProvider;
         this.frontendSettingsProvider = frontendSettingsProvider;
-
-        if (backendType == BackendType.Vulkan)
-        {
-            wasEverVulkan = true;
-        }
     }
 
     public void PushFont(FontSize fontSize)
     {
-        if (backendType == BackendType.Vulkan)
-        {
-            wasEverVulkan = true;
-        }
-        else if (!wasEverVulkan)
-        {
-            ImGui.PushFont(imGuiProvider.Fonts[fontSize]);
-        }
+        ImGui.PushFont(window.ImGuiRenderer.Fonts[fontSize]);
     }
 
     public void PopFont()
     {
-        if (backendType == BackendType.Vulkan)
-        {
-            wasEverVulkan = true;
-        }
-        else if (!wasEverVulkan)
-        {
-            ImGui.PopFont();
-        }
+        // TODO: We're calling exit game from the render thread and it throws an exception here
+        // Highest-level exit game call needs to be called from a next tick action instead
+        ImGui.PopFont();
     }
 }

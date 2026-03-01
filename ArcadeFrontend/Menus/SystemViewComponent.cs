@@ -66,7 +66,7 @@ public class SystemViewComponent : IRenderable
             ImGuiWindowFlags.NoFocusOnAppearing))
         {
             ImGui.SetCursorPos(listPosition);
-            if (ImGui.BeginListBox("", listSize))
+            if (ImGui.BeginListBox("##", listSize))
             {
                 foreach (var kvp in systems)
                 {

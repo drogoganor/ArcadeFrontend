@@ -3,7 +3,6 @@ using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Menus;
 using ArcadeFrontend.Providers;
 using ArcadeFrontend.Render;
-using Veldrid;
 
 namespace ArcadeFrontend;
 
@@ -37,7 +36,7 @@ public class AppClient : IAppClient
 
         window.Tick += Window_Tick;
         window.Rendering += Window_Rendering;
-        window.KeyPressed += Window_KeyPressed;
+        //window.KeyPressed += Window_KeyPressed;
         ui.OnExit += ExitGame;
     }
 
@@ -46,13 +45,13 @@ public class AppClient : IAppClient
         world.Tick(deltaSeconds);
     }
 
-    private void Window_KeyPressed(KeyEvent obj)
-    {
-        if (obj.Key == Key.Escape)
-        {
-            //ToggleInGameMenu();
-        }
-    }
+    //private void Window_KeyPressed(KeyEvent obj)
+    //{
+    //    if (obj.Key == Key.Escape)
+    //    {
+    //        //ToggleInGameMenu();
+    //    }
+    //}
 
     private void Window_Rendering(float deltaSeconds)
     {
@@ -73,7 +72,7 @@ public class AppClient : IAppClient
         isExiting = true;
         window.Tick -= Window_Tick;
         window.Rendering -= Window_Rendering;
-        window.KeyPressed -= Window_KeyPressed;
+        //window.KeyPressed -= Window_KeyPressed;
 
         loadProvider.Unload();
 

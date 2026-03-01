@@ -9,18 +9,15 @@ namespace ArcadeFrontend.Render;
 public class Scene : IRenderable
 {
     private readonly IApplicationWindow window;
-    private readonly IGraphicsDeviceProvider graphicsDeviceProvider;
     private readonly Camera camera;
     private readonly IWorld world;
 
     public Scene(
         IApplicationWindow window,
-        IGraphicsDeviceProvider graphicsDeviceProvider,
         Camera camera,
         IWorld world)
     {
         this.window = window;
-        this.graphicsDeviceProvider = graphicsDeviceProvider;
         this.camera = camera;
         this.world = world;
 
@@ -29,17 +26,11 @@ public class Scene : IRenderable
 
     public void Draw(float deltaSeconds)
     {
-        var gd = graphicsDeviceProvider.GraphicsDevice;
-
         world.Draw(deltaSeconds);
-
-        gd.SwapBuffers(gd.MainSwapchain);
-        gd.WaitForIdle();
     }
 
     private void HandleWindowResize()
     {
-        graphicsDeviceProvider.ResetFramebuffer();
         camera.WindowResized(window.Width, window.Height);
         //windowResizeProvider.WindowResized();
     }
