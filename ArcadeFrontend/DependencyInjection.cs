@@ -55,7 +55,6 @@ public static class DependencyInjection
             services.AddSingleton<SystemViewComponent>();
             services.AddSingleton<HeaderComponent>();
             services.AddSingleton<FooterComponent>();
-            services.AddSingleton<Sdl3GamepadInputProvider>();
 
             services.AddLogger();
             services.AddMameDb();

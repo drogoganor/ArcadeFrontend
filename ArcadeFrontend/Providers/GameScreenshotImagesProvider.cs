@@ -44,15 +44,14 @@ public class GameScreenshotImagesProvider
         var currentGame = currentSystem.Games.First(x => state.CurrentGame == null || x.Name == state.CurrentGame);
 
         // Only mame for now
-        if (currentGame.System != "Mame")
+        string[] imageFiles = null;
+        if (currentGame.System == "Mame")
+            imageFiles = GetMameScreenshots();
+        else if (currentSystem.Executable.Contains("Mesen"))
+            imageFiles = GetMesenScreenshots();
+
+        if (imageFiles == null)
             return;
-
-        var snapDirectory = Path.Combine(currentSystem.Directory, "snap", currentGame.Arguments);
-
-        if (!Directory.Exists(snapDirectory))
-            return;
-
-        var imageFiles = Directory.GetFiles(snapDirectory, "*.png");
 
         for (uint i = 0; i < imageFiles.Length; i++)
         {
@@ -77,5 +76,39 @@ public class GameScreenshotImagesProvider
         }
 
         ImGuiImages.Clear();
+    }
+
+    private string[] GetMameScreenshots()
+    {
+        var state = frontendStateProvider.State;
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
+
+        var currentGame = currentSystem.Games.First(x => state.CurrentGame == null || x.Name == state.CurrentGame);
+
+        var snapDirectory = Path.Combine(fileSystem.DataDirectory, currentSystem.Directory, "snap", currentGame.Arguments);
+
+        if (!Directory.Exists(snapDirectory))
+            return [];
+
+        var imageFiles = Directory.GetFiles(snapDirectory, "*.png");
+        return imageFiles;
+    }
+
+    private string[] GetMesenScreenshots()
+    {
+        var state = frontendStateProvider.State;
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
+
+        var currentGame = currentSystem.Games.First(x => state.CurrentGame == null || x.Name == state.CurrentGame);
+
+        var screenshotsDirectory = Path.Combine(fileSystem.DataDirectory, currentSystem.Directory, "Screenshots");
+
+        if (!Directory.Exists(screenshotsDirectory))
+            return [];
+
+        var gameFilename = Path.GetFileNameWithoutExtension(currentGame.Arguments);
+
+        var imageFiles = Directory.GetFiles(screenshotsDirectory, $"{gameFilename}_*.png");
+        return imageFiles;
     }
 }
