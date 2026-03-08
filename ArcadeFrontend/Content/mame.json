@@ -1,5 +1,6 @@
 {
-  "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\mame",
+  "Directory": "mame",
+  "RomDirectory": "roms",
   "Executable": "mame.exe",
   "Name": "Arcade",
   "Games": [

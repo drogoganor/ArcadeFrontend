@@ -1,4 +1,5 @@
 ﻿using ArcadeFrontend.Enums;
+using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,6 +16,7 @@ public class GameCommandsProvider
     }
 
     private readonly ILogger<GameCommandsProvider> logger;
+    private readonly IFileSystem fileSystem;
     private readonly FrontendStateProvider frontendStateProvider;
     private readonly GamesFileProvider gamesFileProvider;
     private readonly GameScreenshotImagesProvider gameScreenshotImagesProvider;
@@ -24,12 +26,14 @@ public class GameCommandsProvider
 
     public GameCommandsProvider(
         ILogger<GameCommandsProvider> logger,
+        IFileSystem fileSystem,
         FrontendStateProvider frontendStateProvider,
         GamesFileProvider gamesFileProvider,
         GameScreenshotImagesProvider gameScreenshotImagesProvider,
         IDbContextFactory<MameDbContext> dbContextFactory)
     {
         this.logger = logger;
+        this.fileSystem = fileSystem;
         this.frontendStateProvider = frontendStateProvider;
         this.gamesFileProvider = gamesFileProvider;
         this.gameScreenshotImagesProvider = gameScreenshotImagesProvider;
@@ -44,7 +48,10 @@ public class GameCommandsProvider
         var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
 
         var currentGame = currentSystem.Games.FirstOrDefault(x => state.CurrentGame == null || x.Name == state.CurrentGame)
-            ?? currentSystem.Games.First();
+            ?? currentSystem.Games.FirstOrDefault();
+
+        if (currentGame == null)
+            return;
 
         SetGame(currentGame.Name);
     }
@@ -163,8 +170,8 @@ public class GameCommandsProvider
 
         var startInfo = new ProcessStartInfo
         {
-            FileName = Path.Combine(currentSystem.Directory, currentSystem.Executable),
-            WorkingDirectory = currentSystem.Directory,
+            FileName = Path.Combine(fileSystem.DataDirectory, currentSystem.Directory, currentSystem.Executable),
+            WorkingDirectory = Path.Combine(fileSystem.DataDirectory, currentSystem.Directory),
             Arguments = arguments,
             UseShellExecute = false,
             RedirectStandardOutput = true,

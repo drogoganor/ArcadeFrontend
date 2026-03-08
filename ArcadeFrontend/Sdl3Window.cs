@@ -102,7 +102,7 @@ public class Sdl3Window : IApplicationWindow
         SDL_SetHint(SDL_HINT_GPU_DRIVER, "vulkan");
 
         // launch SDL
-        if (!SDL_Init(SDL_InitFlags.SDL_INIT_VIDEO | SDL_InitFlags.SDL_INIT_AUDIO))
+        if (!SDL_Init(SDL_InitFlags.SDL_INIT_VIDEO | SDL_InitFlags.SDL_INIT_AUDIO | SDL_InitFlags.SDL_INIT_GAMEPAD))
             throw new Exception($"{nameof(SDL_Init)} Failed: {SDL_GetError()}");
 
         SDL_SetHint(SDL_HINT_RENDER_VULKAN_DEBUG, "1");
@@ -674,11 +674,6 @@ public class Sdl3Window : IApplicationWindow
         return ImGuiKey.None;
     }
 
-    //protected void OnKeyDown(KeyEvent keyEvent)
-    //{
-    //    KeyPressed?.Invoke(keyEvent);
-    //}
-
     private void HandleResize()
     {
         windowResized = true;
@@ -687,6 +682,5 @@ public class Sdl3Window : IApplicationWindow
     public void Close()
     {
         Running = false;
-        //window.Close();
     }
 }

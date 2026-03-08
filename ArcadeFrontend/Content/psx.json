@@ -1,5 +1,6 @@
 {
-  "Directory": "C:\\Users\\dwils\\AppData\\Local\\ArcadeFrontend\\data\\duckstation-windows-x64-release",
+  "Directory": "duckstation-windows-x64-release",
+  "RomDirectory": "isos",
   "Executable": "duckstation-qt-x64-ReleaseLTCG.exe",
   "Name": "PSX",
   "Arguments": "-fullscreen",

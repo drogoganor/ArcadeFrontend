@@ -1,0 +1,94 @@
+{
+  "Name": "Super NES",
+  "Directory": "Mesen_2.1.1_Windows",
+  "RomDirectory": "roms-snes",
+  "Executable": "Mesen.exe",
+  "Arguments": "--fullscreen",
+  "Games": [
+    {
+      "Name": "Contra III - The Alien Wars",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Contra III - The Alien Wars (USA).zip\""
+    },
+    {
+      "Name": "Donkey Kong Country",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Donkey Kong Country (USA) (Rev-B).zip\""
+    },
+    {
+      "Name": "F-Zero",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\F-Zero (USA).zip\""
+    },
+    {
+      "Name": "The Legend of Zelda - A Link to the Past",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Legend of Zelda, The - A Link to the Past (USA).zip\""
+    },
+    {
+      "Name": "Lemmings",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Lemmings (USA) (Rev-A).zip\""
+    },
+    {
+      "Name": "Lemmings 2 - The Tribes",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Lemmings 2 - The Tribes (USA).zip\""
+    },
+    {
+      "Name": "Mega Man X",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Mega Man X (USA).zip\""
+    },
+    {
+      "Name": "Pilotwings",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Pilotwings (USA).zip\""
+    },
+    {
+      "Name": "Rival Turf!",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Rival Turf! (USA).zip\""
+    },
+    {
+      "Name": "Rock n' Roll Racing",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Rock n' Roll Racing (USA).zip\""
+    },
+    {
+      "Name": "Super Bomberman 2",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Super Bomberman 2 (USA).zip\""
+    },
+    {
+      "Name": "Super Ghouls 'n Ghosts",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Super Ghouls 'n Ghosts (USA).zip\""
+    },
+    {
+      "Name": "Super Mario All-Stars",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Super Mario All-Stars (USA).zip\""
+    },
+    {
+      "Name": "Super Mario World",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Super Mario World (USA).zip\""
+    },
+    {
+      "Name": "Super Mario World 2 - Yoshi's Island",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Super Mario World 2 - Yoshi's Island (USA) (Rev-A).zip\""
+    },
+    {
+      "Name": "Super Metroid",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Super Metroid (USA).zip\""
+    },
+    {
+      "Name": "Tetris & Dr. Mario",
+      "System": "Super NES",
+      "Arguments": "\"roms-snes\\Tetris & Dr. Mario (USA).zip\""
+    }
+  ]
+}

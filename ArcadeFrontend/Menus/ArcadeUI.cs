@@ -4,6 +4,7 @@ using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
 using ArcadeFrontend.Enums;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace ArcadeFrontend.Menus;
 
@@ -15,6 +16,7 @@ public class ArcadeUI : Menu
     private readonly IFileSystem fileSystem;
     private readonly ConfirmDialog confirmDialog;
     private readonly OptionsDialog optionsDialog;
+    private readonly GenerateRomsJsonDialog generateRomsJsonDialog;
     private readonly NextTickActionProvider nextTickActionProvider;
     private readonly BigViewComponent bigViewComponent;
     private readonly ListViewComponent listViewComponent;
@@ -33,6 +35,7 @@ public class ArcadeUI : Menu
         ImGuiFontProvider imGuiFontProvider,
         ConfirmDialog confirmDialog,
         OptionsDialog optionsDialog,
+        GenerateRomsJsonDialog generateRomsJsonDialog,
         NextTickActionProvider nextTickActionProvider,
         BigViewComponent bigViewComponent,
         ListViewComponent listViewComponent,
@@ -49,6 +52,7 @@ public class ArcadeUI : Menu
         this.fileSystem = fileSystem;
         this.confirmDialog = confirmDialog;
         this.optionsDialog = optionsDialog;
+        this.generateRomsJsonDialog = generateRomsJsonDialog;
         this.nextTickActionProvider = nextTickActionProvider;
         this.bigViewComponent = bigViewComponent;
         this.listViewComponent = listViewComponent;
@@ -95,6 +99,7 @@ public class ArcadeUI : Menu
         footerComponent.Draw(deltaSeconds);
 
         optionsDialog.Draw(deltaSeconds);
+        generateRomsJsonDialog.Draw(deltaSeconds);
         confirmDialog.Draw(deltaSeconds);
 
         base.Draw(deltaSeconds);
@@ -126,6 +131,19 @@ public class ArcadeUI : Menu
             }
 
             ImGui.EndMenu();
+        }
+
+        if (Debugger.IsAttached)
+        {
+            if (ImGui.BeginMenu("Tools"))
+            {
+                if (ImGui.MenuItem("Generate Roms Json..."))
+                {
+                    generateRomsJsonDialog.Show();
+                }
+
+                ImGui.EndMenu();
+            }
         }
 
         ImGui.EndMainMenuBar();

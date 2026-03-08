@@ -31,6 +31,7 @@
     "mame.json",
     "gba.json",
     "nes.json",
+    "snes.json",
     "psx.json"
   ],
   "LanguagesFile": "i18n.json"

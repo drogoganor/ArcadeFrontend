@@ -40,6 +40,7 @@ public static class DependencyInjection
             services.AddSingleton<TextureShader>();
             services.AddSingleton<WorldRenderer>();
             services.AddSingleton<OptionsDialog>();
+            services.AddSingleton<GenerateRomsJsonDialog>();
             services.AddSingleton<GamesFileProvider>();
             services.AddSingleton<BigViewComponent>();
             services.AddSingleton<FrontendStateProvider>();
@@ -54,6 +55,7 @@ public static class DependencyInjection
             services.AddSingleton<SystemViewComponent>();
             services.AddSingleton<HeaderComponent>();
             services.AddSingleton<FooterComponent>();
+            services.AddSingleton<Sdl3GamepadInputProvider>();
 
             services.AddLogger();
             services.AddMameDb();

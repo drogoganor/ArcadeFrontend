@@ -38,7 +38,7 @@ public class ListViewComponent : IRenderable
 
         var state = frontendStateProvider.State;
         var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
-        var currentGame = currentSystem.Games.First(x => state.CurrentGame == null || x.Name == state.CurrentGame);
+        var currentGame = currentSystem.Games.FirstOrDefault(x => state.CurrentGame == null || x.Name == state.CurrentGame);
 
         var headerHeight = UIConstants.BannerHeight + (2 * UIConstants.Margin);
 
