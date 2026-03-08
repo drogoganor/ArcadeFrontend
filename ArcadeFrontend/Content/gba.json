@@ -6,7 +6,7 @@
   "Arguments": "--fullscreen",
   "Games": [
     {
-      "Arguments": "\"roms\\Final Fantasy - Tactics Advance.gba\"",
+      "Arguments": "\"roms\\Final Fantasy Tactics Advance (USA).zip\"",
       "Name": "Final Fantasy: Tactics Advance",
       "System": "GBA"
     }

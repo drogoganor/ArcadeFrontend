@@ -49,6 +49,10 @@ public class GameScreenshotImagesProvider
             imageFiles = GetMameScreenshots();
         else if (currentSystem.Executable.Contains("Mesen"))
             imageFiles = GetMesenScreenshots();
+        else if (currentSystem.Executable.Contains("mGBA"))
+            imageFiles = GetMGBAScreenshots();
+        else if (currentSystem.Executable.Contains("duckstation"))
+            imageFiles = GetDuckstationScreenshots();
 
         if (imageFiles == null)
             return;
@@ -94,6 +98,24 @@ public class GameScreenshotImagesProvider
         return imageFiles;
     }
 
+    private string[] GetDuckstationScreenshots()
+    {
+        var state = frontendStateProvider.State;
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
+
+        var currentGame = currentSystem.Games.First(x => state.CurrentGame == null || x.Name == state.CurrentGame);
+
+        var screenshotsDirectory = Path.Combine(fileSystem.DataDirectory, currentSystem.Directory, "Screenshots");
+
+        if (!Directory.Exists(screenshotsDirectory))
+            return [];
+
+        var gameFilename = Path.GetFileNameWithoutExtension(currentGame.Name);
+
+        var imageFiles = Directory.GetFiles(screenshotsDirectory, $"{gameFilename}*.png");
+        return imageFiles;
+    }
+
     private string[] GetMesenScreenshots()
     {
         var state = frontendStateProvider.State;
@@ -109,6 +131,24 @@ public class GameScreenshotImagesProvider
         var gameFilename = Path.GetFileNameWithoutExtension(currentGame.Arguments);
 
         var imageFiles = Directory.GetFiles(screenshotsDirectory, $"{gameFilename}_*.png");
+        return imageFiles;
+    }
+
+    private string[] GetMGBAScreenshots()
+    {
+        var state = frontendStateProvider.State;
+        var currentSystem = gamesFileProvider.Data[state.CurrentSystem];
+
+        var currentGame = currentSystem.Games.First(x => state.CurrentGame == null || x.Name == state.CurrentGame);
+
+        var screenshotsDirectory = Path.Combine(fileSystem.DataDirectory, currentSystem.Directory, "roms");
+
+        if (!Directory.Exists(screenshotsDirectory))
+            return [];
+
+        var gameFilename = Path.GetFileNameWithoutExtension(currentGame.Arguments);
+
+        var imageFiles = Directory.GetFiles(screenshotsDirectory, $"{gameFilename}-*.png");
         return imageFiles;
     }
 }
