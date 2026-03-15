@@ -29,9 +29,11 @@
   ],
   "GamesFiles": [
     "mame.json",
-    "gba.json",
     "nes.json",
     "snes.json",
+    "n64.json",
+    "gamecube.json",
+    "gba.json",
     "psx.json"
   ],
   "LanguagesFile": "i18n.json"
