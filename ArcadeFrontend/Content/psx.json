@@ -7,23 +7,19 @@
   "Games": [
     {
       "Arguments": "-- isos\\[PSX] Castlevania.Symphony.Of.The.Night.NTSC.US.bin",
-      "Name": "Castlevania - Symphony of the Night",
-      "System": "PSX"
+      "Name": "Castlevania - Symphony of the Night"
     },
     {
       "Arguments": "-- isos\\Crash Bandicoot (USA).bin",
-      "Name": "Crash Bandicoot",
-      "System": "PSX"
+      "Name": "Crash Bandicoot"
     },
     {
       "Arguments": "-- isos\\[PSX] Devil Dice [PAL].img",
-      "Name": "Devil Dice",
-      "System": "PSX"
+      "Name": "Devil Dice"
     },
     {
       "Arguments": "-- isos\\[PSX] Harvest Moon - Back To Nature [NTSC-US].bin",
-      "Name": "Harvest Moon - Back To Nature",
-      "System": "PSX"
+      "Name": "Harvest Moon - Back To Nature"
     }
   ]
 }

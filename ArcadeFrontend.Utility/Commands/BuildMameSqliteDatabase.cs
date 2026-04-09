@@ -145,8 +145,7 @@ public class BuildMameSqliteDatabase
             var gameDef = new GameData
             {
                 Name = filename,
-                Arguments = filename,
-                System = "Mame"
+                Arguments = filename
             };
 
             var mameRom = mameDbContext.MameRom.FirstOrDefault(x => x.Name == filename);

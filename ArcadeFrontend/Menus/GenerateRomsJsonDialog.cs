@@ -69,8 +69,7 @@ public class GenerateRomsJsonDialog : IRenderable
                     var game = new GameData
                     {
                         Name = Path.GetFileNameWithoutExtension(file),
-                        Arguments = $"\"{currentSystem.RomDirectory}\\{Path.GetFileName(file)}\"",
-                        System = currentSystem.Name
+                        Arguments = $"\"{currentSystem.RomDirectory}\\{Path.GetFileName(file)}\""
                     };
 
                     dummyGameFile.Games.Add(game);

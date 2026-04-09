@@ -7,147 +7,130 @@
   "Games": [
     {
       "Name": "10 Yard Fight",
-      "System": "NES",
       "Arguments": "\"roms\\10 Yard Fight.zip\""
     },
     {
       "Name": "Batman Returns",
-      "System": "NES",
       "Arguments": "\"roms\\Batman Returns.zip\""
     },
     {
       "Name": "A Boy and His Blob - Trouble on Blobolonia",
-      "System": "NES",
       "Arguments": "\"roms\\Boy and His Blob, A - Trouble on Blobolonia.zip\""
     },
     {
       "Name": "Bubble Bobble",
-      "System": "NES",
       "Arguments": "\"roms\\Bubble Bobble.zip\""
     },
     {
       "Name": "California Games",
-      "System": "NES",
       "Arguments": "\"roms\\California Games.zip\""
     },
     {
       "Name": "Contra",
-      "System": "NES",
       "Arguments": "\"roms\\Contra.zip\""
     },
     {
       "Name": "Double Dragon II - The Revenge",
-      "System": "NES",
       "Arguments": "\"roms\\Double Dragon II - The Revenge.zip\""
     },
     {
       "Name": "Dr. Mario",
-      "System": "NES",
       "Arguments": "\"roms\\Dr. Mario.zip\""
     },
     {
-      "Name": "Legend of Zelda, The",
-      "System": "NES",
+      "Name": "The Legend of Zelda",
       "Arguments": "\"roms\\Legend of Zelda, The.zip\""
     },
     {
       "Name": "Marble Madness",
-      "System": "NES",
       "Arguments": "\"roms\\Marble Madness.zip\""
     },
     {
       "Name": "Mega Man II",
-      "System": "NES",
       "Arguments": "\"roms\\Mega Man II.zip\""
     },
     {
       "Name": "Mega Man III",
-      "System": "NES",
       "Arguments": "\"roms\\Mega Man III.zip\""
     },
     {
       "Name": "Mega Man",
-      "System": "NES",
       "Arguments": "\"roms\\Mega Man.zip\""
     },
     {
       "Name": "Metroid",
-      "System": "NES",
       "Arguments": "\"roms\\Metroid.zip\""
     },
     {
       "Name": "Micro Machines",
-      "System": "NES",
       "Arguments": "\"roms\\Micro Machines.zip\""
     },
     {
       "Name": "Ninja Gaiden II - The Dark Sword of Chaos",
-      "System": "NES",
       "Arguments": "\"roms\\Ninja Gaiden II - The Dark Sword of Chaos.zip\""
     },
     {
       "Name": "Ninja Gaiden III - The Ancient Ship of Doom",
-      "System": "NES",
       "Arguments": "\"roms\\Ninja Gaiden III - The Ancient Ship of Doom.zip\""
     },
     {
       "Name": "Ninja Gaiden",
-      "System": "NES",
       "Arguments": "\"roms\\Ninja Gaiden.zip\""
     },
     {
       "Name": "RoboCop 2",
-      "System": "NES",
       "Arguments": "\"roms\\RoboCop 2.zip\""
     },
     {
       "Name": "Snake Rattle 'n Roll",
-      "System": "NES",
       "Arguments": "\"roms\\Snake Rattle 'n Roll.zip\""
     },
     {
       "Name": "Super Mario Bros. 2",
-      "System": "NES",
       "Arguments": "\"roms\\Super Mario Bros. 2.zip\""
     },
     {
       "Name": "Super Mario Bros. 3",
-      "System": "NES",
       "Arguments": "\"roms\\Super Mario Bros. 3.zip\""
     },
     {
+      "Name": "Super Mario Bros. 3 Alpha (Romhack)",
+      "Arguments": "\"roms\\Super Mario Bros. 3 Alpha.zip\""
+    },
+    {
+      "Name": "Super Mario Bros. 3 E1S 2023 (Romhack)",
+      "Arguments": "\"roms\\Super Mario Bros. 3 E1S 2023.zip\""
+    },
+    {
+      "Name": "Super Maura Bros. 3 (Romhack)",
+      "Arguments": "\"roms\\Super Maura Bros. 3 (Romhack).zip\""
+    },
+    {
       "Name": "Super Mario Bros.",
-      "System": "NES",
       "Arguments": "\"roms\\Super Mario Bros..zip\""
     },
     {
       "Name": "Super Spy Hunter",
-      "System": "NES",
       "Arguments": "\"roms\\Super Spy Hunter.zip\""
     },
     {
       "Name": "Teenage Mutant Ninja Turtles III - The Manhattan Project",
-      "System": "NES",
       "Arguments": "\"roms\\Teenage Mutant Ninja Turtles III - The Manhattan Project.zip\""
     },
     {
       "Name": "Teenage Mutant Ninja Turtles",
-      "System": "NES",
       "Arguments": "\"roms\\Teenage Mutant Ninja Turtles.zip\""
     },
     {
       "Name": "Tetris",
-      "System": "NES",
       "Arguments": "\"roms\\Tetris (Nintendo).zip\""
     },
     {
       "Name": "Wizards & Warriors II - Ironsword",
-      "System": "NES",
       "Arguments": "\"roms\\Wizards & Warriors II - Ironsword.zip\""
     },
     {
       "Name": "Zelda II - The Adventure of Link",
-      "System": "NES",
       "Arguments": "\"roms\\Zelda II - The Adventure of Link.zip\""
     }
   ]

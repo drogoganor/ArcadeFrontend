@@ -13,6 +13,5 @@ public class GamesFile
 public class GameData
 {
     public string Name { get; set; }
-    public string System { get; set; }
     public string Arguments { get; set; }
 }

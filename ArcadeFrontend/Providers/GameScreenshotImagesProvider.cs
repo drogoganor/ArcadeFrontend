@@ -45,7 +45,7 @@ public class GameScreenshotImagesProvider
 
         // Only mame for now
         string[] imageFiles = null;
-        if (currentGame.System == "Mame")
+        if (currentSystem.Executable == "mame.exe")
             imageFiles = GetMameScreenshots();
         else if (currentSystem.Executable.Contains("Mesen"))
             imageFiles = GetMesenScreenshots();

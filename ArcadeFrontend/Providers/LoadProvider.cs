@@ -56,7 +56,7 @@ public class LoadProvider : ILoadProvider
         // HACK: HACK HACK HACK
         // Set the first system and game
         frontendStateProvider.State.CurrentSystem = currentSystem;
-        frontendStateProvider.State.CurrentGame = games.FirstOrDefault(x => x.System == frontendStateProvider.State.CurrentSystem)?.Name;
+        frontendStateProvider.State.CurrentGame = games.FirstOrDefault()?.Name;
 
         colorShader.Load();
         //textureShader.Load();

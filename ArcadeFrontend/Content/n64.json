@@ -7,23 +7,19 @@
   "Games": [
     {
       "Arguments": "\"roms\\F-Zero X (U) [!].v64\"",
-      "Name": "F-Zero X",
-      "System": "N64"
+      "Name": "F-Zero X"
     },
     {
       "Arguments": "\"roms\\Harvest Moon 64 (U) [!].v64\"",
-      "Name": "Harvest Moon 64",
-      "System": "N64"
+      "Name": "Harvest Moon 64"
     },
     {
       "Arguments": "\"roms\\Super Mario 64 (U) [!].v64\"",
-      "Name": "Super Mario 64",
-      "System": "N64"
+      "Name": "Super Mario 64"
     },
     {
       "Arguments": "\"roms\\Zelda Ocarina of Time Master Quest.v64\"",
-      "Name": "Zelda Ocarina of Time Master Quest",
-      "System": "N64"
+      "Name": "Zelda Ocarina of Time Master Quest"
     }
   ]
 }

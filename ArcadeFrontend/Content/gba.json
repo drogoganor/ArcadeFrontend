@@ -7,18 +7,15 @@
   "Games": [
     {
       "Arguments": "\"roms\\Final Fantasy Tactics Advance (USA).zip\"",
-      "Name": "Final Fantasy: Tactics Advance",
-      "System": "GBA"
+      "Name": "Final Fantasy: Tactics Advance"
     },
     {
       "Arguments": "\"roms\\Harvest Moon - Friends of Mineral Town.zip\"",
-      "Name": "Harvest Moon - Friends of Mineral Town",
-      "System": "GBA"
+      "Name": "Harvest Moon - Friends of Mineral Town"
     },
     {
       "Arguments": "\"roms\\Zelda - The Minish Cap.zip\"",
-      "Name": "Zelda - The Minish Cap",
-      "System": "GBA"
+      "Name": "Zelda - The Minish Cap"
     }
   ]
 }

@@ -1,0 +1,8 @@
+Copyright (c) ArcadeFrontend developer David Wilson
+
+For private distribution only. By proceeding with this install, you agree to:
+
+* Not distribute this installer or application or any associated assets
+* Abide by the terms and the spirit of Fair use
+
+This software is distributed for testing purposes only. It is possible it could damage your computer. By proceeding with this install you acknowledge that this is a possibility. I will not be held liable for damages or losses incurred as a result of using this software.
