@@ -1,5 +1,6 @@
 ﻿using ImGuiNET;
 using ArcadeFrontend.Enums;
+using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using static SDL3.SDL;
 
-namespace ArcadeFrontend.Render;
+namespace ArcadeFrontend.Providers;
 
 /// <summary>
 /// Renders ImGui using SDL GPU
 /// </summary>
-public unsafe class Sdl3ImGuiRenderer : IDisposable
+public unsafe class Sdl3ImGuiRenderer : IDisposable, ILoad
 {
     /// <summary>
     /// Custom ImGui User-Callback
@@ -22,63 +23,60 @@ public unsafe class Sdl3ImGuiRenderer : IDisposable
     public delegate void UserCallback(ImDrawListPtr parentList, ImDrawCmdPtr cmd);
 
     /// <summary>
-    /// SDL GPU Device
-    /// </summary>
-    public readonly nint Device;
-
-    /// <summary>
-    /// SDL Window
-    /// </summary>
-    public readonly nint Window;
-
-    /// <summary>
-    /// ImGui Context
-    /// </summary>
-    public readonly nint Context;
-
-    /// <summary>
     /// Scales all of the ImGui Content by this amount
     /// </summary>
     public float Scale = 1.0f;
 
-
     public Dictionary<FontSize, ImFontPtr> Fonts { get; private set; } = [];
 
-    private readonly nint vertexShader;
-    private readonly nint fragmentShader;
-    private readonly GpuBuffer vertexBuffer;
-    private readonly GpuBuffer indexBuffer;
-    private readonly nint pipeline;
-    private readonly nint fontTexture;
-    private readonly nint sampler;
 
+    private readonly IApplicationWindow window;
     private readonly ManifestProvider manifestProvider;
 
     private ImDrawVert[] vertices = [];
     private ushort[] indices = [];
     private readonly List<UserCallback> callbacks = [];
 
-    public Sdl3ImGuiRenderer(ManifestProvider manifestProvider, nint sdlGpuDevice, nint sdlWindow, nint imGuiContext)
+
+    private nint context;
+    private nint vertexShader;
+    private nint fragmentShader;
+    private GpuBuffer vertexBuffer;
+    private GpuBuffer indexBuffer;
+    private nint pipeline;
+    private nint fontTexture;
+    private nint sampler;
+
+    public Sdl3ImGuiRenderer(
+        IApplicationWindow window,
+        ManifestProvider manifestProvider)
     {
+        this.window = window;
         this.manifestProvider = manifestProvider;
+    }
+
+    public void Load()
+    {
+        // create imgui context
+        context = ImGui.CreateContext();
+        ImGui.SetCurrentContext(context);
 
         var io = ImGui.GetIO();
 
-        Device = sdlGpuDevice;
-        Window = sdlWindow;
-        Context = imGuiContext;
+        var device = this.window.Device;
+        var window = this.window.Window;
 
         // default imgui display size & scale
         {
-            var display = SDL_GetDisplayForWindow(Window);
+            var display = SDL_GetDisplayForWindow(window);
             if (display != nint.Zero)
                 Scale = SDL_GetDisplayContentScale(display);
-            SDL_GetWindowSizeInPixels(Window, out int width, out int height);
+            SDL_GetWindowSizeInPixels(window, out int width, out int height);
             io.DisplaySize = new Vector2(width, height);
         }
 
         // get shader language
-        var driver = SDL_GetGPUDeviceDriver(Device);
+        var driver = SDL_GetGPUDeviceDriver(device);
         var shaderFormat = driver switch
         {
             "private" => SDL_GPUShaderFormat.SDL_GPU_SHADERFORMAT_PRIVATE,
@@ -108,7 +106,7 @@ public unsafe class Sdl3ImGuiRenderer : IDisposable
             fixed (byte* vertexCodePtr = vertexCode)
             fixed (byte* vertexEntryPtr = vertexEntry)
             {
-                vertexShader = SDL_CreateGPUShader(Device, new()
+                vertexShader = SDL_CreateGPUShader(device, new()
                 {
                     code_size = (uint)vertexCode.Length,
                     code = vertexCodePtr,
@@ -128,7 +126,7 @@ public unsafe class Sdl3ImGuiRenderer : IDisposable
             fixed (byte* fragmentCodePtr = fragmentCode)
             fixed (byte* fragmentEntryPtr = fragmentEntry)
             {
-                fragmentShader = SDL_CreateGPUShader(Device, new()
+                fragmentShader = SDL_CreateGPUShader(device, new()
                 {
                     code_size = (uint)fragmentCode.Length,
                     code = fragmentCodePtr,
@@ -150,7 +148,7 @@ public unsafe class Sdl3ImGuiRenderer : IDisposable
         {
             var colorTargetDesc = stackalloc SDL_GPUColorTargetDescription[1] {
                 new() {
-                    format = SDL_GetGPUSwapchainTextureFormat(Device, Window),
+                    format = SDL_GetGPUSwapchainTextureFormat(device, window),
                     blend_state = new()
                     {
                         src_color_blendfactor = SDL_GPUBlendFactor.SDL_GPU_BLENDFACTOR_SRC_ALPHA,
@@ -195,7 +193,7 @@ public unsafe class Sdl3ImGuiRenderer : IDisposable
                 }
             };
 
-            pipeline = SDL_CreateGPUGraphicsPipeline(Device, new()
+            pipeline = SDL_CreateGPUGraphicsPipeline(device, new()
             {
                 vertex_shader = vertexShader,
                 fragment_shader = fragmentShader,
@@ -223,13 +221,13 @@ public unsafe class Sdl3ImGuiRenderer : IDisposable
 
         // create buffers
         {
-            vertexBuffer = new(Device, SDL_GPUBufferUsageFlags.SDL_GPU_BUFFERUSAGE_VERTEX);
-            indexBuffer = new(Device, SDL_GPUBufferUsageFlags.SDL_GPU_BUFFERUSAGE_INDEX);
+            vertexBuffer = new(device, SDL_GPUBufferUsageFlags.SDL_GPU_BUFFERUSAGE_VERTEX);
+            indexBuffer = new(device, SDL_GPUBufferUsageFlags.SDL_GPU_BUFFERUSAGE_INDEX);
         }
 
         // create sampler
         {
-            sampler = SDL_CreateGPUSampler(Device, new()
+            sampler = SDL_CreateGPUSampler(device, new()
             {
                 min_filter = SDL_GPUFilter.SDL_GPU_FILTER_NEAREST,
                 mag_filter = SDL_GPUFilter.SDL_GPU_FILTER_NEAREST,
@@ -254,7 +252,7 @@ public unsafe class Sdl3ImGuiRenderer : IDisposable
             var size = width * height * 4;
 
             // create texture
-            fontTexture = SDL_CreateGPUTexture(Device, new()
+            fontTexture = SDL_CreateGPUTexture(device, new()
             {
                 type = SDL_GPUTextureType.SDL_GPU_TEXTURETYPE_2D,
                 format = SDL_GPUTextureFormat.SDL_GPU_TEXTUREFORMAT_R8G8B8A8_UNORM,
@@ -269,17 +267,17 @@ public unsafe class Sdl3ImGuiRenderer : IDisposable
                 throw new Exception($"{nameof(SDL_CreateGPUTexture)} Failed: {SDL_GetError()}");
 
             // upload texture data
-            var transferBuffer = SDL_CreateGPUTransferBuffer(Device, new()
+            var transferBuffer = SDL_CreateGPUTransferBuffer(device, new()
             {
                 usage = SDL_GPUTransferBufferUsage.SDL_GPU_TRANSFERBUFFERUSAGE_UPLOAD,
                 size = (uint)size
             });
 
-            var transferPtr = SDL_MapGPUTransferBuffer(Device, transferBuffer, false);
+            var transferPtr = SDL_MapGPUTransferBuffer(device, transferBuffer, false);
             Buffer.MemoryCopy(pixels, (void*)transferPtr, size, size);
-            SDL_UnmapGPUTransferBuffer(Device, transferBuffer);
+            SDL_UnmapGPUTransferBuffer(device, transferBuffer);
 
-            var cmd = SDL_AcquireGPUCommandBuffer(Device);
+            var cmd = SDL_AcquireGPUCommandBuffer(device);
             var pass = SDL_BeginGPUCopyPass(cmd);
 
             SDL_UploadToGPUTexture(pass,
@@ -299,11 +297,16 @@ public unsafe class Sdl3ImGuiRenderer : IDisposable
             );
             SDL_EndGPUCopyPass(pass);
             SDL_SubmitGPUCommandBuffer(cmd);
-            SDL_ReleaseGPUTransferBuffer(Device, transferBuffer);
+            SDL_ReleaseGPUTransferBuffer(device, transferBuffer);
         }
 
         // set imgui font texture id
         io.Fonts.SetTexID(fontTexture);
+    }
+
+    public void Unload()
+    {
+        // TODO: the Dispose code could probably go here, and we could remove BeforeDispose event from IApplicationWindow
     }
 
     ~Sdl3ImGuiRenderer()
@@ -316,11 +319,13 @@ public unsafe class Sdl3ImGuiRenderer : IDisposable
     {
         GC.SuppressFinalize(this);
 
-        SDL_ReleaseGPUShader(Device, vertexShader);
-        SDL_ReleaseGPUShader(Device, fragmentShader);
-        SDL_ReleaseGPUGraphicsPipeline(Device, pipeline);
-        SDL_ReleaseGPUTexture(Device, fontTexture);
-        SDL_ReleaseGPUSampler(Device, sampler);
+        ImGui.DestroyContext(context);
+
+        SDL_ReleaseGPUShader(window.Device, vertexShader);
+        SDL_ReleaseGPUShader(window.Device, fragmentShader);
+        SDL_ReleaseGPUGraphicsPipeline(window.Device, pipeline);
+        SDL_ReleaseGPUTexture(window.Device, fontTexture);
+        SDL_ReleaseGPUSampler(window.Device, sampler);
 
         Fonts.Clear();
 
@@ -347,25 +352,6 @@ public unsafe class Sdl3ImGuiRenderer : IDisposable
         callbacks.Add(callback);
         ImGui.GetWindowDrawList().AddCallback(callbacks.Count, userData ?? nint.Zero);
     }
-
-    /// <summary>
-    /// Renders the ImGuiContents (calls <see cref="SDL_WaitAndAcquireGPUSwapchainTexture"/> and <see cref="ImGui.Render"/> internally)
-    /// </summary>
-    //public void Render(out nint cmd, out nint swapchain, SDL_FColor? clearColor = null)
-    //{
-    //    cmd = SDL_AcquireGPUCommandBuffer(Device);
-
-    //    if (SDL_WaitAndAcquireGPUSwapchainTexture(cmd, Window, out swapchain, out var width, out var height))
-    //    {
-    //        Render(cmd, swapchain, (int)width, (int)height, clearColor);
-    //    }
-    //    else
-    //    {
-    //        Console.WriteLine($"{nameof(SDL_WaitAndAcquireGPUSwapchainTexture)} failed: {SDL_GetError()}");
-    //    }
-
-    //    //SDL_SubmitGPUCommandBuffer(cmd);
-    //}
 
     /// <summary>
     /// Renders the ImGuiContents (calls <see cref="ImGui.Render"/> internally)

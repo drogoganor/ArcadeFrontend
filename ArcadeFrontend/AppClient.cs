@@ -36,8 +36,6 @@ public class AppClient : IAppClient
 
         window.Tick += Window_Tick;
         window.Rendering += Window_Rendering;
-        window.RenderingUI += Window_RenderingUI;
-        window.PostRender += Window_PostRender;
 
         ui.OnExit += ExitGame;
     }
@@ -52,22 +50,6 @@ public class AppClient : IAppClient
         if (!isExiting)
         {
             scene.Draw(deltaSeconds);
-        }
-    }
-
-    private void Window_RenderingUI(float deltaSeconds)
-    {
-        if (!isExiting)
-        {
-            scene.DrawUI(deltaSeconds);
-        }
-    }
-
-    private void Window_PostRender(float deltaSeconds)
-    {
-        if (!isExiting)
-        {
-            scene.PostDraw(deltaSeconds);
         }
     }
 

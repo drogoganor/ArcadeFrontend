@@ -1,6 +1,5 @@
 ﻿using ArcadeFrontend.Interfaces;
-using ArcadeFrontend.Render;
-using System;
+using ArcadeFrontend.Providers;
 using System.Text;
 using static SDL3.SDL;
 

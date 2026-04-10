@@ -30,33 +30,33 @@ public class InputProvider : ITick, ILoad
 
         if (state.CurrentView == ViewType.Big)
         {
-            if (Sdl3InputTracker.GetKeyDown(SdlKey.Left) || XInputTracker.GetButtonDown(XButton.DPadLeft))
+            if (Sdl3InputTracker.GetKeyDown(SdlKey.Left) || Sdl3InputTracker.GetButtonDown(SdlButton.DPadLeft))
             {
                 gameCommandsProvider.PreviousGame();
             }
-            else if (Sdl3InputTracker.GetKeyDown(SdlKey.Right) || XInputTracker.GetButtonDown(XButton.DPadRight))
+            else if (Sdl3InputTracker.GetKeyDown(SdlKey.Right) || Sdl3InputTracker.GetButtonDown(SdlButton.DPadRight))
             {
                 gameCommandsProvider.NextGame();
             }
         }
         else if (state.CurrentView == ViewType.List)
         {
-            if (Sdl3InputTracker.GetKeyDown(SdlKey.Up) || XInputTracker.GetButtonDown(XButton.DPadUp))
+            if (Sdl3InputTracker.GetKeyDown(SdlKey.Up) || Sdl3InputTracker.GetButtonDown(SdlButton.DPadUp))
             {
                 gameCommandsProvider.PreviousGame();
             }
-            else if (Sdl3InputTracker.GetKeyDown(SdlKey.Down) || XInputTracker.GetButtonDown(XButton.DPadDown))
+            else if (Sdl3InputTracker.GetKeyDown(SdlKey.Down) || Sdl3InputTracker.GetButtonDown(SdlButton.DPadDown))
             {
                 gameCommandsProvider.NextGame();
             }
         }
         else if (state.CurrentView == ViewType.System)
         {
-            if (Sdl3InputTracker.GetKeyDown(SdlKey.Up) || XInputTracker.GetButtonDown(XButton.DPadUp))
+            if (Sdl3InputTracker.GetKeyDown(SdlKey.Up) || Sdl3InputTracker.GetButtonDown(SdlButton.DPadUp))
             {
                 gameCommandsProvider.PreviousSystem();
             }
-            else if (Sdl3InputTracker.GetKeyDown(SdlKey.Down) || XInputTracker.GetButtonDown(XButton.DPadDown))
+            else if (Sdl3InputTracker.GetKeyDown(SdlKey.Down) || Sdl3InputTracker.GetButtonDown(SdlButton.DPadDown))
             {
                 gameCommandsProvider.NextSystem();
             }
@@ -64,23 +64,23 @@ public class InputProvider : ITick, ILoad
 
         if (state.CurrentView != ViewType.System)
         {
-            if (Sdl3InputTracker.GetKeyDown(SdlKey.Enter) || XInputTracker.GetButtonDown(XButton.A))
+            if (Sdl3InputTracker.GetKeyDown(SdlKey.Enter) || Sdl3InputTracker.GetButtonDown(SdlButton.South))
             {
                 gameCommandsProvider.LaunchGame();
             }
-            else if (Sdl3InputTracker.GetKeyDown(SdlKey.X) || XInputTracker.GetButtonDown(XButton.Y))
+            else if (Sdl3InputTracker.GetKeyDown(SdlKey.X) || Sdl3InputTracker.GetButtonDown(SdlButton.North))
             {
                 gameCommandsProvider.ToggleView();
             }
-            else if (Sdl3InputTracker.GetKeyDown(SdlKey.Z) || XInputTracker.GetButtonDown(XButton.X))
+            else if (Sdl3InputTracker.GetKeyDown(SdlKey.Z) || Sdl3InputTracker.GetButtonDown(SdlButton.West))
             {
                 gameCommandsProvider.ShowSystems();
             }
         }
         else
         {
-            if (Sdl3InputTracker.GetKeyDown(SdlKey.Enter) || XInputTracker.GetButtonDown(XButton.A) ||
-                Sdl3InputTracker.GetKeyDown(SdlKey.Z) || XInputTracker.GetButtonDown(XButton.X))
+            if (Sdl3InputTracker.GetKeyDown(SdlKey.Enter) || Sdl3InputTracker.GetButtonDown(SdlButton.South) ||
+                Sdl3InputTracker.GetKeyDown(SdlKey.Z) || Sdl3InputTracker.GetButtonDown(SdlButton.West))
             {
                 gameCommandsProvider.ShowGames();
             }

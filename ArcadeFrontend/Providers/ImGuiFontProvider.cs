@@ -1,6 +1,7 @@
-﻿using ImGuiNET;
-using ArcadeFrontend.Enums;
+﻿using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
+using ArcadeFrontend.Render;
+using ImGuiNET;
 
 namespace ArcadeFrontend.Providers;
 
@@ -14,6 +15,7 @@ public class ImGuiFontProvider
     private readonly IFileSystem fileSystem;
     private readonly ManifestProvider manifestProvider;
     private readonly FrontendSettingsProvider frontendSettingsProvider;
+    private readonly Sdl3ImGuiRenderer sdl3ImGuiRenderer;
 
     private BackendType backendType => frontendSettingsProvider.Settings.Video.BackendType;
 
@@ -21,17 +23,19 @@ public class ImGuiFontProvider
         IApplicationWindow window,
         IFileSystem fileSystem,
         ManifestProvider manifestProvider,
-        FrontendSettingsProvider frontendSettingsProvider)
+        FrontendSettingsProvider frontendSettingsProvider,
+        Sdl3ImGuiRenderer sdl3ImGuiRenderer)
     {
         this.window = window;
         this.fileSystem = fileSystem;
         this.manifestProvider = manifestProvider;
         this.frontendSettingsProvider = frontendSettingsProvider;
+        this.sdl3ImGuiRenderer = sdl3ImGuiRenderer;
     }
 
     public void PushFont(FontSize fontSize)
     {
-        ImGui.PushFont(window.ImGuiRenderer.Fonts[fontSize]);
+        ImGui.PushFont(sdl3ImGuiRenderer.Fonts[fontSize]);
     }
 
     public void PopFont()

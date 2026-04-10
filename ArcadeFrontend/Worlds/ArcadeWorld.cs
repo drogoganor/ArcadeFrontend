@@ -10,24 +10,21 @@ namespace ArcadeFrontend.Worlds;
 public class ArcadeWorld : IWorld
 {
     private readonly IMenuProvider menuProvider;
-    //private readonly OrthoSpriteRenderer orthoSpriteRenderer;
     private readonly WorldRenderer worldRenderer;
     private readonly InputProvider inputProvider;
+    private readonly NextTickActionProvider nextTickActionProvider;
 
     public ArcadeWorld(
         ILoadProvider loadProvider,
         IMenuProvider menuProvider,
         WorldRenderer worldRenderer,
-        InputProvider inputProvider
-        //GameSpriteRenderer gameSpriteRenderer,
-        //OrthoSpriteRenderer orthoSpriteRenderer
-        )
+        InputProvider inputProvider,
+        NextTickActionProvider nextTickActionProvider)
     {
         this.menuProvider = menuProvider;
         this.worldRenderer = worldRenderer;
         this.inputProvider = inputProvider;
-        //this.gameSpriteRenderer = gameSpriteRenderer;
-        //this.orthoSpriteRenderer = orthoSpriteRenderer;
+        this.nextTickActionProvider = nextTickActionProvider;
 
         loadProvider.Load();
     }
@@ -42,13 +39,10 @@ public class ArcadeWorld : IWorld
         menuProvider.Draw(deltaSeconds);
     }
 
-    public void PostDraw(float deltaSeconds)
-    {
-
-    }
-
     public void Tick(float deltaSeconds)
     {
+        nextTickActionProvider.Tick(deltaSeconds);
+
         inputProvider.Tick(deltaSeconds);
     }
 }

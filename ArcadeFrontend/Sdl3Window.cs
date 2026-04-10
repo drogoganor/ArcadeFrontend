@@ -2,8 +2,8 @@
 using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
 using ArcadeFrontend.Providers;
-using ArcadeFrontend.Render;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using static SDL3.SDL;
@@ -12,31 +12,29 @@ namespace ArcadeFrontend;
 
 public class Sdl3Window : IApplicationWindow
 {
-    private readonly IFileSystem fileSystem;
+    public class GamepadInfo
+    {
+        public int PlayerID { get; set; }
+        public bool Connected { get; set; }
+        public nint Ptr { get; set; }
+        public uint Which { get; set; }
+    }
+
     private readonly FrontendSettingsProvider settingsProvider;
     private readonly ManifestProvider manifestProvider;
-    private readonly NextTickActionProvider nextTickActionProvider;
 
-    /// <summary>
-    /// The SDL Window
-    /// </summary>
     public nint Window { get; private set; }
 
-    /// <summary>
-    /// The SDL GPU Device
-    /// </summary>
     public nint Device { get; private set; }
     public nint Command { get; private set; }
     public nint Swapchain { get; private set; }
     public nint DepthTexture { get; private set; }
 
-    /// <summary>
-    /// The ImGui Renderer Implementation
-    /// </summary>
-    public Sdl3ImGuiRenderer ImGuiRenderer { get; private set; }
-
     public uint Width { get; private set; }
     public uint Height { get; private set; }
+
+    public Dictionary<uint, GamepadInfo> Gamepads { get; private set; } = new(); // Indexed by Which
+    public Dictionary<int, GamepadInfo> GamepadsByPlayerIndex { get; private set; } = new();
 
     public SDL_GPUColorTargetInfo ColorTargetInfo { get; private set; }
     public SDL_GPUColorTargetInfo ClearColorTargetInfo { get; private set; }
@@ -44,7 +42,6 @@ public class Sdl3Window : IApplicationWindow
     public SDL_GPUDepthStencilTargetInfo ClearDepthStencilTargetInfo { get; private set; }
     public nint PointSampler { get; private set; }
     public nint LinearSampler { get; private set; }
-
 
     /// <summary>
     /// If the Application is Running
@@ -55,35 +52,24 @@ public class Sdl3Window : IApplicationWindow
     private TimeSpan time = TimeSpan.Zero;
 
     public event Action<float> Tick;
-    public event Action<float> RenderingUI;
     public event Action<float> Rendering;
-    public event Action<float> PostRender;
+    public event Action BeforeDispose;
     public event Action Resized;
-    //public event Action<KeyEvent> KeyPressed;
 
-    private SdlSimpleInputSnapshot snapshot = new();
-
-    public PlatformType PlatformType => PlatformType.Desktop;
+    private readonly SdlSimpleInputSnapshot snapshot = new();
 
     private bool windowResized;
 
     public Sdl3Window(
-        IFileSystem fileSystem,
         FrontendSettingsProvider settingsProvider,
-        ManifestProvider manifestProvider,
-        NextTickActionProvider nextTickActionProvider)
+        ManifestProvider manifestProvider)
     {
-        this.fileSystem = fileSystem;
         this.manifestProvider = manifestProvider;
         this.settingsProvider = settingsProvider;
-        this.nextTickActionProvider = nextTickActionProvider;
     }
 
     public void Load()
     {
-        //window.Resized += HandleResize;
-        //window.KeyDown += OnKeyDown;
-
         var modInfo = manifestProvider.ManifestFile;
         var settings = settingsProvider.Settings.Video;
 
@@ -136,13 +122,6 @@ public class Sdl3Window : IApplicationWindow
         if (!SDL_ClaimWindowForGPUDevice(Device, Window))
             throw new Exception($"{nameof(SDL_ClaimWindowForGPUDevice)} Failed: {SDL_GetError()}");
 
-        // create imgui context
-        var context = ImGui.CreateContext();
-        ImGui.SetCurrentContext(context);
-
-        // create imgui SDL_GPU renderer
-        ImGuiRenderer = new Sdl3ImGuiRenderer(manifestProvider, Device, Window, context);
-
         // Depth texture
         CreateDepthTexture();
 
@@ -165,17 +144,22 @@ public class Sdl3Window : IApplicationWindow
             address_mode_v = SDL_GPUSamplerAddressMode.SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE,
             address_mode_w = SDL_GPUSamplerAddressMode.SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE,
         });
+
+        //SDL_GetGamepads(out numGamepads);
+
+        //for (uint i = 0; i < numGamepads; i++)
+        //{
+        //    availableGamepadIndices.Add(i);
+        //}
+
+        //Gamepads = new GamepadInfo[numGamepads];
     }
 
     public void Unload()
     {
         SDL_ReleaseGPUTexture(Device, DepthTexture);
-
         SDL_ReleaseGPUSampler(Device, PointSampler);
         SDL_ReleaseGPUSampler(Device, LinearSampler);
-
-        //window.Resized -= HandleResize;
-        //window.KeyDown -= OnKeyDown;
     }
 
     ~Sdl3Window() => Dispose();
@@ -183,12 +167,17 @@ public class Sdl3Window : IApplicationWindow
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        ImGui.DestroyContext(ImGuiRenderer.Context);
+
         Running = false;
-        ImGuiRenderer.Dispose();
+        BeforeDispose?.Invoke();
+
         SDL_ReleaseWindowFromGPUDevice(Device, Window);
         SDL_DestroyWindow(Window);
         SDL_DestroyGPUDevice(Device);
+
+        Device = nint.Zero;
+        Window = nint.Zero;
+
         SDL_Quit();
     }
 
@@ -214,19 +203,21 @@ public class Sdl3Window : IApplicationWindow
                 {
                     Width = (uint)width;
                     Height = (uint)height;
+
+                    SDL_SyncWindow(Window);
+                    CreateDepthTexture();
                 }
 
                 Resized?.Invoke();
             }
 
-            nextTickActionProvider.Tick(deltaSeconds);
+            // run update
+            PollEvents();
+            Update(deltaSeconds);
 
             if (!Running)
                 break;
 
-            // run update
-            PollEvents();
-            Update(deltaSeconds);
             Render(deltaSeconds);
         }
     }
@@ -236,6 +227,7 @@ public class Sdl3Window : IApplicationWindow
         if (DepthTexture != nint.Zero)
         {
             SDL_ReleaseGPUTexture(Device, DepthTexture);
+            //SDL_DestroyTexture(DepthTexture);
             DepthTexture = nint.Zero;
         }
 
@@ -309,13 +301,6 @@ public class Sdl3Window : IApplicationWindow
     private void Update(float deltaSeconds)
     {
         Tick?.Invoke(deltaSeconds);
-
-        ImGuiRenderer.NewFrame();
-        ImGui.NewFrame();
-
-        RenderingUI?.Invoke(deltaSeconds);
-
-        ImGui.EndFrame();
     }
 
     private void Render(float deltaSeconds)
@@ -352,10 +337,6 @@ public class Sdl3Window : IApplicationWindow
 
         Rendering?.Invoke(deltaSeconds);
 
-        ImGuiRenderer.Render(Command, Swapchain, (int)Width, (int)Height, null);
-
-        PostRender?.Invoke(deltaSeconds);
-
         SDL_SubmitGPUCommandBuffer(Command);
     }
 
@@ -372,6 +353,44 @@ public class Sdl3Window : IApplicationWindow
             case SDL_EventType.SDL_EVENT_MOUSE_BUTTON_DOWN:
             case SDL_EventType.SDL_EVENT_MOUSE_BUTTON_UP:
                 ProcessMouseEvent(ev.button.down, ev.button.button);
+                break;
+
+            case SDL_EventType.SDL_EVENT_GAMEPAD_ADDED:
+                var gamepadPtr = SDL_OpenGamepad(ev.gdevice.which);
+                var playerIndex = SDL_GetGamepadPlayerIndexForID(ev.gdevice.which);
+
+                var gamepad = new GamepadInfo
+                {
+                    PlayerID = playerIndex,
+                    Ptr = gamepadPtr,
+                    Connected = true,
+                    Which = ev.gdevice.which
+                };
+
+                Gamepads.Add(ev.gdevice.which, gamepad);
+                GamepadsByPlayerIndex.Add(playerIndex, gamepad);
+
+                break;
+
+            case SDL_EventType.SDL_EVENT_GAMEPAD_REMOVED:
+                if (!Gamepads.TryGetValue(ev.gdevice.which, out gamepad))
+                {
+                    throw new Exception($"Somehow removed gamepad that wasn't registered yet. Which: {ev.gdevice.which}");
+                }
+
+                SDL_CloseGamepad(gamepad.Ptr);
+                Gamepads.Remove(ev.gdevice.which);
+                GamepadsByPlayerIndex.Remove(gamepad.PlayerID);
+
+                break;
+
+            case SDL_EventType.SDL_EVENT_GAMEPAD_BUTTON_DOWN:
+            case SDL_EventType.SDL_EVENT_GAMEPAD_BUTTON_UP:
+                ProcessButtonEvent(ev.gdevice.which, ev.gbutton.down, ev.gbutton);
+                break;
+
+            case SDL_EventType.SDL_EVENT_GAMEPAD_AXIS_MOTION:
+                ProcessAxisEvent(ev.gaxis.which, ev.gaxis);
                 break;
 
             case SDL_EventType.SDL_EVENT_MOUSE_WHEEL:
@@ -391,6 +410,69 @@ public class Sdl3Window : IApplicationWindow
                 break;
         }
     }
+
+    #region ProcessAxisEvent
+
+    private void ProcessAxisEvent(uint which, SDL_GamepadAxisEvent ev)
+    {
+        switch (ev.axis)
+        {
+            case 0:
+                snapshot.LeftStickX = ev.value;
+                break;
+            case 1:
+                snapshot.LeftStickY = ev.value;
+                break;
+            case 2:
+                snapshot.RightStickX = ev.value;
+                break;
+            case 3:
+                snapshot.RightStickY = ev.value;
+                break;
+            case 4:
+                snapshot.LeftTrigger = ev.value;
+                break;
+            case 5:
+                snapshot.RightTrigger = ev.value;
+                break;
+        }
+    }
+
+    #endregion ProcessAxisEvent
+
+    #region ProcessButtonEvent
+
+    private void ProcessButtonEvent(uint which, bool down, SDL_GamepadButtonEvent button)
+    {
+        // https://wiki.libsdl.org/SDL3/SDL_GamepadButton
+        var translatedButton = button.button switch
+        {
+            0 => SdlButton.South,
+            1 => SdlButton.East,
+            2 => SdlButton.West,
+            3 => SdlButton.North,
+            4 => SdlButton.Back,
+            //5 => SdlButton.Guide,
+            6 => SdlButton.Start,
+            //7 => SdlButton.LeftStick,
+            //8 => SdlButton.RightStick,
+            9 => SdlButton.LeftBumper,
+            10 => SdlButton.RightBumper,
+            11 => SdlButton.DPadUp,
+            12 => SdlButton.DPadDown,
+            13 => SdlButton.DPadLeft,
+            14 => SdlButton.DPadRight,
+
+            _ => SdlButton.Unknown
+        };
+
+        var padEvent = new SdlPadEvent(which, translatedButton, down);
+        snapshot.PadEventsList.Add(padEvent);
+    }
+
+    #endregion
+
+    #region ProcessKeyEvent
 
     private void ProcessKeyEvent(bool down, SDL_KeyboardEvent key)
     {
@@ -481,6 +563,8 @@ public class Sdl3Window : IApplicationWindow
         snapshot.KeyEventsList.Add(keyEvent);
     }
 
+    #endregion
+
     private void ProcessMouseEvent(bool down, byte button)
     {
         var transatedButton = button switch
@@ -497,7 +581,7 @@ public class Sdl3Window : IApplicationWindow
     /// <summary>
     /// Allow ImGui to process an SDL Event
     /// </summary>
-    private unsafe void ProcessImGuiEvent(SDL_Event ev)
+    private static unsafe void ProcessImGuiEvent(SDL_Event ev)
     {
         var io = ImGui.GetIO();
 
@@ -506,7 +590,7 @@ public class Sdl3Window : IApplicationWindow
             // mouse input:
 
             case SDL_EventType.SDL_EVENT_MOUSE_MOTION:
-                io.MousePos = new Vector2(ev.motion.x, ev.motion.y) / ImGuiRenderer.Scale;
+                io.MousePos = new Vector2(ev.motion.x, ev.motion.y); // / ImGuiRenderer.Scale;
                 break;
 
             case SDL_EventType.SDL_EVENT_MOUSE_BUTTON_DOWN:
@@ -541,6 +625,8 @@ public class Sdl3Window : IApplicationWindow
         3 => 1, // right
         _ => 0,
     };
+
+    #region GetImGuiKey
 
     private static ImGuiKey GetImGuiKey(SDL_Keycode keycode, SDL_Scancode scancode)
     {
@@ -674,8 +760,11 @@ public class Sdl3Window : IApplicationWindow
         return ImGuiKey.None;
     }
 
+    #endregion
+
     private void HandleResize()
     {
+        SDL_SyncWindow(Window);
         windowResized = true;
     }
 

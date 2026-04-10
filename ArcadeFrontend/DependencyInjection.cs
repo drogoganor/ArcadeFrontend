@@ -21,6 +21,7 @@ public static class DependencyInjection
         builder.ConfigureServices((hostContext, services) =>
         {
             services.AddSingleton<IApplicationWindow, Sdl3Window>();
+            services.AddSingleton<Sdl3ImGuiRenderer>();
             services.AddSingleton<ImGuiFontProvider>();
             services.AddSingleton<ImGuiColorsProvider>();
             services.AddSingleton<IMenuProvider, AppMenuProvider>();

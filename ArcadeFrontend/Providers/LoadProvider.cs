@@ -6,6 +6,7 @@ namespace ArcadeFrontend.Providers;
 public class LoadProvider : ILoadProvider
 {
     private readonly IApplicationWindow window;
+    private readonly Sdl3ImGuiRenderer imGuiRenderer;
     private readonly FileLoadProvider fileLoadProvider;
     private readonly ColorShader colorShader;
     private readonly TextureShader textureShader;
@@ -19,6 +20,7 @@ public class LoadProvider : ILoadProvider
 
     public LoadProvider(
         IApplicationWindow window,
+        Sdl3ImGuiRenderer imGuiRenderer,
         FileLoadProvider fileLoadProvider,
         ColorShader colorShader,
         TextureShader textureShader,
@@ -31,6 +33,7 @@ public class LoadProvider : ILoadProvider
         GamesFileProvider gamesFileProvider)
     {
         this.window = window;
+        this.imGuiRenderer = imGuiRenderer;
         this.fileLoadProvider = fileLoadProvider;
         this.colorShader = colorShader;
         this.textureShader = textureShader;
@@ -46,6 +49,7 @@ public class LoadProvider : ILoadProvider
     public void Load()
     {
         window.Load();
+        imGuiRenderer.Load();
         inputProvider.Load();
         fileLoadProvider.Load();
 
@@ -79,6 +83,7 @@ public class LoadProvider : ILoadProvider
 
         fileLoadProvider.Unload();
         inputProvider.Unload();
+        imGuiRenderer.Unload();
         window.Unload();
     }
 }

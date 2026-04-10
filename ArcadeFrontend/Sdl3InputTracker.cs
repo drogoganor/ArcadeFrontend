@@ -12,6 +12,9 @@ public static class Sdl3InputTracker
     private static readonly HashSet<SdlMouseButton> _currentlyPressedMouseButtons = [];
     private static readonly HashSet<SdlMouseButton> _newMouseButtonsThisFrame = [];
 
+    private static readonly HashSet<SdlButton> _currentlyPressedButtons = [];
+    private static readonly HashSet<SdlButton> _newButtonsThisFrame = [];
+
     public static Vector2 MousePosition;
     public static ISdlInputSnapshot FrameSnapshot { get; private set; }
 
@@ -35,11 +38,22 @@ public static class Sdl3InputTracker
         return _newMouseButtonsThisFrame.Contains(button);
     }
 
+    public static bool GetButton(SdlButton button)
+    {
+        return _currentlyPressedButtons.Contains(button);
+    }
+
+    public static bool GetButtonDown(SdlButton button)
+    {
+        return _newButtonsThisFrame.Contains(button);
+    }
+
     public static void UpdateFrameInput(ISdlInputSnapshot snapshot)
     {
         FrameSnapshot = snapshot;
         _newKeysThisFrame.Clear();
         _newMouseButtonsThisFrame.Clear();
+        _newButtonsThisFrame.Clear();
 
         MousePosition = snapshot.MousePosition;
         for (int i = 0; i < snapshot.KeyEvents.Count; i++)
@@ -54,6 +68,7 @@ public static class Sdl3InputTracker
                 KeyUp(ke.Key);
             }
         }
+
         for (int i = 0; i < snapshot.MouseEvents.Count; i++)
         {
             SdlMouseEvent me = snapshot.MouseEvents[i];
@@ -64,6 +79,19 @@ public static class Sdl3InputTracker
             else
             {
                 MouseUp(me.MouseButton);
+            }
+        }
+
+        for (int i = 0; i < snapshot.PadEvents.Count; i++)
+        {
+            SdlPadEvent pe = snapshot.PadEvents[i];
+            if (pe.Down)
+            {
+                ButtonDown(pe.Button);
+            }
+            else
+            {
+                ButtonUp(pe.Button);
             }
         }
     }
@@ -79,6 +107,20 @@ public static class Sdl3InputTracker
         if (_currentlyPressedMouseButtons.Add(mouseButton))
         {
             _newMouseButtonsThisFrame.Add(mouseButton);
+        }
+    }
+
+    private static void ButtonUp(SdlButton button)
+    {
+        _currentlyPressedButtons.Remove(button);
+        _newButtonsThisFrame.Remove(button);
+    }
+
+    private static void ButtonDown(SdlButton button)
+    {
+        if (_currentlyPressedButtons.Add(button))
+        {
+            _newButtonsThisFrame.Add(button);
         }
     }
 
@@ -99,9 +141,12 @@ public static class Sdl3InputTracker
 
 public class SdlSimpleInputSnapshot : ISdlInputSnapshot
 {
+    public List<SdlPadEvent> PadEventsList { get; private set; } = [];
     public List<SdlKeyEvent> KeyEventsList { get; private set; } = [];
     public List<SdlMouseEvent> MouseEventsList { get; private set; } = [];
     public List<char> KeyCharPressesList { get; private set; } = [];
+
+    public IReadOnlyList<SdlPadEvent> PadEvents => PadEventsList;
 
     public IReadOnlyList<SdlKeyEvent> KeyEvents => KeyEventsList;
 
@@ -115,6 +160,17 @@ public class SdlSimpleInputSnapshot : ISdlInputSnapshot
     public bool[] MouseDown => _mouseDown;
     public float WheelDelta { get; set; }
 
+
+    public short LeftStickX { get; set; }
+    public short LeftStickY { get; set; }
+
+    public short RightStickX { get; set; }
+    public short RightStickY { get; set; }
+
+    public short LeftTrigger { get; set; }
+    public short RightTrigger { get; set; }
+
+
     public bool IsMouseDown(SdlMouseButton button)
     {
         return _mouseDown[(int)button];
@@ -122,10 +178,15 @@ public class SdlSimpleInputSnapshot : ISdlInputSnapshot
 
     internal void Clear()
     {
+        PadEventsList.Clear();
         KeyEventsList.Clear();
         MouseEventsList.Clear();
         KeyCharPressesList.Clear();
         WheelDelta = 0f;
+        //LeftStickX = 0;
+        //LeftStickY = 0;
+        //RightStickX = 0;
+        //RightStickY = 0;
     }
 
     public void CopyTo(SdlSimpleInputSnapshot other)
@@ -138,24 +199,42 @@ public class SdlSimpleInputSnapshot : ISdlInputSnapshot
         other.KeyEventsList.Clear();
         foreach (var ke in KeyEventsList) { other.KeyEventsList.Add(ke); }
 
+        other.PadEventsList.Clear();
+        foreach (var pe in PadEventsList) { other.PadEventsList.Add(pe); }
+
         other.KeyCharPressesList.Clear();
         foreach (var kcp in KeyCharPressesList) { other.KeyCharPressesList.Add(kcp); }
 
         other.MousePosition = MousePosition;
         other.WheelDelta = WheelDelta;
+        other.LeftStickX = LeftStickX;
+        other.LeftStickY = LeftStickY;
+        other.RightStickX = RightStickX;
+        other.RightStickY = RightStickY;
+
         _mouseDown.CopyTo(other._mouseDown, 0);
     }
 }
 
 public interface ISdlInputSnapshot
 {
+    IReadOnlyList<SdlPadEvent> PadEvents { get; }
     IReadOnlyList<SdlKeyEvent> KeyEvents { get; }
     IReadOnlyList<SdlMouseEvent> MouseEvents { get; }
     IReadOnlyList<char> KeyCharPresses { get; }
     bool IsMouseDown(SdlMouseButton button);
     Vector2 MousePosition { get; }
     float WheelDelta { get; }
+
+    short LeftStickX { get; }
+    short LeftStickY { get; }
+
+    short RightStickX { get; }
+    short RightStickY { get; }
+    short LeftTrigger { get; }
+    short RightTrigger { get; }
 }
+
 public struct SdlMouseEvent
 {
     public SdlMouseButton MouseButton { get; }
@@ -247,6 +326,22 @@ public struct SdlKeyEvent
     public override string ToString() => $"{Key} {(Down ? "Down" : "Up")} [{Modifiers}] (repeat={Repeat})";
 }
 
+public struct SdlPadEvent
+{
+    public uint Which { get;}
+    public SdlButton Button { get; }
+    public bool Down { get; }
+
+    public SdlPadEvent(uint which, SdlButton button, bool down)
+    {
+        Which = which;
+        Button = button;
+        Down = down;
+    }
+
+    public override string ToString() => $"{Which}: {Button} {(Down ? "Down" : "Up")}";
+}
+
 [System.Flags]
 public enum SdlModifierKeys
 {
@@ -255,6 +350,26 @@ public enum SdlModifierKeys
     Control = 2,
     Shift = 4,
     Gui = 8,
+}
+
+public enum SdlButton
+{
+    //
+    // Summary:
+    //     A key outside the known keys.
+    Unknown = 0,
+    South = 1,
+    East = 2,
+    North = 3,
+    West = 4,
+    Back = 5,
+    Start = 6,
+    DPadDown = 7,
+    DPadRight = 8,
+    DPadUp = 9,
+    DPadLeft = 10,
+    RightBumper = 11,
+    LeftBumper = 12,
 }
 
 public enum SdlKey
