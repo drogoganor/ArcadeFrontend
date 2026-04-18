@@ -9,12 +9,20 @@
       "Name": "19XX: The War Against Destiny"
     },
     {
+      "Arguments": "armwar",
+      "Name": "Armored Warriors"
+    },
+    {
       "Arguments": "avsp",
       "Name": "Alien vs. Predator"
     },
     {
       "Arguments": "batcir",
       "Name": "Battle Circuit"
+    },
+    {
+      "Arguments": "bbmanw",
+      "Name": "Bomberman World"
     },
     {
       "Arguments": "dino",
@@ -53,16 +61,16 @@
       "Name": "Final Fight 30th Anniversary Edition"
     },
     {
-      "Arguments": "ga2",
-      "Name": "Golden Axe: The Revenge of Death Adder"
-    },
-    {
       "Arguments": "ghouls",
       "Name": "Ghouls'n Ghosts"
     },
     {
       "Arguments": "goldnaxe",
       "Name": "Golden Axe"
+    },
+    {
+      "Arguments": "ga2",
+      "Name": "Golden Axe: The Revenge of Death Adder"
     },
     {
       "Arguments": "knights",
@@ -83,6 +91,10 @@
     {
       "Arguments": "machbrkr",
       "Name": "Mach Breakers"
+    },
+    {
+      "Arguments": "mercs",
+      "Name": "Mercs"
     },
     {
       "Arguments": "mk2",
@@ -231,6 +243,10 @@
     {
       "Arguments": "vsav2",
       "Name": "Vampire Savior 2: The Lord of Vampire"
+    },
+    {
+      "Arguments": "wof",
+      "Name": "Warriors of Fate"
     },
     {
       "Arguments": "xmcota",

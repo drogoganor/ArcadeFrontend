@@ -1,6 +1,7 @@
 ﻿using ArcadeFrontend.Data.Files;
 using ArcadeFrontend.Enums;
 using ArcadeFrontend.Interfaces;
+using Serilog;
 
 namespace ArcadeFrontend.Providers;
 
@@ -16,7 +17,8 @@ public class FrontendSettingsProvider : SettingsProvider<SettingsFile>
     }
 
     public FrontendSettingsProvider(
-        IFileSystem fileSystem) : base(fileSystem)
+        ILogger logger,
+        IFileSystem fileSystem) : base(logger, fileSystem)
     {
         CacheInputEnums();
     }

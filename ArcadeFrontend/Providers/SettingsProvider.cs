@@ -1,4 +1,6 @@
-﻿using ArcadeFrontend.Interfaces;
+﻿using Serilog;
+using ArcadeFrontend.Interfaces;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 
@@ -8,50 +10,89 @@ public abstract class SettingsProvider<TSettings> : ISettingsProvider<TSettings>
 {
     protected abstract string Filename { get; }
 
+    private readonly ILogger logger;
     private readonly IFileSystem fileSystem;
-    private readonly string preferredSaveDirectory;
+    private readonly string userSettingsPath;
 
     private TSettings settings;
     public TSettings Settings => settings;
 
     public SettingsProvider(
+        ILogger logger,
         IFileSystem fileSystem)
     {
+        this.logger = logger;
         this.fileSystem = fileSystem;
-        preferredSaveDirectory = Path.Combine(fileSystem.SettingsDirectory, Filename);
 
-        var paths = new[]
+        fileSystem.CreateAppDataDirectory();
+
+        userSettingsPath = Path.Combine(fileSystem.SettingsDirectory, Filename);
+        var contentSettingsPath = Path.Combine(Environment.CurrentDirectory, $@"Content/{Filename}");
+
+        if (Debugger.IsAttached)
         {
-            preferredSaveDirectory,
-            Path.Combine(Environment.CurrentDirectory, $@"Content/{Filename}")
-        };
+            // This is a hack
+            contentSettingsPath = Path.Combine(Environment.CurrentDirectory, $@"../../../../ArcadeFrontend/Content/{Filename}");
+        }
 
-        foreach (var path in paths)
+        if (!File.Exists(userSettingsPath) && File.Exists(contentSettingsPath))
         {
-            if (File.Exists(path))
+            //logger.Warning($"Couldn't find user directory settings file at: {userSettingsPath}");
+            try
             {
-                try
-                {
-                    using var fs = File.OpenRead(path);
-                    using var sr = new StreamReader(fs, Encoding.UTF8);
-                    string content = sr.ReadToEnd();
-                    settings = JsonSerializer.Deserialize<TSettings>(content);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                File.Copy(contentSettingsPath, userSettingsPath);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Couldn't copy default settings file to user directory at {path}", userSettingsPath);
+            }
+        }
 
-                break;
-            }
-            else
-            {
-                Console.WriteLine($"Couldn't find settings file {Filename} at: {path}");
-            }
+        if (TryLoadSettingsFile(userSettingsPath))
+        {
+            return;
+        }
+
+        if (TryLoadSettingsFile(contentSettingsPath))
+        {
+            return;
         }
 
         settings ??= CreateNewSettings();
         settings ??= new TSettings();
+
+        if (!File.Exists(userSettingsPath))
+        {
+            var settingsJson = JsonSerializer.Serialize(settings);
+            try
+            {
+                File.WriteAllText(userSettingsPath, settingsJson);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Couldn't write default settings file to user directory at {path}", userSettingsPath);
+            }
+        }
+    }
+
+    private bool TryLoadSettingsFile(string path)
+    {
+        if (!File.Exists(path))
+            return false;
+
+        //logger.Information("Loading settings from {path}", path);
+        try
+        {
+            using var fs = File.OpenRead(path);
+            using var sr = new StreamReader(fs, Encoding.UTF8);
+            string content = sr.ReadToEnd();
+            settings = JsonSerializer.Deserialize<TSettings>(content);
+            return true;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
     protected abstract TSettings CreateNewSettings();
@@ -68,19 +109,20 @@ public abstract class SettingsProvider<TSettings> : ISettingsProvider<TSettings>
         {
             fileSystem.CreateAppDataDirectory();
 
-            if (File.Exists(preferredSaveDirectory))
+            if (File.Exists(userSettingsPath))
             {
-                File.Delete(preferredSaveDirectory);
+                File.Delete(userSettingsPath);
             }
 
-            using var fs = File.OpenWrite(preferredSaveDirectory);
+            using var fs = File.OpenWrite(userSettingsPath);
             using var sw = new StreamWriter(fs, Encoding.UTF8);
             var content = JsonSerializer.Serialize(settings);
             sw.WriteLine(content);
             sw.Close();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            logger.Error(ex, $"Couldn't write settings file {Filename} at: {userSettingsPath}");
             throw;
         }
     }
